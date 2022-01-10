@@ -8,7 +8,7 @@ The first thing to do is to clone the repository:
 
 ```bash
 $ git clone https://github.com/AntoanStefanov/Library.git
-$ cd library
+$ cd Library
 ```
 Install pipenv:
 
