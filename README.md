@@ -1,5 +1,4 @@
 # Library
-Library Django Project
 
 Library is a Django Web Application. Allows you to share every single book you like with friends & family.
 
