@@ -1,4 +1,5 @@
 # Library
+Library Django Project
 
 Library is a Django Web Application. Allows you to share every single book you like with friends & family.
 
@@ -8,7 +9,7 @@ The first thing to do is to clone the repository:
 
 ```bash
 $ git clone https://github.com/AntoanStefanov/Library.git
-$ cd sample-django-app
+$ cd library
 ```
 Install pipenv:
 
