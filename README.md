@@ -17,11 +17,13 @@ Install pipenv:
 $ pip install pipenv
 ```
 
-Create a virtual environment and install dependencies in and activate it:
+Create a virtual environment and install dependencies:
 
 ```bash
 $ pipenv install
 ```
+Activate virtual environment:
+
 ```bash
 $ pipenv shell
 ```
