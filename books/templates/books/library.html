@@ -1,0 +1,13 @@
+{% extends "books/base.html" %} {% block content %}
+<h1>Books</h2>
+{% for book in books %}
+<article>
+    <h2>{{book.title}}</h2>
+    <p>{{book.author}}</p>
+    <!-- https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#date -->
+    <small>{{book.date_posted|date:'l d-m-y'}}</small>
+    <img src="{{ book.image.url }}" alt="no photo">
+</article>
+{% endfor %}
+{% endblock content %}
+
