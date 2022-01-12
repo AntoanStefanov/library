@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+# Django-crispy-forms is an application that helps to manage Django forms
 
 # Specify what crispy forms' template pack you will use 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
