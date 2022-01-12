@@ -125,7 +125,7 @@ STATIC_URL = 'static/'
 
 # root -> where the uploaded files are stored
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# public url for the root/how we acces an image in the browser
+# public url for the root/how we access an image in the browser
 # /media/books_pics/image_name.jpg
 MEDIA_URL = 'media/'
 
