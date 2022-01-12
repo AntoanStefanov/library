@@ -14,9 +14,10 @@ a {
 ul {
   list-style: none;
 }
-body, html {
+body,
+html {
   overflow-x: hidden;
-} 
+}
 
 /* NAVBAR */
 .navbar {
@@ -102,7 +103,7 @@ li.btn {
 }
 
 /* Books */
-section {
+.books {
   width: 80%;
   margin: 80px auto;
 }
@@ -152,6 +153,38 @@ h5 {
 .books .btn {
   margin-top: 10px;
   font-size: 20px;
+}
+/* About */
+
+.explore {
+  width: 100vw;
+  height: 100vh;
+  background-image: url('img/about2.jpg');
+  background-position: bottom;
+  background-size: cover;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.explore-content {
+  width: 60%;
+  padding: 50px;
+  color: whitesmoke;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.explore-content h1 {
+  font-size: 7vmin;
+}
+.explore-content .line {
+  margin-bottom: 50px;
+}
+.explore-content p {
+  color: white;
+}
+.explore-content .btn {
+  margin-top: 40px;
 }
 
 /* MOBILE / Media query  */

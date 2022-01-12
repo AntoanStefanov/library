@@ -21,7 +21,7 @@
       <ul class="nav-links">
         <li class="btn"><a href="{% url 'books_home' %}">Home</a></li>
         <li class="btn"><a href="{% url 'books_library' %}">Library</a></li>
-        <li class="btn"><a href="#">About</a></li>
+        <li class="btn"><a href="{% url 'books_about' %}">About</a></li>
         {% if user.is_authenticated %}
         <li class="btn"><a href="#">New Book</a></li>
         <li class="btn"><a href="#">My Books</a></li>

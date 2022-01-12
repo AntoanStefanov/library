@@ -6,6 +6,11 @@ from .models import Book
 class HomeView(TemplateView):
     template_name = 'books/home.html'
 
+
+class AboutView(TemplateView):
+    template_name = 'books/about.html'
+
+
 class BookListView(ListView):
     model = Book
     template_name = 'books/library.html'
