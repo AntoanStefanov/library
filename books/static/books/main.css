@@ -14,6 +14,9 @@ a {
 ul {
   list-style: none;
 }
+body, html {
+  overflow-x: hidden;
+} 
 
 /* NAVBAR */
 .navbar {
@@ -96,6 +99,54 @@ li.btn {
   color: crimson;
   font-size: 20px;
   font-weight: bold;
+}
+
+/* Books */
+section {
+  width: 80%;
+  margin: 80px auto;
+}
+
+.title {
+  text-align: center;
+  font-size: 4vmin;
+  /* color: darkblue; */
+}
+.row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  /* justify-content: space-between; */
+  justify-content: space-around;
+}
+
+.row .col img {
+  width: 200px;
+  height: 200px;
+  /* width: 50%; */
+}
+
+.row .col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.books .row {
+  margin-top: 50px;
+}
+h4 {
+  font-size: 3vmin;
+  /* color: #fc036b; */
+  margin: 10px auto;
+}
+h5 {
+  font-size: 2vmin;
+  margin-bottom: 10px;
+  padding: 0px 40px;
+}
+.books .btn {
+  margin-top: 10px;
+  font-size: 20px;
 }
 
 /* MOBILE / Media query  */
