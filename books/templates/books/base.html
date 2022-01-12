@@ -31,18 +31,22 @@
         <li class="btn"><a href="#">Register</a></li>
         {% endif %}
       </ul>
-      <img src="{% static 'books/img/menu-btn.png' %}" alt="" class="menu-btn">
+      <img
+        src="{% static 'books/img/menu-btn.png' %}"
+        alt=""
+        class="menu-btn"
+      />
     </nav>
 
     {% block content %}{% endblock %}
 
     <script>
-      const menuBtn = document.querySelector('.menu-btn')
-      const navlinks = document.querySelector('.nav-links')
+      const menuBtn = document.querySelector('.menu-btn');
+      const navlinks = document.querySelector('.nav-links');
 
       menuBtn.addEventListener('click', () => {
-        navlinks.classList.toggle('mobile-menu')
-      })
+        navlinks.classList.toggle('mobile-menu');
+      });
     </script>
   </body>
 </html>
