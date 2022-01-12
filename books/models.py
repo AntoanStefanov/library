@@ -23,4 +23,5 @@ class Book(models.Model):
     def get_absolute_url(self):
         # https://docs.djangoproject.com/en/4.0/ref/models/instances/#get-absolute-url
         # https://docs.djangoproject.com/en/4.0/ref/urlresolvers/#django.urls.reverse
+        # WHEN WE CREATE A BOOK TO WHAT URL WE GO ?
         return reverse('books_library')

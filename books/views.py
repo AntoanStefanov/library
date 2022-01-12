@@ -1,7 +1,6 @@
-from django.views.generic import (TemplateView,
-                                  ListView,
-                                  CreateView)
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import CreateView, ListView, TemplateView
+
 from .models import Book
 
 
