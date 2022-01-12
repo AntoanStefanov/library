@@ -132,7 +132,9 @@ MEDIA_URL = 'media/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 LOGIN_REDIRECT_URL = 'books_home'
-# LOGIN_URL = 'login'
+
+# IF NOT LOGED USER TRIES TO CREATE A BOOK ! 
+LOGIN_URL = 'login'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
