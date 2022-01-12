@@ -169,7 +169,7 @@ h5 {
 .explore-content {
   width: 60%;
   padding: 50px;
-  color: whitesmoke;
+  color: black;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -180,9 +180,9 @@ h5 {
 .explore-content .line {
   margin-bottom: 50px;
 }
-.explore-content p {
+/* .explore-content p {
   color: white;
-}
+} */
 .explore-content .btn {
   margin-top: 40px;
 }

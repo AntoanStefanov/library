@@ -1,0 +1,10 @@
+{% extends "books/base.html" %} {% block content %}
+<form method="POST">
+  <!-- A CSRF token is a secure random token 
+    (e.g., synchronizer token or challenge token) that is used to prevent CSRF attacks. -->
+  {% csrf_token %}
+  <!-- https://docs.djangoproject.com/en/4.0/topics/forms/#form-rendering-options -->
+   {{ form.as_p }}
+  <button type="submit">Login</button>
+</form>
+{% endblock content%}
