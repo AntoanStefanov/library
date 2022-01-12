@@ -121,8 +121,10 @@ section {
 }
 
 .row .col img {
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 300px;
+  border-radius: 5%;
+  /* napravi width-a : 50% za da e resposnive snimkata, no predi tova sled upload bii 200px 200px */
   /* width: 50%; */
 }
 
