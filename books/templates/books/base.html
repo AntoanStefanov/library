@@ -31,7 +31,7 @@
         <li class="btn"><a href="{% url 'books_about' %}">About</a></li>
         {% if user.is_authenticated %}
         <li class="btn"><a href="{% url 'books_create' %}">New Book</a></li>
-        <li class="btn"><a href="#">My Books</a></li>
+        <li class="btn"><a href="{% url 'my_books' %}">My Books</a></li>
         <li class="btn"><a href="{% url 'logout' %}">Logout</a></li>
         {% else %}
         <li class="btn"><a href="{% url 'login' %}">Login</a></li>

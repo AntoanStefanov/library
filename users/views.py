@@ -16,6 +16,8 @@ class UserRegisterView(SuccessMessageMixin, CreateView):
     success_message = 'Your profile was created successfully, %(username)s!'
 
     # Logged users not allowed to register page.
+    # https://stackoverflow.com/questions/22946446/logged-in-users-still-see-login-page-django-auth?rq=1
+    # get func -> get register view shown.
     def get(self, request):
         if self.request.user.is_authenticated:
             return redirect('/')

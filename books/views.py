@@ -19,8 +19,17 @@ class BookListView(ListView):
     # change object_list variable
     context_object_name = 'books'
 
+class MyBookListView(LoginRequiredMixin, BookListView):
+    template_name = 'books/my_books.html'
+
+    def get_queryset(self):
+        user_books = Book.objects.filter(posted_by=self.request.user.pk)
+        return user_books
+
 
 class BookCreateView(LoginRequiredMixin, CreateView):
+    # LoginRequiredMixin -> IF NOT LOGGED USER TRIES TO CREATE A BOOK - redirect to LOGIN_URL ! 
+    # LOGIN_URL = 'login' (path func - name)
     model = Book
     fields = ['title', 'author', 'description', 'image']
     template_name = 'books/create_book.html'
