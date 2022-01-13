@@ -7,6 +7,7 @@
   <img src="{{ object.image.url }}" alt="" />
   <h3>Description: {{object.description}}</h3>
   <h4>Posted by: {{ object.posted_by }}</h4>
-  <h5>Date_posted: {{ object.date_posted }}</h5>
+  <!-- https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#date -->
+  <h5>Date_posted: {{ object.date_posted|date:'l d-m-y' }}</h5>
 </section>
 {% endblock content %}
