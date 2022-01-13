@@ -3,6 +3,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from .forms import UserRegisterForm
 
 
+# https://stackoverflow.com/questions/10018757/how-does-the-order-of-mixins-affect-the-derived-class
 # https://docs.djangoproject.com/en/4.0/ref/contrib/messages/#adding-messages-in-class-based-views
 class UserRegisterView(SuccessMessageMixin, CreateView):
     # https://docs.djangoproject.com/en/4.0/ref/class-based-views/mixins-editing/#django.views.generic.edit.FormMixin.form_class
