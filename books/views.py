@@ -23,7 +23,8 @@ class MyBookListView(LoginRequiredMixin, BookListView):
     template_name = 'books/my_books.html'
 
     def get_queryset(self):
-        user_books = Book.objects.filter(posted_by=self.request.user.pk)
+        # ordered here, because the inherited ordering variable does not work. for this class.
+        user_books = Book.objects.filter(posted_by=self.request.user.pk).order_by('-date_posted')
         return user_books
 
 
