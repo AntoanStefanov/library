@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-from PIL import Image
+from library_project.utils import is_image_resizable
 
 
 class Profile(models.Model):
@@ -18,11 +18,4 @@ class Profile(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-
-        img = Image.open(self.image.path)
-
-        if img.height > 300 or img.width > 300:
-            output_size = (300, 300)
-            # that will resize the image
-            img.thumbnail(output_size)
-            img.save(self.image.path)
+        is_image_resizable(self.image.path)
