@@ -31,4 +31,4 @@ class BookCreateView(LoginRequiredMixin, CreateView):
         # now validate the form
         return super().form_valid(form)
 
-    # template -> book_form.html
+    # template -> book_form.html (<app name>_form.html)

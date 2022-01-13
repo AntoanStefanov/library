@@ -24,4 +24,6 @@ class Book(models.Model):
         # https://docs.djangoproject.com/en/4.0/ref/models/instances/#get-absolute-url
         # https://docs.djangoproject.com/en/4.0/ref/urlresolvers/#django.urls.reverse
         # WHEN WE CREATE A BOOK TO WHAT URL WE GO ?
+        # The most basic difference between the two is : Redirect Method will redirect you to a specific route in General.
+        # Reverse Method will return the complete URL to that route as a String.
         return reverse('books_library')

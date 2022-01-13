@@ -44,7 +44,12 @@
         class="menu-btn"
       />
     </nav>
-
+    {% if messages %}
+      {% for message in messages %}
+      <!-- message.tags -> success, warning, error matches bootstrap alerts -->
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div> 
+      {% endfor %}
+    {% endif %}
     {% block content %}{% endblock %}
 
     <!-- BOOTSTRAP -->
