@@ -1,19 +1,9 @@
-{% extends "books/base.html" %} {% load static %} {% block content %}
-<!-- Books -->
-<section class="books">
-  <div class="title">
-    <h1>My Books</h1>
-    <div class="line"></div>
-  </div>
-  {% for book in books %}
-  <div class="row">
-    <div class="col">
-      <img src="{{ book.image.url }}" alt="no photo" />
-      <h4>Title: {{ book.title }}</h4>
-      <h5>Author: {{ book.author }}</h5>
-      <a href="{% url 'book_details' book.pk %}" class="btn">Learn More</a>
+{% extends "books/base.html" %}
+{% block content %}
+  <section>
+    <div>
+      <h1>My Books</h1>
     </div>
-  </div>
-  {% endfor %}
-</section>
+    {% include 'books/list_books.html' %}
+  </section>
 {% endblock content %}
