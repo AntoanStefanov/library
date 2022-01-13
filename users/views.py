@@ -1,5 +1,6 @@
 from django.views.generic.edit import CreateView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import render, redirect
 from .forms import UserRegisterForm
 
 
@@ -13,3 +14,10 @@ class UserRegisterView(SuccessMessageMixin, CreateView):
     success_url = '/login/'
     # The cleaned data from the form is available for string interpolation using the %(field_name)s syntax
     success_message = 'Your profile was created successfully, %(username)s!'
+
+    # Logged users not allowed to register page.
+    def get(self, request):
+        if self.request.user.is_authenticated:
+            return redirect('/')
+        form = self.form_class() 
+        return render(request, self.template_name, {'form': form})

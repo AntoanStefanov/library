@@ -132,6 +132,7 @@ MEDIA_URL = 'media/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
+# redirect_authenticated_user
 LOGIN_REDIRECT_URL = 'books_home'
 
 # IF NOT LOGED USER TRIES TO CREATE A BOOK ! 

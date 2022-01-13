@@ -1,0 +1,12 @@
+{% extends "books/base.html" %} 
+
+{% block content%}
+<section>
+  <h1>Title: {{object.title}}</h1>
+  <h2>Author: {{ object.author }}</h2>
+  <img src="{{ object.image.url }}" alt="" />
+  <h3>Description: {{object.description}}</h3>
+  <h4>Posted by: {{ object.posted_by }}</h4>
+  <h5>Date_posted: {{ object.date_posted }}</h5>
+</section>
+{% endblock content %}
