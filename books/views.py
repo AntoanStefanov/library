@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView, CreateView, ListView, DetailView
+from django.views.generic import CreateView, DetailView, ListView, TemplateView
 
 from .models import Book
 

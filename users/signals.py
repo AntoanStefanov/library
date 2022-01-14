@@ -1,13 +1,15 @@
 # Create a user-profile for each user that has registered
 
-from django.db.models.signals import post_save, post_delete
 # post_save -> signal that gets fired AFTER an object is saved
 # we need post_save signal when a user is registered
 from django.contrib.auth.models import User
+from django.db.models.signals import post_delete, post_save
 # User here is the sender, User sends the signal
 from django.dispatch import receiver
+
 # a reciever is a function that gets this signal and the perfoms some task
 from .models import Profile
+
 # we need Profile since we are creating a profile in our function
 
 

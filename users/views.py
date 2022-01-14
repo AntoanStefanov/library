@@ -1,6 +1,7 @@
-from django.views.generic.edit import CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
+from django.views.generic.edit import CreateView
+
 from .forms import UserRegisterForm
 
 
