@@ -22,7 +22,6 @@ class BookListView(ListView):
     context_object_name = 'books'
 
 class MyBookListView(LoginRequiredMixin, BookListView):
-    template_name = 'books/list_books.html'
 
     def get_queryset(self):
         # ordered here, because the inherited ordering variable does not work. for this class.
