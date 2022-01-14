@@ -7,5 +7,5 @@ class UsersConfig(AppConfig):
 
     # docs recommend it that way
     def ready(self):
-        # import signals(creating profile for each registered user)
+        # register signals
         import users.signals
