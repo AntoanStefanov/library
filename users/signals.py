@@ -19,13 +19,14 @@ def create_profile(sender, instance, created, **kwargs):
     # if a user was created, then create a profile with that User instance
     # in case user is not specified
     if created:
+        # https://docs.djangoproject.com/en/4.0/ref/models/querysets/#django.db.models.query.QuerySet.create
         Profile.objects.create(user=instance)
 
-# Do we need save_profile func doesn't create calls save() internally ?
-# save the profile instance when the user is saved
-@receiver(post_save, sender=User)
-def save_profile(sender, instance, **kwargs):
-    instance.profile.save()
+
+# Model.objects.create save the creates and SAVE an object
+# @receiver(post_save, sender=User)
+# def save_profile(sender, instance, **kwargs):
+#     instance.profile.save()
 
 # https://stackoverflow.com/questions/12754024/onetoonefield-and-deleting
 # del user if profile has been deleted

@@ -135,7 +135,7 @@ MEDIA_URL = 'media/'
 # redirect_authenticated_user
 LOGIN_REDIRECT_URL = 'books_home'
 
-# IF NOT LOGED USER TRIES TO CREATE A BOOK ! 
+# IF NOT LOGGED USER TRIES TO CREATE A BOOK ! 
 LOGIN_URL = 'login'
 
 

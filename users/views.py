@@ -1,6 +1,6 @@
 from django.views.generic.edit import CreateView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from .forms import UserRegisterForm
 
 
@@ -15,11 +15,9 @@ class UserRegisterView(SuccessMessageMixin, CreateView):
     # The cleaned data from the form is available for string interpolation using the %(field_name)s syntax
     success_message = 'Your profile was created successfully, %(username)s!'
 
-    # Logged users not allowed to register page.
-    # https://stackoverflow.com/questions/22946446/logged-in-users-still-see-login-page-django-auth?rq=1
-    # get func -> get register view shown.
-    def get(self, request):
+    # https://stackoverflow.com/questions/2320581/django-redirect-logged-in-users-from-login-page
+    # Think of dispatch method as a middleman between requests and responses
+    def dispatch(self, *args, **kwargs):
         if self.request.user.is_authenticated:
-            return redirect('/')
-        form = self.form_class() 
-        return render(request, self.template_name, {'form': form})
+            return redirect('books_home')
+        return super().dispatch(*args, **kwargs)
