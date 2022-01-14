@@ -1,10 +1,18 @@
-{% load static %}
-
+{% extends "books/base.html" %} 
+{% load static %} 
+	{% block content %}
+<div>
+  {% if request.resolver_match.url_name == 'my_books' %}
+  	<h1>My Books</h1>
+  {% elif request.resolver_match.url_name == 'books_library' %}
+  	<h2>Books</h2>
+  {% endif %}
+</div>
 {% for book in books %}
-    <div>
-    <img src="{{ book.image.url }}" alt="no photo" />
-    <h4>Title: {{ book.title }}</h4>
-    <h5>Author: {{ book.author }}</h5>
-    <a href="{% url 'book_details' book.pk %}" class="btn">Learn More</a>
-    </div>
-{% endfor %}
+<div>
+  <img src="{{ book.image.url }}" alt="no photo" />
+  <h4>Title: {{ book.title }}</h4>
+  <h5>Author: {{ book.author }}</h5>
+  <a href="{% url 'book_details' book.pk %}" class="btn">Learn More</a>
+</div>
+{% endfor %} {% endblock content%}

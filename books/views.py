@@ -16,13 +16,13 @@ class AboutView(TemplateView):
 
 class BookListView(ListView):
     model = Book
-    template_name = 'books/library.html'
+    template_name = 'books/list_books.html'
     ordering = ['-date_posted']
     # change object_list variable
     context_object_name = 'books'
 
 class MyBookListView(LoginRequiredMixin, BookListView):
-    template_name = 'books/my_books.html'
+    template_name = 'books/list_books.html'
 
     def get_queryset(self):
         # ordered here, because the inherited ordering variable does not work. for this class.
