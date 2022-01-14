@@ -1,5 +1,7 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, DetailView, ListView, TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic import (CreateView, DetailView, ListView,
+                                  TemplateView, UpdateView)
 
 from .models import Book
 
@@ -29,12 +31,13 @@ class MyBookListView(LoginRequiredMixin, BookListView):
         return user_books
 
 
-class BookCreateView(LoginRequiredMixin, CreateView):
+class BookCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     # LoginRequiredMixin -> IF NOT LOGGED USER TRIES TO CREATE A BOOK - redirect to LOGIN_URL ! 
     # LOGIN_URL = 'login' (path func - name)
     model = Book
     fields = ['title', 'author', 'description', 'image']
-    template_name = 'books/create_book.html'
+    success_message = 'Book "%(title)s" was created successfully!'
+
 
     def form_valid(self, form):
         # take the form instance before submitting
@@ -46,3 +49,18 @@ class BookCreateView(LoginRequiredMixin, CreateView):
 
 class BookDetailsView(DetailView):
     model = Book
+
+
+class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+    model = Book
+    fields = ['title','author', 'description', 'image']
+    success_message = 'Book "%(title)s" was updated successfully!'
+
+    def test_func(self):
+        # if current user == post's user or admin(superuser), then you can update it
+        book = self.get_object()
+        current_user = self.request.user
+        
+        if current_user == book.posted_by or current_user.is_superuser:
+            return True
+        return False

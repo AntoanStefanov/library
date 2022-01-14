@@ -20,6 +20,10 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        is_image_resizable(self.image.path)
 
     def get_absolute_url(self):
         # https://docs.djangoproject.com/en/4.0/ref/models/instances/#get-absolute-url
@@ -27,8 +31,5 @@ class Book(models.Model):
         # WHEN WE CREATE A BOOK TO WHAT URL WE GO ?
         # The most basic difference between the two is : Redirect Method will redirect you to a specific route in General.
         # Reverse Method will return the complete URL to that route as a String.
-        return reverse('books_library')
-    
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        is_image_resizable(self.image.path)
+        # return the path to a specific post
+        return reverse('book_details', kwargs={'pk': self.pk})
