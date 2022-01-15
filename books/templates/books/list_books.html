@@ -13,6 +13,6 @@
   <img src="{{ book.image.url }}" alt="no photo" />
   <h4>Title: {{ book.title }}</h4>
   <h5>Author: {{ book.author }}</h5>
-  <a href="{% url 'book_details' book.pk %}" class="btn">Learn More</a>
+  <a href="{% url 'book_details' book.pk %}" class="btn btn-outline-info  m-3">Learn More</a>
 </div>
 {% endfor %} {% endblock content%}

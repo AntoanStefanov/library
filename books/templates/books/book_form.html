@@ -2,14 +2,45 @@
 {% extends "books/base.html" %} 
   {% load crispy_forms_tags %}
   {% block content %}
-    <form method="POST" enctype="multipart/form-data">
-      <!-- A CSRF token is a secure random token 
-        (e.g., synchronizer token or challenge token) that is used to prevent CSRF attacks. -->
-      {% csrf_token %}
-      <!-- https://docs.djangoproject.com/en/4.0/topics/forms/#form-rendering-options -->
-      <!-- crispy form filter -->
-      <!-- use crispy tag -->
-      {{ form|crispy }}
-      <button type="submit">Share</button>
-    </form>
+  <div class="container">
+    <div class="content-section">
+      <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+          <legend class="border-bottom mb-4">Share A Book</legend>
+          {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+          <button class="btn btn-outline-info mt-3" type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
   {% endblock content%}
+
+
+  <!-- <div class="container">
+    <form class="my-form" action="." method="POST">
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="form-group row">
+        <label class="col-12 col-form-label" for="id_{{ field.name }}">{{ field.label }}</label>
+        <div class="col-12">
+          <input
+            type="{{ field.field.widget.input_type }}"
+            class="form-control"
+            name="{{ field.name }}"
+            id="id_{{ field.name }}"
+            value="{{ field.value|default:'' }}"
+          >
+        </div>
+        <div class="col-12 help-text">{{ field.help_text }} </div>
+      </div>
+    {% endfor %}
+      <div class="row">
+        <div class="col-12">
+          <input type="submit" value="Submit"  class="btn btn-primary">
+        </div>
+      </div>
+    </form>
+  </div> -->

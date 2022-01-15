@@ -1,14 +1,20 @@
 {% extends "books/base.html" %} 
   {% load crispy_forms_tags %}
   {% block content %}
-    <form method="POST">
-      <!-- A CSRF token is a secure random token 
-        (e.g., synchronizer token or challenge token) that is used to prevent CSRF attacks. -->
-      {% csrf_token %}
-      <!-- https://docs.djangoproject.com/en/4.0/topics/forms/#form-rendering-options -->
-      <!-- crispy form filter -->
-      <!-- use crispy tag -->
-      {{ form|crispy }}
-      <button type="submit">Sign Up</button>
-    </form>
+  <div class="container">
+    <div class="content-section">
+      <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+          <legend class="border-bottom mb-4 mt-5">Register</legend>
+          {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+          <button class="btn btn-outline-info mt-3" type="submit">Sign Up</button>
+        </div>
+      </form>
+    </div>
+  </div>
   {% endblock content%}
+
+

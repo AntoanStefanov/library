@@ -12,8 +12,9 @@
   <h5>Date_posted: {{ object.date_posted|date:'l d-m-y' }}</h5>
   {% if object.posted_by == user or user.is_superuser %}
     <div>
-      <a href="{% url 'books_update' object.id %}">Update</a>
-      <a href="{% url 'books_delete' object.id %}">Delete</a>
+      <!-- https://getbootstrap.com/docs/4.0/utilities/spacing/ -->
+      <a class="btn btn-outline-info  m-3" href="{% url 'books_update' object.id %}">Update</a>
+      <a class="btn btn-danger  m-3" href="{% url 'books_delete' object.id %}">Delete</a>
     </div>
   {% endif %}
 </section>
