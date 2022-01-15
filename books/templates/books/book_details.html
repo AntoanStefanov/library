@@ -4,12 +4,14 @@
 <section>
   <h1>Title: {{object.title}}</h1>
   <h2>Author: {{ object.author }}</h2>
-  <img src="{{ object.image.url }}" alt="" />
-  <h3>Description: {{object.description}}</h3>
-  <h4>Posted by: {{ object.posted_by }}</h4>
+  <h3>Language: {{ object.language }}</h3>
+  <h4>Genre: {{ object.genre }}</h4>
+  <img src="{{ object.image.url }}" alt="no img"/>
+  <h5>Description: {{object.description}}</h5>
+  <h6>Posted by: {{ object.posted_by }}</h6>
   <!-- https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#date -->
   <!-- object.date_posted|date:'l d-m-y' -->
-  <h5>Date_posted: {{ object.date_posted|date:'l d-m-y' }}</h5>
+  <h6>Date_posted: {{ object.date_posted|date:'l d-m-y' }}</h6>
   {% if object.posted_by == user or user.is_superuser %}
     <div>
       <!-- https://getbootstrap.com/docs/4.0/utilities/spacing/ -->
