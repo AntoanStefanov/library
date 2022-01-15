@@ -1,0 +1,10 @@
+<!-- Update and Create Book Form -->
+{% extends "books/base.html" %} 
+  {% block content %}
+    <form method="POST">
+      {% csrf_token %}
+      <h2>Are you sure you want to delete "{{object.title}}" book?</h2>
+      <button type="submit">Delete</button>
+      <a href="{% url 'book_details' object.id %}">Cancel</a>
+    </form>
+  {% endblock content%}

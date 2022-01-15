@@ -1,7 +1,10 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic import (CreateView, DetailView, ListView,
+from django.urls import reverse
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   TemplateView, UpdateView)
+from library_project.utils import is_user_admin_or_book_owner
 
 from .models import Book
 
@@ -34,7 +37,7 @@ class BookCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     # LoginRequiredMixin -> IF NOT LOGGED USER TRIES TO CREATE A BOOK - redirect to LOGIN_URL ! 
     # LOGIN_URL = 'login' (path func - name)
     model = Book
-    fields = ['title', 'author', 'description', 'image']
+    fields = ['title', 'author', 'language', 'genre', 'description', 'image']
     success_message = 'Book "%(title)s" was created successfully!'
 
 
@@ -52,14 +55,21 @@ class BookDetailsView(DetailView):
 
 class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = Book
-    fields = ['title','author', 'description', 'image']
+    fields = ['title', 'author', 'language', 'genre', 'description', 'image']
     success_message = 'Book "%(title)s" was updated successfully!'
 
     def test_func(self):
-        # if current user == post's user or admin(superuser), then you can update it
-        book = self.get_object()
-        current_user = self.request.user
-        
-        if current_user == book.posted_by or current_user.is_superuser:
-            return True
-        return False
+       return is_user_admin_or_book_owner(self)
+
+class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Book
+
+    def get_success_url(self):
+        messages.success(self.request, 'Book was deleted successfully!')
+        # https://stackoverflow.com/questions/48669514/difference-between-reverse-and-reverse-lazy-in-django
+        return reverse("my_books")
+
+    def test_func(self):
+        return is_user_admin_or_book_owner(self)
+
+

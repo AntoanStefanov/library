@@ -1,5 +1,6 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 
 from .forms import UserRegisterForm
@@ -12,7 +13,7 @@ class UserRegisterView(SuccessMessageMixin, CreateView):
     # The form class to instantiate.
     form_class = UserRegisterForm
     template_name = 'users/register.html'
-    success_url = '/login/'
+    success_url = reverse_lazy('login')
     # The cleaned data from the form is available for string interpolation using the %(field_name)s syntax
     success_message = 'Your profile was created successfully, %(username)s!'
 

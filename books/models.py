@@ -8,6 +8,8 @@ from library_project.utils import is_image_resizable
 class Book(models.Model):
     title = models.CharField(max_length=150)
     author = models.CharField(max_length=150)
+    language = models.CharField(max_length=50)
+    genre = models.CharField(max_length=50)
     description = models.TextField()
     image = models.ImageField(default='default_book.jpg', upload_to='books_pics')
     # https://docs.djangoproject.com/en/4.0/ref/models/fields/#django.db.models.DateField.auto_now_add

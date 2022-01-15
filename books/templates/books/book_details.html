@@ -12,8 +12,8 @@
   <h5>Date_posted: {{ object.date_posted|date:'l d-m-y' }}</h5>
   {% if object.posted_by == user or user.is_superuser %}
     <div>
-      <a href="{% url 'books_update' object.id %}">Update Post</a>
-      <a href='#'>Delete Post</a>
+      <a href="{% url 'books_update' object.id %}">Update</a>
+      <a href="{% url 'books_delete' object.id %}">Delete</a>
     </div>
   {% endif %}
 </section>
