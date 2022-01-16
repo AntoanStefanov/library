@@ -3,19 +3,19 @@
   <div class="row align-items-center mt-5">
     <div class="col-lg-6 text-center">
       <img src="{{ object.image.url }}" alt="no img" class="rounded" />
-      <div>
-        <a
-          class="btn btn-outline-info ms-4"
-          href="{% url 'books_update' object.id %}"
-          >Update</a
-        >
-        <a class="btn btn-danger m-4" href="{% url 'books_delete' object.id %}"
-          >Delete</a
-        >
-      </div>
+      {% if object.posted_by == user or user.is_superuser %}
+        <div>
+          <a
+            class="btn btn-outline-info ms-4"
+            href="{% url 'books_update' object.id %}"
+            >Update</a
+          >
+          <a class="btn btn-danger m-4" href="{% url 'books_delete' object.id %}"
+            >Delete</a
+          >
+        </div>
+      {% endif %}
     </div>
-    
-
     <div style="border-left: 2px solid rgb(85, 153, 255)" class="col-lg-6 text-right mt-4">
         <h1>{{object.title}}</h1>
         <h2>{{ object.author }}</h2>
@@ -27,12 +27,6 @@
         <!-- object.date_posted|date:'l d-m-y' -->
         <h6>on {{ object.date_posted|date:'l d-m-y' }}</h6>
     </div>
-    {% if object.posted_by == user or user.is_superuser %}
-    <div class="ms-auto">
-      <!-- https://getbootstrap.com/docs/4.0/utilities/spacing/ -->
-    </div>
-    {% endif %}
   </div>
 </div>
-
 {% endblock content %}
