@@ -13,12 +13,11 @@
     </div>
     <div class="row">
     {% for book in books %}
-      <div class="col-lg-6 text-center mt-4">
+      <div class="col-lg-6 text-center mt-4 border-bottom border-primary">
         <img src="{{ book.image.url }}" alt="no photo" class="rounded"/>
         <h4 class="mt-3">{{ book.title }}</h4>
         <h5>{{ book.author }}</h5>
         <a href="{% url 'book_details' book.pk %}" class="btn btn-outline-info mt-1 mb-3">Learn More</a>
-
       </div>
       {% endfor %}
     </div>
