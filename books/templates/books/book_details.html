@@ -6,7 +6,7 @@
       {% if object.posted_by == user or user.is_superuser %}
         <div>
           <a
-            class="btn btn-outline-info ms-4"
+            class="btn btn-primary ms-4"
             href="{% url 'books_update' object.id %}"
             >Update</a
           >
@@ -16,7 +16,7 @@
         </div>
       {% endif %}
     </div>
-    <div style="border-left: 2px solid rgb(85, 153, 255)" class="col-lg-6 text-right mt-4">
+    <div style="border-left: 2px solid #0DCAF0" class="col-lg-6 text-right mt-5">
         <h1>{{object.title}}</h1>
         <h2>{{ object.author }}</h2>
         <h3>{{ object.language }}</h3>

@@ -22,7 +22,11 @@
         </div>
       {% endfor %}
     {% else %}
-      <h1 class="text-center">Share Your First Book !</h1>
+      <div class="text-center">
+        <h1>Share Your First Book !</h1>
+        <a href="{% url 'books_create' %}" class="btn btn-outline-info mt-5">Share Book</a>
+
+      </div>
     {% endif %}
     </div>
   </div>

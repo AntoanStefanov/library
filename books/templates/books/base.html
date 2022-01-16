@@ -23,7 +23,7 @@
     <title>Library</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-light bg-info">
       <div class="container">
         <a href="{% url 'books_library' %}" class="navbar-brand">EXPLORE</a>
 
@@ -49,7 +49,7 @@
           <ul class="navbar-nav ms-auto">
             {% if user.is_authenticated %}
             <li class="nav-item">
-              <a href="{% url 'books_create' %}" class="nav-link">New Book</a>
+              <a href="{% url 'books_create' %}" class="nav-link">Share Book</a>
             </li>
             <li class="nav-item">
               <a href="{% url 'my_books' %}" class="nav-link">My Books</a>

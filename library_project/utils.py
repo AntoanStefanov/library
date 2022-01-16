@@ -5,8 +5,8 @@ def is_image_resizable(path):
 
     img = Image.open(path)
     
-    if img.width > 500 or img.height > 600:
-        output_size = (500, 600)
+    if img.width > 300 or img.height > 300:
+        output_size = (300, 300)
         # that will resize the image
         img.thumbnail(output_size)
         img.save(path)
