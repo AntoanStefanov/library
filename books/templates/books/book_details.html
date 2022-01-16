@@ -19,13 +19,14 @@
     <div style="border-left: 2px solid #0DCAF0" class="col-lg-6 text-right mt-5">
         <h1>{{object.title}}</h1>
         <h2>{{ object.author }}</h2>
-        <h3>{{ object.language }}</h3>
-        <h4>{{ object.genre }}</h4>
+        <h4>Language - {{ object.language }}</h4>
+        <h4>Genre - {{ object.genre }}</h4>
         <h5>{{object.description}}</h5>
-        <h6>Shared by {{ object.posted_by }}</h6>
-        <!-- https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#date -->
-        <!-- object.date_posted|date:'l d-m-y' -->
-        <h6>on {{ object.date_posted|date:'l d-m-y' }}</h6>
+        <div class="mt-5">
+           <!-- https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#date -->
+            <!-- object.date_posted|date:'l d-m-y' -->
+          <h6>Shared by {{ object.posted_by }} on {{ object.date_posted|date:'l d-m-y' }}</h6>
+        </div>  
     </div>
   </div>
 </div>
