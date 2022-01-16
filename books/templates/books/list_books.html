@@ -3,7 +3,7 @@
 	{% block content %}
   <div class="container">
     <div>
-      <h1 class="title text-center mb-5 mt-5">
+      <h1 class="title text-center mb-5 mt-5 border-bottom border-info-outline">
       {% if request.resolver_match.url_name == 'my_books' %}
         Shared By Me
       {% elif request.resolver_match.url_name == 'books_library' %}
@@ -14,7 +14,7 @@
     <div class="row">
     {% if books %}
       {% for book in books %}
-        <div class="col-lg-6 text-center mt-4 border-bottom border-primary">
+        <div class="col-lg-6 text-center mt-4 border-bottom border-info">
           <img src="{{ book.image.url }}" alt="no photo" class="rounded"/>
           <h4 class="mt-3">{{ book.title }}</h4>
           <h5>{{ book.author }}</h5>
