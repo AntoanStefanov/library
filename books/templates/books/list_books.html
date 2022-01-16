@@ -1,18 +1,26 @@
 {% extends "books/base.html" %} 
 {% load static %} 
 	{% block content %}
-<div>
-  {% if request.resolver_match.url_name == 'my_books' %}
-  	<h1>My Books</h1>
-  {% elif request.resolver_match.url_name == 'books_library' %}
-  	<h1>Books</h1>
-  {% endif %}
-</div>
-{% for book in books %}
-<div>
-  <img src="{{ book.image.url }}" alt="no photo" />
-  <h4>Title: {{ book.title }}</h4>
-  <h5>Author: {{ book.author }}</h5>
-  <a href="{% url 'book_details' book.pk %}" class="btn btn-outline-info  m-3">Learn More</a>
-</div>
-{% endfor %} {% endblock content%}
+  <div class="container">
+    <div>
+      <h1 class="title text-center mb-5">
+      {% if request.resolver_match.url_name == 'my_books' %}
+        My Books
+      {% elif request.resolver_match.url_name == 'books_library' %}
+        Library
+      {% endif %}
+      </h1>
+    </div>
+    <div class="row">
+    {% for book in books %}
+      <div class="col-lg-6 text-center mt-4">
+        <img src="{{ book.image.url }}" alt="no photo" class="rounded"/>
+        <h4 class="mt-3">{{ book.title }}</h4>
+        <h5>{{ book.author }}</h5>
+        <a href="{% url 'book_details' book.pk %}" class="btn btn-outline-info mt-1 mb-3">Learn More</a>
+
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+ {% endblock content%}

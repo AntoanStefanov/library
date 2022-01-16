@@ -1,24 +1,38 @@
-{% extends "books/base.html" %} 
-
-{% block content%}
-<section>
-  <h1>Title: {{object.title}}</h1>
-  <h2>Author: {{ object.author }}</h2>
-  <h3>Language: {{ object.language }}</h3>
-  <h4>Genre: {{ object.genre }}</h4>
-  <img src="{{ object.image.url }}" alt="no img"/>
-  <h5>Description: {{object.description}}</h5>
-  <h6>Posted by: {{ object.posted_by }}</h6>
-  <!-- https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#date -->
-  <!-- object.date_posted|date:'l d-m-y' -->
-  <h6>Date_posted: {{ object.date_posted|date:'l d-m-y' }}</h6>
-  {% if object.posted_by == user or user.is_superuser %}
-    <div>
-      <!-- https://getbootstrap.com/docs/4.0/utilities/spacing/ -->
-      <a class="btn btn-outline-info  m-3" href="{% url 'books_update' object.id %}">Update</a>
-      <a class="btn btn-danger  m-3" href="{% url 'books_delete' object.id %}">Delete</a>
+{% extends "books/base.html" %} {% block content%}
+<div class="container">
+  <div class="row align-items-center mt-5">
+    <div class="col-lg-6 text-center">
+      <img src="{{ object.image.url }}" alt="no img" class="rounded" />
+      <div>
+        <a
+          class="btn btn-outline-info ms-4"
+          href="{% url 'books_update' object.id %}"
+          >Update</a
+        >
+        <a class="btn btn-danger m-4" href="{% url 'books_delete' object.id %}"
+          >Delete</a
+        >
+      </div>
     </div>
-  {% endif %}
-</section>
+    
+
+    <div style="border-left: 2px solid rgb(85, 153, 255)" class="col-lg-6 text-right mt-4">
+        <h1>{{object.title}}</h1>
+        <h2>{{ object.author }}</h2>
+        <h3>{{ object.language }}</h3>
+        <h4>{{ object.genre }}</h4>
+        <h5>{{object.description}}</h5>
+        <h6>Shared by {{ object.posted_by }}</h6>
+        <!-- https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#date -->
+        <!-- object.date_posted|date:'l d-m-y' -->
+        <h6>on {{ object.date_posted|date:'l d-m-y' }}</h6>
+    </div>
+    {% if object.posted_by == user or user.is_superuser %}
+    <div class="ms-auto">
+      <!-- https://getbootstrap.com/docs/4.0/utilities/spacing/ -->
+    </div>
+    {% endif %}
+  </div>
+</div>
 
 {% endblock content %}
