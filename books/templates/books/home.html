@@ -1,10 +1,12 @@
 {% extends "books/base.html" %} {% block content %}
-<section>
-  <div>
-    <h2>Explore The Library</h2>
-    <h1>A BOOK FOR YOU</h1>
-    <a class="btn btn-outline-info  m-3" href="{% url 'books_library' %}">Library</a>
-  </div>
-</section>
+<div class="container text-center mt-5">
+  <section>
+    <div>
+      <h2>Explore The Library</h2>
+      <h1>A BOOK FOR YOU</h1>
+      <a class="btn btn-outline-info m-3" href="{% url 'books_library' %}">Library</a>
+    </div>
+  </section>
+</div>
 {% endblock content %}
 

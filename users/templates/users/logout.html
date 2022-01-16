@@ -1,11 +1,13 @@
 {% extends "books/base.html" %}
 {% block content %}
+<div class="container mt-5 text-center">
   <h2> You have been logged out</h2>
   <div class="border-top pt-3">
     <small>
       <a class="btn btn-outline-info m-3" href="{% url 'login' %}">Log In Again</a>    
     </small>
   </div>
+</div>
 {% endblock content %}
 
 
