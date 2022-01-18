@@ -7,10 +7,10 @@
         <div>
           <a
             class="btn btn-primary ms-4"
-            href="{% url 'books_update' object.id %}"
+            href="{% url 'books_update' pk=object.pk slug=object.slug %}"
             >Update</a
           >
-          <a class="btn btn-danger m-4" href="{% url 'books_delete' object.id %}"
+          <a class="btn btn-danger m-4" href="{% url 'books_delete' pk=object.id slug=object.slug %}"
             >Delete</a
           >
         </div>

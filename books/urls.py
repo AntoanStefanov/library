@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import include, path
 
 from .views import (AboutView, BookCreateView, BookDeleteView, BookDetailsView,
                     BookListView, BookUpdateView, HomeView, MyBookListView)
@@ -9,13 +9,14 @@ urlpatterns = [
     path('my-books/', MyBookListView.as_view(), name='my_books'),
     path('about/', AboutView.as_view(), name='books_about'),
     path('book/new/', BookCreateView.as_view(), name='books_create'),
-    path('book/<int:pk>/', BookDetailsView.as_view(
-        template_name='books/book_details.html'),
-        name='book_details'),
-    path('book/<int:pk>/update/', BookUpdateView.as_view(), name='books_update'),
-    path('book/<int:pk>/delete/', BookDeleteView.as_view(), name='books_delete'),
-
-
+    # # https://docs.djangoproject.com/en/4.0/topics/http/urls/#including-other-urlconfs -> ctrl + F -> slug.
+    path('book/<int:pk>/<slug:slug>/', include([
+        path('', BookDetailsView.as_view(
+            template_name='books/book_details.html'),
+            name='book_details'),
+        path('update/', BookUpdateView.as_view(), name='books_update'),
+        path('delete/', BookDeleteView.as_view(), name='books_delete')
+    ]))
 ]
 
 # as_view() -> Returns a callable view that takes a request and returns a response
