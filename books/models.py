@@ -32,12 +32,14 @@ class Book(models.Model):
         is_image_resizable(self.image.path)
 
     def get_absolute_url(self):
-        # https://docs.djangoproject.com/en/4.0/ref/models/instances/#get-absolute-url
-        # https://docs.djangoproject.com/en/4.0/ref/urlresolvers/#django.urls.reverse
-        # WHEN WE CREATE A BOOK TO WHAT URL WE GO ?
-        # The most basic difference between the two is : Redirect Method will redirect you to a specific route in General.
-        # Reverse Method will return the complete URL to that route as a String.
-        # return the path to a specific post
+        """
+            Method that gets called whenever a book is created or updated.
+            https://docs.djangoproject.com/en/4.0/ref/models/instances/#get-absolute-url
+            https://docs.djangoproject.com/en/4.0/ref/urlresolvers/#django.urls.reverse
+        """
+        # The most basic difference between the two is : 
+        # - Redirect Method will redirect you to a specific route in General.
+        # - Reverse Method will return the complete URL to that route as a String.
         return reverse('book_details', kwargs={'pk': self.pk, 'slug': self.slug})
 
     def save(self, *args, **kwargs):

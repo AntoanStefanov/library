@@ -21,7 +21,7 @@ class BookListView(ListView):
     model = Book
     template_name = 'books/list_books.html'
     ordering = ['-date_posted']
-    # change object_list variable
+    # change object_list variable for template use
     context_object_name = 'books'
 
 class MyBookListView(LoginRequiredMixin, BookListView):
