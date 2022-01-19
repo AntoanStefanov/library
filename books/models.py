@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.template.defaultfilters import slugify
+from django.utils.text import slugify
 from django.urls import reverse
 from django.utils import timezone
 from library_project.utils import is_image_resizable
@@ -46,6 +46,7 @@ class Book(models.Model):
         """
             Overriding save method, so that a slug is created automatically.
             Using title and author , making slug being less likely to match with another slug.
+            slugify docs -> https://docs.djangoproject.com/en/4.0/ref/utils/#django.utils.text.slugify
         """
         if not self.slug: 
             self.slug = slugify(f"{self.title} {self.author}")
