@@ -3,18 +3,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  TemplateView, UpdateView)
+                                  UpdateView)
 from library_project.utils import is_user_admin_or_book_owner
 
 from .models import Book
-
-
-class HomeView(TemplateView):
-    template_name = 'books/home.html'
-
-
-class AboutView(TemplateView):
-    template_name = 'books/about.html'
 
 
 class BookListView(ListView):
@@ -24,22 +16,23 @@ class BookListView(ListView):
     # change object_list variable for template use
     context_object_name = 'books'
 
+
 class MyBookListView(LoginRequiredMixin, BookListView):
 
     def get_queryset(self):
         # ordered here, because the inherited ordering variable does not work. for this class.
         # ordering variable in BookListView class == '-date_posted' in .order_by('-date_posted')
-        user_books = Book.objects.filter(posted_by=self.request.user.pk).order_by('-date_posted')
+        user_books = Book.objects.filter(
+            posted_by=self.request.user.pk).order_by('-date_posted')
         return user_books
 
 
 class BookCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
-    # LoginRequiredMixin -> IF NOT LOGGED USER TRIES TO CREATE A BOOK - redirect to LOGIN_URL ! 
+    # LoginRequiredMixin -> IF NOT LOGGED USER TRIES TO CREATE A BOOK - redirect to LOGIN_URL !
     # LOGIN_URL = 'login' (path func - name)
     model = Book
     fields = ['title', 'author', 'language', 'genre', 'description', 'image']
     success_message = 'Book "%(title)s" was created successfully!'
-
 
     def form_valid(self, form):
         # take the form instance before submitting
@@ -59,7 +52,8 @@ class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     success_message = 'Book "%(title)s" was updated successfully!'
 
     def test_func(self):
-       return is_user_admin_or_book_owner(self)
+        return is_user_admin_or_book_owner(self)
+
 
 class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Book
@@ -71,5 +65,3 @@ class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return is_user_admin_or_book_owner(self)
-
-

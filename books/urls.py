@@ -1,13 +1,11 @@
 from django.urls import include, path
 
-from .views import (AboutView, BookCreateView, BookDeleteView, BookDetailsView,
-                    BookListView, BookUpdateView, HomeView, MyBookListView)
+from .views import (BookCreateView, BookDeleteView, BookDetailsView,
+                    BookListView, BookUpdateView, MyBookListView)
 
 urlpatterns = [
-    path('', HomeView.as_view(), name='books_home'),
     path('library/', BookListView.as_view(), name='books_library'),
     path('my-books/', MyBookListView.as_view(), name='my_books'),
-    path('about/', AboutView.as_view(), name='books_about'),
     path('book/new/', BookCreateView.as_view(), name='books_create'),
     # https://docs.djangoproject.com/en/4.0/topics/http/urls/#including-other-urlconfs -> ctrl + F -> slug.
     # https://stackoverflow.com/questions/50321644/django-not-matching-unicode-in-url

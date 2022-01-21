@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 import os
 from pathlib import Path
-# https://able.bio/rhett/how-to-set-and-get-environment-variables-in-python--274rgt5
+# this https://able.bio/rhett/how-to-set-and-get-environment-variables-in-python--274rgt5
+# or that https://djangocentral.com/environment-variables-in-django/
 from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -47,6 +48,7 @@ THIRD_PARTY_APPS = (
 )
 
 PROJECT_APPS = (
+    'website.apps.WebsiteConfig',
     'books.apps.BooksConfig',
     'users.apps.UsersConfig',
 )
@@ -148,7 +150,7 @@ MEDIA_URL = 'media/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 # redirect_authenticated_user
-LOGIN_REDIRECT_URL = 'books_home'
+LOGIN_REDIRECT_URL = 'website_home'
 
 # IF NOT LOGGED USER TRIES TO CREATE A BOOK !
 LOGIN_URL = 'login'

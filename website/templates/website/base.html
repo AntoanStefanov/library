@@ -18,7 +18,7 @@
     <link
       rel="stylesheet"
       type="text/css"
-      href="{% static 'books/main.css' %}"
+      href="{% static 'website/main.css' %}"
     />
     <title>Library</title>
   </head>
@@ -39,10 +39,10 @@
         <div class="collapse navbar-collapse" id="navmenu">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a href="{% url 'books_home' %}" class="nav-link">Home</a>
+              <a href="{% url 'website_home' %}" class="nav-link">Home</a>
             </li>
             <li class="nav-item">
-              <a href="{% url 'books_about' %}" class="nav-link">About</a>
+              <a href="{% url 'website_about' %}" class="nav-link">About</a>
             </li>
           </ul>
           <!-- ms-auto -> https://stackoverflow.com/questions/41513463/bootstrap-align-navbar-items-to-the-right -->

@@ -31,6 +31,10 @@ class Book(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
+        """
+            Overriding save method to resize uploaded image if needed,
+            no need an image to be more than 400x500 px.
+        """
         super().save(*args, **kwargs)
         is_image_resizable(self.image.path)
 
