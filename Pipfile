@@ -8,6 +8,7 @@ django = "*"
 psycopg2-binary = "*"
 pillow = "*"
 django-crispy-forms = "*"
+python-decouple = "*"
 
 [dev-packages]
 autopep8 = "*"
