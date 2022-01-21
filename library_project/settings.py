@@ -32,21 +32,29 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
-INSTALLED_APPS = [
-    'books.apps.BooksConfig',
-    'users.apps.UsersConfig',
-    'crispy_forms',
+DJANGO_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+)
+
+THIRD_PARTY_APPS = (
+    'crispy_forms',
+)
+
+PROJECT_APPS = (
+    'books.apps.BooksConfig',
+    'users.apps.UsersConfig',
+)
+
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS
+
 # Django-crispy-forms is an application that helps to manage Django forms
 
-# Specify what crispy forms' template pack you will use 
+# Specify what crispy forms' template pack you will use
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
@@ -135,7 +143,7 @@ MEDIA_URL = 'media/'
 # redirect_authenticated_user
 LOGIN_REDIRECT_URL = 'books_home'
 
-# IF NOT LOGGED USER TRIES TO CREATE A BOOK ! 
+# IF NOT LOGGED USER TRIES TO CREATE A BOOK !
 LOGIN_URL = 'login'
 
 
