@@ -1,0 +1,38 @@
+{% extends "website/base.html" %}
+{% load static %} 
+{% block content %}
+<div class="container">
+  <div>
+    <h1 class="title text-center mb-5 mt-5 border-bottom border-info-outline">
+      {% if request.resolver_match.url_name == 'my_books' %}
+        Shared By Me 
+      {% elif request.resolver_match.url_name == 'books_library' %}
+        Library 
+      {% endif %}
+    </h1>
+  </div>
+  <div class="row">
+    {% if books %}
+     {% for book in books %}
+      <div class="col-lg-6 text-center mt-4 border-bottom border-info">
+        <img src="{{ book.image.url }}" alt="no photo" class="rounded" />
+        <h4 class="mt-3">{{ book.title }}</h4>
+        <h5>{{ book.author }}</h5>
+        <a
+          href="{% url 'books_details' pk=book.pk slug=book.slug %}"
+          class="btn btn-outline-info mt-1 mb-3"
+          >Learn More</a
+        >
+      </div>
+      {% endfor %}
+    {% else %}
+    <div class="text-center">
+      <h1>Share Your First Book !</h1>
+      <a href="{% url 'books_create' %}" class="btn btn-outline-info mt-5"
+        >Share Book</a
+      >
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock content%}

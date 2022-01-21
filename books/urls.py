@@ -14,7 +14,7 @@ urlpatterns = [
     path('book/<int:pk>/<slug:slug>/', include([
         path('', BookDetailsView.as_view(
             template_name='books/book_details.html'),
-            name='book_details'),
+            name='books_details'),
         path('update/', BookUpdateView.as_view(), name='books_update'),
         path('delete/', BookDeleteView.as_view(), name='books_delete')
     ]))

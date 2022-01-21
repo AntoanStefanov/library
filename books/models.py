@@ -47,7 +47,7 @@ class Book(models.Model):
         # The most basic difference between the two is :
         # - Redirect Method will redirect you to a specific route in General.
         # - Reverse Method will return the complete URL to that route as a String.
-        return reverse('book_details', kwargs={'pk': self.pk, 'slug': self.slug})
+        return reverse('books_details', kwargs={'pk': self.pk, 'slug': self.slug})
 
     def save(self, *args, **kwargs):
         """

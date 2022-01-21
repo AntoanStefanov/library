@@ -11,7 +11,7 @@ from .models import Book
 
 class BookListView(ListView):
     model = Book
-    template_name = 'books/list_books.html'
+    template_name = 'books/book_list.html'
     ordering = ['-date_posted']
     # change object_list variable for template use
     context_object_name = 'books'

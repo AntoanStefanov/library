@@ -26,8 +26,8 @@ class TestBooksUrls(TestCase):
         resolver_match = resolve(url)
         self.assertEquals(resolver_match.func.view_class, BookDeleteView)
 
-    def test_book_details_url_is_resolved(self):
-        url = reverse('book_details',  kwargs={
+    def test_books_details_url_is_resolved(self):
+        url = reverse('books_details',  kwargs={
                       'pk': 1, 'slug': 'title-author'})
         resolver_match = resolve(url)
         self.assertEquals(resolver_match.func.view_class, BookDetailsView)
@@ -67,7 +67,7 @@ class TestBooksUrls(TestCase):
                                    'pk': 1, 'slug': 'title-author'}))
         self.assertEqual(response.status_code, 302)
 
-    def test_book_details_url_response(self):
+    def test_books_details_url_response(self):
         """
             Successful code - 200.
         """
@@ -81,7 +81,7 @@ class TestBooksUrls(TestCase):
             date_posted=timezone.now(),
             posted_by=User.objects.create()
         )
-        response = self.client.get(reverse('book_details', kwargs={
+        response = self.client.get(reverse('books_details', kwargs={
                                    'pk': 1, 'slug': 'title-author'}))
         self.assertEqual(response.status_code, 200)
 
