@@ -2,45 +2,26 @@
 {% extends "website/base.html" %} 
   {% load crispy_forms_tags %}
   {% block content %}
-  <div class="container">
-    <div class="content-section">
-      <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <fieldset class="form-group">
-          <legend class="border-bottom mb-4">Share A Book</legend>
-          {{ form|crispy }}
-        </fieldset>
-        <div class="form-group">
-          <button class="btn btn-outline-info mt-3" type="submit">Submit</button>
+  <div class="container mt-3">
+    <div class="row d-flex justify-content-center">
+      <div class="col-lg-6 p-4 border">
+        <div class="row d-flex justify-content-center">
+          <div class="content-section col-lg-6">
+            <form method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Share A Book</legend>
+                {{ form|crispy }}
+              </fieldset>
+              <div class="form-group">
+                <button class="btn btn-outline-info mt-3" type="submit">Submit</button>
+              </div>
+            </form>
+          </div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
   {% endblock content%}
 
 
-  <!-- <div class="container">
-    <form class="my-form" action="." method="POST">
-    {% csrf_token %}
-    {% for field in form %}
-      <div class="form-group row">
-        <label class="col-12 col-form-label" for="id_{{ field.name }}">{{ field.label }}</label>
-        <div class="col-12">
-          <input
-            type="{{ field.field.widget.input_type }}"
-            class="form-control"
-            name="{{ field.name }}"
-            id="id_{{ field.name }}"
-            value="{{ field.value|default:'' }}"
-          >
-        </div>
-        <div class="col-12 help-text">{{ field.help_text }} </div>
-      </div>
-    {% endfor %}
-      <div class="row">
-        <div class="col-12">
-          <input type="submit" value="Submit"  class="btn btn-primary">
-        </div>
-      </div>
-    </form>
-  </div> -->

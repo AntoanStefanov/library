@@ -12,7 +12,16 @@
   font-variant: all-small-caps;
 }
 
-/* img {
+.form-group {
+  margin-top: 5px;
+}
+
+img {
   width: 368px;
   height: 500px;
-} */
+}
+
+img.account-img {
+  width: 200px;
+  height: 200px;
+}

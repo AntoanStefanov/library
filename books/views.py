@@ -44,6 +44,7 @@ class BookCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
 class BookDetailsView(DetailView):
     model = Book
+    template_name = 'books/book_details.html'
 
 
 class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
