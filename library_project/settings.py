@@ -45,6 +45,7 @@ DJANGO_APPS = (
 
 THIRD_PARTY_APPS = (
     'crispy_forms',
+    'django_nose',
 )
 
 PROJECT_APPS = (
@@ -155,5 +156,12 @@ LOGIN_REDIRECT_URL = 'website_home'
 # IF NOT LOGGED USER TRIES TO CREATE A BOOK !
 LOGIN_URL = 'login'
 
+# Use nose to run all tests
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=website,books,users',
+]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
