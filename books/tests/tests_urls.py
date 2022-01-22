@@ -9,8 +9,10 @@ from django.utils import timezone
 
 
 class TestBooksUrls(TestCase):
-    """ Reverse an URL and resolve that URL to see which view Django calls.
+    """ 
+        Reverse an URL and resolve that URL to see which view Django calls.
         Check status code returned from responses.
+        When a user is logged in and not logged in.
     """
 
     # VIEWS
@@ -50,7 +52,7 @@ class TestBooksUrls(TestCase):
 
     # RESPONSES
 
-    def test_books_create_url_response(self):
+    def test_books_create_url_response_not_logged_in(self):
         """
             Redirection code - 302. User not logged in.
         """
@@ -58,7 +60,17 @@ class TestBooksUrls(TestCase):
         response = self.client.get(reverse('books_create'))
         self.assertEqual(response.status_code, 302)
 
-    def test_books_delete_url_response(self):
+    def test_books_create_url_response_logged_in(self):
+        """
+            Succesful code - 200. User logged in.
+        """
+
+        User.objects.create_user(username='testuser', password='12345')
+        self.client.login(username='testuser', password='12345')
+        response = self.client.get(reverse('books_create'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_books_delete_url_response_not_logged_in(self):
         """
             Redirection code - 302. User not logged in.
         """
@@ -66,6 +78,29 @@ class TestBooksUrls(TestCase):
         response = self.client.get(reverse('books_delete', kwargs={
                                    'pk': 1, 'slug': 'title-author'}))
         self.assertEqual(response.status_code, 302)
+
+    def test_books_delete_url_response_logged_in(self):
+        """
+            Succesful code - 200. User logged in.
+        """
+        self.user = User.objects.create_user(
+            username='testuser', password='12345')
+        self.client.login(username='testuser', password='12345')
+
+        Book.objects.create(
+            title="Title",
+            author="Author",
+            language="Bulgarian",
+            genre="Comedy",
+            description="Description",
+            image='default_book.jpg',
+            date_posted=timezone.now(),
+            posted_by=self.user
+        )
+
+        response = self.client.get(reverse('books_delete', kwargs={
+                                   'pk': 1, 'slug': 'title-author'}))
+        self.assertEqual(response.status_code, 200)
 
     def test_books_details_url_response(self):
         """
@@ -83,7 +118,7 @@ class TestBooksUrls(TestCase):
             posted_by=User.objects.create()
         )
         response = self.client.get(reverse('books_details', kwargs={
-                                   'pk': 1, 'slug': 'title-author'}))
+                                   'pk': 2, 'slug': 'title-author'}))
         self.assertEqual(response.status_code, 200)
 
     def test_books_library_url_response(self):
@@ -97,7 +132,19 @@ class TestBooksUrls(TestCase):
     def test_books_update_url_response(self):
         """
             Redirection code - 302. User not logged in.
+            Cannot reach update page.
         """
+        response = self.client.get(reverse('books_update', kwargs={
+                                   'pk': 0, 'slug': 'title-author'}))
+        self.assertEqual(response.status_code, 302)
+
+    def test_books_update_url_response_logged_in(self):
+        """
+            Succesful code - 200. User logged in.
+        """
+        self.user = User.objects.create_user(
+            username='testuser', password='12345')
+        self.client.login(username='testuser', password='12345')
 
         Book.objects.create(
             title="Title",
@@ -107,16 +154,28 @@ class TestBooksUrls(TestCase):
             description="Description",
             image='default_book.jpg',
             date_posted=timezone.now(),
-            posted_by=User.objects.create()
+            posted_by=self.user
         )
-        response = self.client.get(reverse('books_update', kwargs={
-                                   'pk': 1, 'slug': 'title-author'}))
-        self.assertEqual(response.status_code, 302)
 
-    def test_my_books_url_response(self):
+        response = self.client.get(reverse('books_update', kwargs={
+                                   'pk': 3, 'slug': 'title-author'}))
+        self.assertEqual(response.status_code, 200)
+
+    def test_my_books_url_response_not_logged_in(self):
         """
             Redirection code - 302. User not logged in.
         """
 
         response = self.client.get(reverse('my_books'))
         self.assertEqual(response.status_code, 302)
+
+    def test_my_books_url_response_logged_in(self):
+        """
+            Succesful code - 200. User logged in.
+        """
+        self.user = User.objects.create_user(
+            username='testuser', password='12345')
+        self.client.login(username='testuser', password='12345')
+
+        response = self.client.get(reverse('my_books'))
+        self.assertEqual(response.status_code, 200)

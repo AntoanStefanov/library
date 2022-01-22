@@ -28,7 +28,7 @@ class TestBooksViews(TestCase):
         self.my_books_url = reverse('my_books')
         self.books_create_url = reverse('books_create')
         self.books_details_url = reverse('books_details', kwargs={
-            'pk': 6, 'slug': 'title-author'})
+            'pk': 7, 'slug': 'title-author'})
 
     def test_book_list_view(self):
         """
