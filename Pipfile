@@ -9,7 +9,6 @@ psycopg2-binary = "*"
 pillow = "*"
 django-crispy-forms = "*"
 python-decouple = "*"
-django-shapeshifter = "*"
 
 [dev-packages]
 autopep8 = "*"

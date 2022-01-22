@@ -22,8 +22,12 @@
                 <legend class="border-bottom mb-4">Profile</legend>
                 {{ user_update_form|crispy }} {{ profile_update_form|crispy }}
               </fieldset>
-              <div class="form-group text-center">
-                <button class="btn btn-outline-info mt-3" type="submit">Update Profile</button>
+              <div class="form-group">
+                <button class="btn btn-outline-info m-3" type="submit">Update Profile</button>
+                <a 
+                class="btn btn-danger m-3"
+                href="{% url 'profile_delete' pk=user.id %}"
+                >Delete</a>
               </div>
             </form>
           </div>

@@ -1,0 +1,14 @@
+{% extends "website/base.html" %} {% block content %}
+<div class="container mt-5 text-center">
+  <form method="POST">
+    {% csrf_token %}
+    <h2>Are you sure you want to delete the account?</h2>
+    <button class="btn btn-danger m-3" type="submit">Delete</button>
+    <a
+      class="btn btn-secondary m-3"
+      href="{% url 'profile' %}"
+      >Cancel</a
+    >
+  </form>
+</div>
+{% endblock content%}

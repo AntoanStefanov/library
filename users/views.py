@@ -1,9 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, DeleteView
+from library_project.utils import is_user_admin_or_profile_owner
+
 
 from .forms import ProfileUpdateForm, UserRegisterForm, UserUpdateForm
 
@@ -49,7 +53,20 @@ def profile(request):
 
     context = {
         'user_update_form': user_update_form,
-        'profile_update_form': profile_update_form
+        'profile_update_form': profile_update_form,
+        'user': request.user
     }
 
     return render(request, 'users/profile.html', context)
+
+
+class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = User
+    template_name = 'users/confirm_delete.html'
+
+    def get_success_url(self):
+        messages.success(self.request, 'Account has been deleted successfully!')
+        return reverse("website_home")
+
+    def test_func(self):
+        return is_user_admin_or_profile_owner(self)

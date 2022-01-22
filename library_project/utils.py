@@ -20,3 +20,11 @@ def is_user_admin_or_book_owner(view):
     current_user = view.request.user
 
     return current_user == book.posted_by or current_user.is_superuser
+
+def is_user_admin_or_profile_owner(view):
+    """ Check if user is admin or owner of profile. """
+
+    user = view.get_object()
+    current_user = view.request.user
+
+    return current_user == user or current_user.is_superuser
