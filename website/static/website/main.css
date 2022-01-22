@@ -25,3 +25,7 @@ img.account-img {
   width: 200px;
   height: 200px;
 }
+
+.border {
+  border-radius: 5px;
+}

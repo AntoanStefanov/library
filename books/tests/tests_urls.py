@@ -73,7 +73,8 @@ class TestBooksUrls(TestCase):
         """
 
         Book.objects.create(
-            title="Title", author="Author",
+            title="Title",
+            author="Author",
             language="Bulgarian",
             genre="Comedy",
             description="Description",
