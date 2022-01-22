@@ -24,7 +24,6 @@ class TestBooksViews(TestCase):
             date_posted=timezone.now(),
             posted_by=self.user
         )
-
         self.books_library_url = reverse('books_library')
         self.my_books_url = reverse('my_books')
         self.books_create_url = reverse('books_create')
@@ -33,7 +32,10 @@ class TestBooksViews(TestCase):
 
     def test_book_list_view(self):
         """
-            GET method. 200 response code. Using correct template.
+            GET method.
+            No login required.
+            200 response code.
+            Using correct template.
         """
         response = self.client.get(self.books_library_url)
 
@@ -46,6 +48,7 @@ class TestBooksViews(TestCase):
             302 response code - User not logged in, redirect to login page.
             Not using given template.
         """
+
         response = self.client.get(self.my_books_url)
 
         self.assertEqual(response.status_code, 302)
@@ -57,6 +60,7 @@ class TestBooksViews(TestCase):
             200 response code - User logged in.
             Using given template.
         """
+
         # logged_in =
         self.client.login(username='testuser', password='12345')
         response = self.client.get(self.my_books_url)
@@ -70,6 +74,7 @@ class TestBooksViews(TestCase):
             302 response code - User not logged in, redirect to login page.
             Not using given template.
         """
+
         response = self.client.get(self.books_create_url)
 
         self.assertEqual(response.status_code, 302)
@@ -81,6 +86,7 @@ class TestBooksViews(TestCase):
             200 response code - User logged in.
             Using given template.
         """
+
         self.client.login(username='testuser', password='12345')
         response = self.client.get(self.books_create_url)
 
@@ -90,12 +96,14 @@ class TestBooksViews(TestCase):
     def test_books_details_view(self):
         """
             GET method.
-            200 response code - User not logged in, show page.
-            Using given template.
+            No login required.
+            200 response code.
+            Using correct template.
         """
-        print(self.books_details_url)
-        print(self.book.pk)
+
         response = self.client.get(self.books_details_url)
         
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_details.html')
+
+    # BookUpdateView NEXT
