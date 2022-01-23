@@ -1,12 +1,22 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.utils.text import slugify
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.text import slugify
 from library_project.utils import is_image_resizable
 
 
 class Book(models.Model):
+
+    class Meta:
+        """
+            Give Book model additional meta information/options.
+            Anything that's not a field.
+            https://docs.djangoproject.com/en/4.0/topics/db/models/#meta-options
+        """
+
+        ordering = ['-date_posted']
+
     # Large max_length in case unicode chars are used.
     # One unicode character is many characters.
     title = models.CharField(max_length=255)

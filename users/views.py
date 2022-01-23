@@ -3,11 +3,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, DeleteView
+from django.views.generic import CreateView, DeleteView, ListView
 from library_project.utils import is_user_admin_or_profile_owner
-
+from books.models import Book
 
 from .forms import ProfileUpdateForm, UserRegisterForm, UserUpdateForm
 
@@ -65,8 +65,34 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = 'users/confirm_delete.html'
 
     def get_success_url(self):
-        messages.success(self.request, 'Account has been deleted successfully!')
+        messages.success(
+            self.request, 'Account has been deleted successfully!')
         return reverse("website_home")
 
     def test_func(self):
         return is_user_admin_or_profile_owner(self)
+
+
+class UserFavouritesView(LoginRequiredMixin, ListView):
+    model = User
+    context_object_name = 'books'
+    template_name = 'users/favourites.html'
+
+    def get_queryset(self):
+        profile = self.request.user.profile
+        favourites = profile.favourites.all()
+        return favourites
+
+
+@login_required
+def add_favourite(request, **kwargs):
+    # https://docs.djangoproject.com/en/4.0/topics/http/shortcuts/#get-object-or-404
+    # https://www.youtube.com/watch?v=H4QPHLmsZMU
+    book = get_object_or_404(Book, pk=kwargs.get('pk'))
+    profile = request.user.profile
+    if profile.favourites.filter(id=book.id).exists():
+        profile.favourites.remove(book)
+    else:
+        profile.favourites.add(book)
+
+    return redirect(reverse('books_details', kwargs={'pk': book.id, 'slug': book.slug}))

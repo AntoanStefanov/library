@@ -1,6 +1,8 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
@@ -12,7 +14,6 @@ from .models import Book
 class BookListView(ListView):
     model = Book
     template_name = 'books/book_list.html'
-    ordering = ['-date_posted']
     # change object_list variable for template use
     context_object_name = 'books'
 
@@ -20,10 +21,8 @@ class BookListView(ListView):
 class MyBookListView(LoginRequiredMixin, BookListView):
 
     def get_queryset(self):
-        # ordered here, because the inherited ordering variable does not work. for this class.
-        # ordering variable in BookListView class == '-date_posted' in .order_by('-date_posted')
         user_books = Book.objects.filter(
-            posted_by=self.request.user.pk).order_by('-date_posted')
+            posted_by=self.request.user.pk)
         return user_books
 
 
@@ -45,6 +44,14 @@ class BookCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 class BookDetailsView(DetailView):
     model = Book
     template_name = 'books/book_details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        book = get_object_or_404(Book, pk=kwargs['object'].id)
+        profile = self.request.user.profile
+        context["has_user_saved_book"] = profile.favourites.filter(
+            id=book.id).exists()
+        return context
 
 
 class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
