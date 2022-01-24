@@ -48,10 +48,10 @@
           <!-- ms-auto -> https://stackoverflow.com/questions/41513463/bootstrap-align-navbar-items-to-the-right -->
           <ul class="navbar-nav ms-auto">
             {% if user.is_authenticated %}
-              <li class="nav-item">
+              <li class="nav-item me-3">
                 <a href="{% url 'books_create' %}" class="nav-link">Share Book</a>
               </li>
-              <div class="dropdown ms-3">
+              <div class="dropdown">
                 <a
                   class="btn btn dropdown-toggle"
                   href="javascript:void(0)"
