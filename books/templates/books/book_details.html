@@ -5,6 +5,17 @@
       <img src="{{ object.image.url }}" alt="no img" class="rounded" />
       {% if object.posted_by == user or user.is_superuser %}
         <div>
+          {% if object.posted_by != user and user.is_superuser %}
+            <a 
+            href="{% url 'profile_add_favourite' pk=object.pk %}" 
+            class="btn btn-outline-primary m-4">
+              {% if has_user_saved_book %}
+                Remove From Favourites
+              {% else %}
+                Add to Favourites
+              {% endif %}
+            </a>
+          {% endif %}
           <a
             class="btn btn-primary ms-4"
             href="{% url 'books_update' pk=object.pk slug=object.slug %}"
@@ -13,7 +24,7 @@
           <a class="btn btn-danger m-4" href="{% url 'books_delete' pk=object.id slug=object.slug %}"
             >Delete</a
             >
-        </div>
+        </div>   
       {% elif user.is_authenticated %}
         <div>
           <a 

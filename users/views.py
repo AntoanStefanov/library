@@ -80,6 +80,7 @@ class UserFavouritesView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         profile = self.request.user.profile
+        # profile.favourites -> ManyRelatedManager
         favourites = profile.favourites.all()
         return favourites
 
