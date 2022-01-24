@@ -25,7 +25,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-info">
       <div class="container">
-        <a href="{% url 'books_library' %}" class="navbar-brand">EXPLORE</a>
+        <a href="{% url 'books_library' %}" class="navbar-brand">Library</a>
 
         <button
           class="navbar-toggler"
@@ -45,7 +45,6 @@
               <a href="{% url 'website_about' %}" class="nav-link">About</a>
             </li>
           </ul>
-          <!-- ms-auto -> https://stackoverflow.com/questions/41513463/bootstrap-align-navbar-items-to-the-right -->
           <ul class="navbar-nav ms-auto">
             {% if user.is_authenticated %}
               <li class="nav-item me-3">
