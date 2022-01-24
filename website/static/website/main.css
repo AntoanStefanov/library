@@ -39,3 +39,7 @@ img.account-img {
   padding: 0px;
   box-shadow: none;
 }
+
+a {
+  text-decoration: none;
+}
