@@ -46,32 +46,32 @@
             </li>
           </ul>
           <!-- ms-auto -> https://stackoverflow.com/questions/41513463/bootstrap-align-navbar-items-to-the-right -->
-          <ul class="navbar-nav ms-auto">
-            {% if user.is_authenticated %}
-            <li class="nav-item">
-              <a href="{% url 'books_create' %}" class="nav-link">Share Book</a>
-            </li>
-            <li class="nav-item">
-              <a href="{% url 'my_books' %}" class="nav-link">My Books</a>
-            </li>
-            <li class="nav-item">
-              <a href="{% url 'profile_favourites' %}" class="nav-link">Saved Books</a>
-            </li>
-            <li class="nav-item">
-              <a href="{% url 'profile' %}" class="nav-link">Profile</a>
-            </li>
-            <li class="nav-item">
-              <a href="{% url 'logout' %}" class="nav-link">Logout</a>
-            </li>
-            {% else %}
-            <li class="nav-item">
-              <a href="{% url 'login' %}" class="nav-link">Login</a>
-            </li>
-            <li class="nav-item">
-              <a href="{% url 'register' %}" class="nav-link">Sign Up</a>
-            </li>
-            {% endif %}
-          </ul>
+          {% if user.is_authenticated %}
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a href="{% url 'books_create' %}" class="nav-link">Share Book</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'my_books' %}" class="nav-link">Shared Books</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'profile_favourites' %}" class="nav-link">Saved Books</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+              </li>
+          {% else %}
+              <li class="nav-item">
+                <a href="{% url 'login' %}" class="nav-link">Login</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'register' %}" class="nav-link">Sign Up</a>
+              </li>
+            </ul>
+          {% endif %}
         </div>
       </div>
     </nav>
