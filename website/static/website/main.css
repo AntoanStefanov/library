@@ -29,3 +29,14 @@ img.account-img {
 .border {
   border-radius: 5px;
 }
+
+#dropdownMenuLink img {
+  width: 40px;
+  height: 40px;
+}
+
+#dropdownMenuLink {
+  background-color: #0DCAF0;
+  padding: 0px;
+  box-shadow: none;
+}
