@@ -31,8 +31,33 @@ class UserRegisterView(SuccessMessageMixin, CreateView):
         return super().dispatch(*args, **kwargs)
 
 
+class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = User
+    template_name = 'users/confirm_delete.html'
+
+    def get_success_url(self):
+        messages.success(
+            self.request, 'Account has been deleted successfully!')
+        return reverse("website_home")
+
+    def test_func(self):
+        return is_user_admin_or_profile_owner(self)
+
+
+class UserFavouritesView(LoginRequiredMixin, ListView):
+    model = User
+    context_object_name = 'books'
+    template_name = 'users/favourites.html'
+
+    def get_queryset(self):
+        profile = self.request.user.profile
+        # profile.favourites -> ManyRelatedManager
+        favourites = profile.favourites.all()
+        return favourites
+
+
 @login_required
-def profile(request):
+def user_profile(request):
     if request.method == 'POST':
         user_update_form = UserUpdateForm(request.POST, instance=request.user)
 
@@ -60,33 +85,8 @@ def profile(request):
     return render(request, 'users/profile.html', context)
 
 
-class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = User
-    template_name = 'users/confirm_delete.html'
-
-    def get_success_url(self):
-        messages.success(
-            self.request, 'Account has been deleted successfully!')
-        return reverse("website_home")
-
-    def test_func(self):
-        return is_user_admin_or_profile_owner(self)
-
-
-class UserFavouritesView(LoginRequiredMixin, ListView):
-    model = User
-    context_object_name = 'books'
-    template_name = 'users/favourites.html'
-
-    def get_queryset(self):
-        profile = self.request.user.profile
-        # profile.favourites -> ManyRelatedManager
-        favourites = profile.favourites.all()
-        return favourites
-
-
 @login_required
-def add_favourite(request, **kwargs):
+def user_add_favourite(request, **kwargs):
     # https://docs.djangoproject.com/en/4.0/topics/http/shortcuts/#get-object-or-404
     # https://www.youtube.com/watch?v=H4QPHLmsZMU
     book = get_object_or_404(Book, pk=kwargs.get('pk'))
