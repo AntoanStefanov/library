@@ -57,7 +57,7 @@ class UserFavouritesView(LoginRequiredMixin, ListView):
 
 
 @login_required
-def user_profile(request):
+def user_profile_view(request):
     if request.method == 'POST':
         user_update_form = UserUpdateForm(request.POST, instance=request.user)
 
@@ -86,7 +86,7 @@ def user_profile(request):
 
 
 @login_required
-def user_add_favourite(request, **kwargs):
+def user_add_favourite_view(request, **kwargs):
     # https://docs.djangoproject.com/en/4.0/topics/http/shortcuts/#get-object-or-404
     # https://www.youtube.com/watch?v=H4QPHLmsZMU
     book = get_object_or_404(Book, pk=kwargs.get('pk'))
