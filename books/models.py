@@ -31,7 +31,7 @@ class Book(models.Model):
     date_posted = models.DateTimeField(default=timezone.now)
 
     # https://docs.djangoproject.com/en/4.0/ref/models/fields/#foreignkey
-    # many-to-one relationship -> cascade -> del all books if user is deleted.
+    # one-to-many relationship -> cascade -> del all books if user is deleted.
     posted_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # https://learndjango.com/tutorials/django-slug-tutorial
