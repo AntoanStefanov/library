@@ -9,9 +9,10 @@ class Profile(models.Model):
     # but if we delete the profile, it won't delete the user
     # JUST ONE WAY thing , MAKE IT TWO WAY THING
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(default='default_user.jpg', upload_to='profile_pics')
-    favourites = models.ManyToManyField(
-        Book, default=None, blank=True)
+    image = models.ImageField(
+        default='default_user.jpg', upload_to='profile_pics')
+    favourites = models.ManyToManyField(Book)
+
     def __str__(self):
         return f'{self.user.username} Profile'
 
