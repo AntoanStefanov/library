@@ -1,7 +1,6 @@
 /* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins');
 
-
 /* Modify the background color */
 .navbar {
   border-radius: 5px;
@@ -28,6 +27,10 @@ img.account-img {
 
 .border {
   border-radius: 5px;
+}
+
+select {
+  -webkit-appearance: listbox !important;
 }
 
 #dropdownMenuLink img {

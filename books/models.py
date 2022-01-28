@@ -17,12 +17,33 @@ class Book(models.Model):
 
         ordering = ['-date_posted']
 
+    GENRE_ART = 'ART'
+    GENRE_BIOGRAPHY = 'BIOGRAPHY'
+    GENRE_COMEDY = 'COMEDY'
+    GENRE_CLASSIC = 'CLASSIC'
+    GENRE_HEALTH = 'HEALTH'
+    GENRE_HISTORY = 'HISTORY'
+    GENRE_THRILLER = 'THRILLER'
+    GENRE_OTHER = 'OTHER'
+
+    GENRE_CHOICES = [
+        (GENRE_ART, 'Art'),
+        (GENRE_BIOGRAPHY, 'Biography'),
+        (GENRE_COMEDY, 'Comedy'),
+        (GENRE_CLASSIC, 'Classic'),
+        (GENRE_HEALTH, 'Health'),
+        (GENRE_HISTORY, 'History'),
+        (GENRE_THRILLER, 'Thriller'),
+        (GENRE_OTHER, 'Other'),
+    ]
+
     # Large max_length in case unicode chars are used.
     # One unicode character is many characters.
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     language = models.CharField(max_length=100)
-    genre = models.CharField(max_length=50)
+    genre = models.CharField(
+        max_length=10, choices=GENRE_CHOICES, default=GENRE_ART)
     description = models.TextField()
     image = models.ImageField(
         default='default_book.jpg', upload_to='books_pics')
