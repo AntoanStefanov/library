@@ -29,6 +29,8 @@ class TestBooksViews(TestCase):
         self.books_create_url = reverse('books_create')
         self.books_details_url = reverse('books_details', kwargs={
             'pk': 7, 'slug': 'title-author'})
+        self.books_update_url = reverse('books_update', kwargs={
+            'pk': 8, 'slug': 'title-author'})
 
     def test_book_list_view(self):
         """
@@ -106,4 +108,30 @@ class TestBooksViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_details.html')
 
-    # BookUpdateView NEXT
+    def test_books_update_view_not_logged_in(self):
+        """
+            GET method.
+            302 response code - User not logged in, redirect to login page.
+            Not using given template.
+        """
+
+        response = self.client.get(self.books_update_url)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertTemplateNotUsed(response, 'books/book_form.html')
+        
+    def test_books_update_view_logged_in(self):
+        """
+            GET method.
+            200 response code - User logged in.
+            Using given template.
+        """
+
+        self.client.login(username='testuser', password='12345')
+        response = self.client.get(self.books_update_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'books/book_form.html')
+
+    # BookDeleteView NEXT
+    
