@@ -17,6 +17,8 @@ class Book(models.Model):
 
         ordering = ['-date_posted']
 
+    # answer the question why to use variables.
+    # https://stackoverflow.com/questions/18676156/how-to-properly-use-the-choices-field-option-in-django
     GENRE_ART = 'ART'
     GENRE_BIOGRAPHY = 'BIOGRAPHY'
     GENRE_COMEDY = 'COMEDY'
@@ -43,7 +45,9 @@ class Book(models.Model):
     author = models.CharField(max_length=255)
     language = models.CharField(max_length=100)
     genre = models.CharField(
-        max_length=10, choices=GENRE_CHOICES, default=GENRE_ART)
+        max_length=max(len(choices[0]) for choices in GENRE_CHOICES),
+        choices=GENRE_CHOICES,
+        default=GENRE_ART)
     description = models.TextField()
     image = models.ImageField(
         default='default_book.jpg', upload_to='books_pics')
