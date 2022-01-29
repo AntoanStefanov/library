@@ -16,6 +16,8 @@ class BookListView(ListView):
     template_name = 'books/book_list.html'
     # change object_list variable for template use
     context_object_name = 'books'
+    # pagination
+    paginate_by = 2
 
 
 class MyBookListView(LoginRequiredMixin, BookListView):
