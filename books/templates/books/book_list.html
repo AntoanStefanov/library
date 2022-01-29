@@ -9,7 +9,7 @@
       {% elif request.resolver_match.url_name == 'books_library' %}
         Library 
       {% elif request.resolver_match.url_name == 'author_books' %}
-        Books written by: {{ view.kwargs.author }} 
+        Books written by: {{ view.kwargs.author }} ({{ page_obj.paginator.count }})
       {% endif %}
     </h1>
   </div>
