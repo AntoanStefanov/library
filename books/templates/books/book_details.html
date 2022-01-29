@@ -39,10 +39,9 @@
         </div>
       {% endif %}
     </div>
-    <div style="border-left: 2px solid #0DCAF0" class="col-lg-6 text-right mt-5">
-        
+    <div style="border-left: 2px solid #0DCAF0" class="col-lg-6 text-right mt-5">     
         <h1>{{object.title}}</h1>
-        <h2>{{ object.author }}</h2>
+        <h2><a href="{% url 'author_books' object.author %}">{{ object.author }}</a></h2>
         <h4>Language - {{ object.language }}</h4>
         <h4>Genre - {{ object.get_genre_display }}</h4>
         <h5>{{object.description}}</h5>

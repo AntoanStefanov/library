@@ -19,6 +19,12 @@ class BookListView(ListView):
     # pagination
     paginate_by = 2
 
+class UserBookListView(BookListView):
+     def get_queryset(self):
+        author = self.kwargs.get('author')
+        author_books = Book.objects.filter(
+            author=author)
+        return author_books
 
 class MyBookListView(LoginRequiredMixin, BookListView):
 
