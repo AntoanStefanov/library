@@ -46,3 +46,9 @@ select {
 a {
   text-decoration: none;
 }
+
+/* .outer {
+  outline: 2px solid #CCC;
+  border-left: 1px solid #999;
+  background-color: #999;
+  } */
