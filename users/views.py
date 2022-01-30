@@ -97,3 +97,4 @@ def user_add_favourite_view(request, **kwargs):
         profile.favourites.add(book)
 
     return redirect(reverse('books_details', kwargs={'pk': book.id, 'slug': book.slug}))
+ 
