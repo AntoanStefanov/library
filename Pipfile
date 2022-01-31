@@ -11,6 +11,7 @@ django-crispy-forms = "*"
 python-decouple = "*"
 django-nose = "*"
 coverage = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 autopep8 = "*"

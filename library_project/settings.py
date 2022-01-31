@@ -32,6 +32,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+INTERNAL_IPS = [
+    # for debug tool
+    "127.0.0.1",
+]
 
 # Application definition
 DJANGO_APPS = (
@@ -46,6 +50,7 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     'crispy_forms',
     'django_nose',
+    'debug_toolbar',
 )
 
 PROJECT_APPS = (
@@ -62,6 +67,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

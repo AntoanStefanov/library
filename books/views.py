@@ -30,8 +30,10 @@ class AuthorBookListView(BookListView):
 class MyBookListView(LoginRequiredMixin, BookListView):
 
     def get_queryset(self):
-        # foreignkey -> reverse_many_to_one_manager method(all())
+        # foreignkey -> reverse_many_to_one_manager method(all()),
         user_books = self.request.user.book_set.all()
+        # user_books = Book.objects.filter(
+            # posted_by=self.request.user.pk)
         return user_books
 
 
