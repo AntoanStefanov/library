@@ -1,7 +1,6 @@
 from books.models import Book
-from books.views import (BookCreateView, BookDeleteView,
-                         BookDetailsView, BookListView, BookUpdateView,
-                         MyBookListView)
+from books.views import (BookCreateView, BookDeleteView, BookDetailsView,
+                         BookListView, BookUpdateView, MyBookListView)
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import resolve, reverse

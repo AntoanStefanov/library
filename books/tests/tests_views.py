@@ -1,7 +1,7 @@
-from django.test import TestCase, Client
-from django.urls import reverse
 from books.models import Book
 from django.contrib.auth.models import User
+from django.test import Client, TestCase
+from django.urls import reverse
 from django.utils import timezone
 
 
@@ -13,7 +13,8 @@ class TestBooksViews(TestCase):
         """
         self.client = Client()
         # https://stackoverflow.com/questions/63054997/difference-between-user-objects-create-user-vs-user-objects-create-vs-user
-        self.user = User.objects.create_user(username='testuser', password='12345')
+        self.user = User.objects.create_user(
+            username='testuser', password='12345')
         self.book = Book.objects.create(
             title="Title",
             author="Author",
@@ -104,7 +105,7 @@ class TestBooksViews(TestCase):
         """
 
         response = self.client.get(self.books_details_url)
-        
+
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_details.html')
 
@@ -119,7 +120,7 @@ class TestBooksViews(TestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertTemplateNotUsed(response, 'books/book_form.html')
-        
+
     def test_books_update_view_logged_in(self):
         """
             GET method.
@@ -134,4 +135,3 @@ class TestBooksViews(TestCase):
         self.assertTemplateUsed(response, 'books/book_form.html')
 
     # BookDeleteView NEXT
-    
