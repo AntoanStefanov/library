@@ -147,6 +147,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / 'static_files',
+]
+
 # root -> where the uploaded files are stored
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # public url for the root/how we access an image in the browser
