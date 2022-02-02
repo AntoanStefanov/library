@@ -1,21 +1,28 @@
 from books.models import Book
 from django.contrib.auth.models import User
-from django.test import Client, TestCase
+from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
 
 class TestBooksViews(TestCase):
+    """
+        All the tests in this module use the client (belonging to our TestCase's derived class).
+    """
 
-    def setUp(self):
+    @classmethod
+    def setUpTestData(cls):
+        """ 
+            Set up data for the whole TestCase.
+            https://docs.djangoproject.com/en/4.0/topics/testing/tools/#django.test.TestCase.setUpTestData
+
         """
-            This function runs before every single test method.
-        """
-        self.client = Client()
+
         # https://stackoverflow.com/questions/63054997/difference-between-user-objects-create-user-vs-user-objects-create-vs-user
-        self.user = User.objects.create_user(
+        cls.user = User.objects.create_user(
             username='testuser', password='12345')
-        self.book = Book.objects.create(
+
+        cls.book = Book.objects.create(
             title="Title",
             author="Author",
             language="Bulgarian",
@@ -23,17 +30,18 @@ class TestBooksViews(TestCase):
             description="Description",
             image='default_book.jpg',
             date_posted=timezone.now(),
-            posted_by=self.user
+            posted_by=cls.user
         )
-        self.books_library_url = reverse('books_library')
-        self.books_library_url = reverse(
-            'author_books', kwargs={'author': self.book.author})
+
+    def setUp(self):
+        """
+            This function runs before every single test method.
+        """
+
         self.my_books_url = reverse('my_books')
         self.books_create_url = reverse('books_create')
-        self.books_details_url = reverse('books_details', kwargs={
-            'pk': 8, 'slug': 'title-author'})
         self.books_update_url = reverse('books_update', kwargs={
-            'pk': 9, 'slug': 'title-author'})
+            'pk': 2, 'slug': 'title-author'})
 
     def test_book_list_view(self):
         """
@@ -42,7 +50,7 @@ class TestBooksViews(TestCase):
             200 response code.
             Using correct template.
         """
-        response = self.client.get(self.books_library_url)
+        response = self.client.get(reverse('books_library'))
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_list.html')
@@ -54,7 +62,8 @@ class TestBooksViews(TestCase):
             200 response code.
             Using correct template.
         """
-        response = self.client.get(self.books_library_url)
+        response = self.client.get(reverse(
+            'author_books', kwargs={'author': self.book.author}))
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_list.html')
@@ -118,7 +127,8 @@ class TestBooksViews(TestCase):
             Using correct template.
         """
 
-        response = self.client.get(self.books_details_url)
+        response = self.client.get(reverse('books_details', kwargs={
+            'pk': 2, 'slug': 'title-author'}))
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_details.html')

@@ -16,12 +16,12 @@ class TestBooksUrls(TestCase):
         All the tests in this module use the client (belonging to our TestCase's derived class).
     """
 
-    # https://docs.djangoproject.com/en/4.0/topics/testing/tools/#django.test.TestCase.setUpTestData
-    # - db data for whole testcase
     @classmethod
     def setUpTestData(cls):
         """ 
             Set up data for the whole TestCase.
+            https://docs.djangoproject.com/en/4.0/topics/testing/tools/#django.test.TestCase.setUpTestData
+
         """
 
         cls.user = User.objects.create_user(
