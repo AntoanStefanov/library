@@ -26,14 +26,28 @@ class TestBooksViews(TestCase):
             posted_by=self.user
         )
         self.books_library_url = reverse('books_library')
+        self.books_library_url = reverse(
+            'author_books', kwargs={'author': self.book.author})
         self.my_books_url = reverse('my_books')
         self.books_create_url = reverse('books_create')
         self.books_details_url = reverse('books_details', kwargs={
-            'pk': 7, 'slug': 'title-author'})
-        self.books_update_url = reverse('books_update', kwargs={
             'pk': 8, 'slug': 'title-author'})
+        self.books_update_url = reverse('books_update', kwargs={
+            'pk': 9, 'slug': 'title-author'})
 
     def test_book_list_view(self):
+        """
+            GET method.
+            No login required.
+            200 response code.
+            Using correct template.
+        """
+        response = self.client.get(self.books_library_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'books/book_list.html')
+
+    def test_author_book_list_view(self):
         """
             GET method.
             No login required.
@@ -129,6 +143,7 @@ class TestBooksViews(TestCase):
         """
 
         self.client.login(username='testuser', password='12345')
+        print(self.book.id)
         response = self.client.get(self.books_update_url)
 
         self.assertEqual(response.status_code, 200)
