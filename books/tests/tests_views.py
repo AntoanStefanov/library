@@ -143,7 +143,6 @@ class TestBooksViews(TestCase):
         """
 
         self.client.login(username='testuser', password='12345')
-        print(self.book.id)
         response = self.client.get(self.books_update_url)
 
         self.assertEqual(response.status_code, 200)

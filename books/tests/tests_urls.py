@@ -66,6 +66,7 @@ class TestBooksUrls(TestCase):
 
         User.objects.create_user(username='testuser', password='12345')
         self.client.login(username='testuser', password='12345')
+
         response = self.client.get(reverse('books_create'))
         self.assertEqual(response.status_code, 200)
 
