@@ -12,6 +12,8 @@ class TestBooksUrls(TestCase):
         Reverse an URL and resolve that URL to see which view Django calls.
         Check status code returned from responses.
         When a user is logged in and not logged in.
+
+        All the tests in this module use the client (belonging to our TestCase's derived class).
     """
 
     # https://docs.djangoproject.com/en/4.0/topics/testing/tools/#django.test.TestCase.setUpTestData
