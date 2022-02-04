@@ -73,6 +73,8 @@ class BookDetailsView(DetailView):
                 id=book.id).exists()
             context["has_user_liked_book"] = profile.likes.filter(
                 id=book.id).exists()
+            context["number_of_likes"] = book.likes.count()
+        
         return context
 
 
