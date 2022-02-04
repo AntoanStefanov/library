@@ -32,19 +32,25 @@ class RecommendedBookListView(ListView):
             1.1 OR 1.2 (https://docs.djangoproject.com/en/4.0/ref/models/querysets/#values-list)
 
             1.2 Book.likes.through.objects.values_list('book_id', flat=True) -> 
-            # <QuerySet [17, 23, 16]>
+            # <QuerySet [17, 17, 23, 17, 23, 16, 16, 15, 23, 17]>
 
             # .annotate(likes_count=Count('book_id')) ->
-            # <QuerySet [(23, 3), (17, 4), (15, 1), (16, 2)]>
+            2.1 <QuerySet [(23, 3), (17, 4), (15, 1), (16, 2)]>
+            # OR #
+            2.2 <QuerySet [23, 17, 15, 16]>
 
             # .order_by('-likes_count') ->
-            # <QuerySet [(17, 4), (23, 3), (16, 2), (15, 1)]>
+            3.1 <QuerySet [(17, 4), (23, 3), (16, 2), (15, 1)]>
+            # OR #
+            3.2 <QuerySet [17, 23, 16, 15]>
 
             # [:3] ->
-            # <QuerySet [(17, 4), (23, 3), (16, 2)]>
+            4.1 <QuerySet [(17, 4), (23, 3), (16, 2)]>
+            # OR #
+            4.2 <QuerySet [17, 23, 16]>
         """
         
-        # CHECK DOCS!
+        # CHECK DOCS in this function!
         first_three_most_liked_book_ids = Book.likes.through.objects.values_list(
             'book_id', flat=True).annotate(likes_count=Count('book_id')).order_by('-likes_count')[:3]
 
