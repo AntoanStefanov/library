@@ -3,6 +3,7 @@
 {% block content %}
 <div class="container">
   {% if books %}
+  <h1 class="title text-center mb-4 mt-4 border-bottom border-info-outline">TOP 3 MOST LIKED BOOKS </h1>
     <div class="row border-bottom border-info">
       {% for book in books %}
         <div class="col-lg-6 text-center my-3">
@@ -21,11 +22,10 @@
         </div>
       {% endfor %}
     </div>
-      {% else %}
+  {% else %}
         <h1>No  Liked Books yet !</h1>
         <a href="{% url 'books_library' %}" class="btn btn-outline-info mt-5"
             >Library</a>
-      {% endif %}
       </div>
   {% endif %}
 

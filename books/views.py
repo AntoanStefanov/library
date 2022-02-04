@@ -26,8 +26,13 @@ class RecommendedBookListView(ListView):
             # https://stackoverflow.com/questions/21662974/django-order-by-most-frequent-value
             # Book.likes.through.objects -> returns Manager(which has 'all' method also) for 'users_profile_likes' table in DB
 
-            # Book.likes.through.objects.values_list('book_id') ->
+            1.1 Book.likes.through.objects.values_list('book_id') ->
             # QuerySet [(17,), (17,), (23,), (17,), (23,), (16,), (17,), (23,), (16,), (15,)]>
+
+            1.1 OR 1.2 (https://docs.djangoproject.com/en/4.0/ref/models/querysets/#values-list)
+
+            1.2 Book.likes.through.objects.values_list('book_id', flat=True) -> 
+            # <QuerySet [17, 23, 16]>
 
             # .annotate(likes_count=Count('book_id')) ->
             # <QuerySet [(23, 3), (17, 4), (15, 1), (16, 2)]>
@@ -39,10 +44,21 @@ class RecommendedBookListView(ListView):
             # <QuerySet [(17, 4), (23, 3), (16, 2)]>
         """
         
-        three_most_liked_books_book_id_and_likes_tuple = Book.likes.through.objects.values_list(
-            'book_id').annotate(likes_count=Count('book_id')).order_by('-likes_count')[:3]
+        # CHECK DOCS!
+        first_three_most_liked_book_ids = Book.likes.through.objects.values_list(
+            'book_id', flat=True).annotate(likes_count=Count('book_id')).order_by('-likes_count')[:3]
 
-        return three_most_liked_books_book_id_and_likes_tuple
+        # https://stackoverflow.com/questions/9304908/how-can-i-filter-a-django-query-with-a-list-of-values
+        three_most_liked_books = Book.objects.filter(pk__in=list(first_three_most_liked_book_ids))
+
+
+        # https://stackoverflow.com/questions/4916851/django-get-a-queryset-from-array-of-ids-in-specific-order
+        # DB QUERIES OBJECTS AND SAVE IT WHEN FIRST IS READY ! NO ORDER IN DB QUERY
+        three_most_liked_books = dict([(obj.id, obj) for obj in three_most_liked_books])
+        three_most_liked_books_sorted = [three_most_liked_books[id] for id in first_three_most_liked_book_ids]
+
+
+        return three_most_liked_books_sorted
 
 
 class BookListView(ListView):
