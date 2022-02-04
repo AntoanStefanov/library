@@ -97,4 +97,14 @@ def user_add_favourite_view(request, **kwargs):
         profile.favourites.add(book)
 
     return redirect(reverse('books_details', kwargs={'pk': book.id, 'slug': book.slug}))
- 
+
+@login_required
+def user_like_book_view(request, **kwargs):
+    book = get_object_or_404(Book, pk=kwargs.get('pk'))
+    profile = request.user.profile
+    if profile.likes.filter(id=book.id).exists():
+        profile.likes.remove(book)
+    else:
+        profile.likes.add(book)
+
+    return redirect(reverse('books_details', kwargs={'pk': book.id, 'slug': book.slug}))

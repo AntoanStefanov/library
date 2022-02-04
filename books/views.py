@@ -71,6 +71,8 @@ class BookDetailsView(DetailView):
             profile = self.request.user.profile
             context["has_user_saved_book"] = profile.favourites.filter(
                 id=book.id).exists()
+            context["has_user_liked_book"] = profile.likes.filter(
+                id=book.id).exists()
         return context
 
 

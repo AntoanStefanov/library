@@ -2,7 +2,8 @@ from django.contrib.auth import views as auth_views
 from django.urls import include, path
 
 from .views import (UserDeleteView, UserFavouritesView, UserRegisterView,
-                    user_profile_view, user_add_favourite_view)
+                    user_add_favourite_view, user_like_book_view,
+                    user_profile_view)
 
 urlpatterns = [
     # DOCS LoginView ->
@@ -20,6 +21,7 @@ urlpatterns = [
         path('<int:pk>/', include([
             path('delete/', UserDeleteView.as_view(), name='profile_delete'),
             path('add_favourite/', user_add_favourite_view, name='profile_add_favourite'),
+            path('like_book/', user_like_book_view, name='profile_like_book'),
         ]))
     ]))
 ]

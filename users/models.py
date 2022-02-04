@@ -8,13 +8,20 @@ class Profile(models.Model):
     # cascade -> if user is deleted, delete the profile too
     # but if we delete the profile, it won't delete the user
     # JUST ONE WAY thing , MAKE IT TWO WAY THING
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+
     image = models.ImageField(
-        default='default_user.jpg', upload_to='profile_pics')
+        default='default_user.jpg',
+        upload_to='profile_pics'
+    )
+
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE,
+        primary_key=True)
+
     favourites = models.ManyToManyField(Book)
 
-    def __str__(self):
-        return f'{self.user.username} Profile'
+    # https://stackoverflow.com/questions/2606194/django-error-message-add-a-related-name-argument-to-the-definition - related_name
+    likes = models.ManyToManyField(Book, related_name="likes")
 
     # when I make a change in a model , also it will make a change in the DB
     # to apply changes -> make migrations(prepare SQL code) -> migrate(update the DB)
@@ -22,3 +29,6 @@ class Profile(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         is_image_resizable(self.image.path)
+
+    def __str__(self):
+        return f'{self.user.username} Profile'

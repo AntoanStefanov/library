@@ -15,6 +15,19 @@
                 Add to Favourites
               {% endif %}
             </a>
+            {% if has_user_liked_book %}
+              <a 
+              href="{% url 'profile_like_book' pk=object.pk %}" 
+              class="btn btn-outline-primary m-4 bi bi-hand-thumbs-up-fill">  
+                Unlike
+              </a>
+            {% else %}
+              <a 
+                href="{% url 'profile_like_book' pk=object.pk %}" 
+                class="btn btn-outline-primary m-4 bi bi-hand-thumbs-up">      
+                  Like
+                </a>
+            {% endif %}       
           {% endif %}
           <a
             class="btn btn-primary ms-4"
@@ -36,6 +49,19 @@
                 Add to Favourites
               {% endif %}
           </a>
+          {% if has_user_liked_book %}
+            <a 
+            href="{% url 'profile_like_book' pk=object.pk %}" 
+            class="btn btn-outline-primary m-4 bi bi-hand-thumbs-up-fill">
+                Unlike
+            </a>
+          {% else %}
+            <a 
+              href="{% url 'profile_like_book' pk=object.pk %}" 
+              class="btn btn-outline-primary m-4 bi bi-hand-thumbs-up">
+                Like
+            </a>
+          {% endif %}
         </div>
       {% endif %}
     </div>
@@ -51,13 +77,13 @@
             <!-- object.date_posted|date:'l d-m-y' -->
           <h6>Shared by
             {% if user == object.posted_by%}
-              <a href="{% url 'my_books' %}">You</a> on {{ object.date_posted|date:'l d-m-y, P' }}
+              <a href="{% url 'my_books' %}">me</a> on {{ object.date_posted|date:'l d-m-y, P' }}
             {% else %}
-             <a href="{% url 'profile_books' object.posted_by %}">{{ object.posted_by }}</a> on {{ object.date_posted|date:'l d-m-y, P' }}
+              <a href="{% url 'profile_books' object.posted_by %}">{{ object.posted_by }}</a> on {{ object.date_posted|date:'l d-m-y, P' }}
             {% endif %}
           </h6>
         </div>
-    </div>
+      </div>
     </div>
   </div>
 </div>
