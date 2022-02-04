@@ -1,6 +1,32 @@
 /* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins');
 
+
+/* https://getbootstrap.com/docs/4.0/content/typography/#responsive-typography */
+html {
+  font-size: 1rem;
+}
+
+@include media-breakpoint-up(sm) {
+  html {
+    font-size: 1.2rem;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  html {
+    font-size: 1.4rem;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  html {
+    font-size: 1.6rem;
+  }
+}
+
+/* ************************* */
+
 /* Modify the background color */
 .navbar {
   border-radius: 5px;
@@ -16,6 +42,7 @@
 }
 
 img {
+  /* add class img-fluid to img tag to be responsive */
   width: 368px;
   height: 500px;
 }

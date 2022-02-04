@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row align-items-center mt-5">
     <div class="col-lg-6 text-center">
-      <img src="{{ object.image.url }}" alt="no img" class="rounded" />
+      <img src="{{ object.image.url }}" alt="no img" class="rounded img-fluid" />
       {% if object.posted_by == user or user.is_superuser %}
         <div>
           {% if object.posted_by != user and user.is_superuser %}
@@ -64,7 +64,9 @@
           {% endif %}
         </div>
       {% endif %}
-    Likes: {{ number_of_likes }}
+    <div class="mt-4">
+      <p class="text-muted">Likes: {{ number_of_likes }}</p>
+    </div>
     </div>
     <div class="col-lg-6 text-right mt-5 px-3">
       <div style="border-left: 2px solid #0DCAF0" class="px-3">     
@@ -72,18 +74,20 @@
         <h2><a href="{% url 'author_books' object.author %}">{{ object.author }}</a></h2>
         <h4>Language - {{ object.language }}</h4>
         <h4>Genre - {{ object.get_genre_display }}</h4>
-        <h5>{{object.description}}</h5>
-        <div class="mt-5">
-           <!-- https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#date -->
-            <!-- object.date_posted|date:'l d-m-y' -->
-          <h6>Shared by
-            {% if user == object.posted_by%}
-              <a href="{% url 'my_books' %}">me</a> on {{ object.date_posted|date:'l d-m-y, P' }}
-            {% else %}
-              <a href="{% url 'profile_books' object.posted_by %}">{{ object.posted_by }}</a> on {{ object.date_posted|date:'l d-m-y, P' }}
-            {% endif %}
-          </h6>
-        </div>
+        <blockquote class="blockquote">
+          <p class="mb-0">{{object.description}}</p>
+          <div class="mt-5">
+            <footer class="blockquote-footer">
+              Shared by
+              {% if user == object.posted_by%}
+                <!-- https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#date -->
+                <a href="{% url 'my_books' %}">me</a> on {{ object.date_posted|date:'l d-m-y, P' }}
+              {% else %}
+                <a href="{% url 'profile_books' object.posted_by %}">{{ object.posted_by }}</a> on {{ object.date_posted|date:'l d-m-y, P' }}
+              {% endif %}
+             </footer>
+          </div>
+        </blockquote>
       </div>
     </div>
   </div>
