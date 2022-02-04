@@ -10,6 +10,8 @@
         Library 
       {% elif request.resolver_match.url_name == 'author_books' %}
         Books written by: {{ view.kwargs.author }} ({{ page_obj.paginator.count }})
+      {% elif request.resolver_match.url_name == 'profile_books' %}
+        Books posted by: {{ view.kwargs.profile }} ({{ page_obj.paginator.count }})
       {% endif %}
     </h1>
   </div>
@@ -42,7 +44,7 @@
           <h1>No books in Library !</h1>
           <a href="{% url 'website_home' %}" class="btn btn-outline-info mt-5"
             >Home</a>
-        {% elif request.resolver_match.url_name == 'author_books' %}
+        {% elif request.resolver_match.url_name == 'author_books' or request.resolver_match.url_name == 'profile_books'%}
           <h1>No Books added yet !</h1>
           <a href="{% url 'books_library' %}" class="btn btn-outline-info mt-5"
             >Library</a>

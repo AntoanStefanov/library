@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 from library_project.utils import is_user_admin_or_book_owner
+from users.models import Profile
 
 from .models import Book
 
@@ -25,6 +26,13 @@ class AuthorBookListView(BookListView):
         author_books = Book.objects.filter(
             author=author)
         return author_books
+
+class ProfileBookListView(LoginRequiredMixin, BookListView):
+    def get_queryset(self):
+        profile_username = self.kwargs.get('profile')
+        profile_books = Book.objects.filter(
+            posted_by__username=profile_username)
+        return profile_books
 
 
 class MyBookListView(LoginRequiredMixin, BookListView):
