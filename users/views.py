@@ -48,6 +48,7 @@ class UserFavouritesView(LoginRequiredMixin, ListView):
     model = User
     context_object_name = 'books'
     template_name = 'users/favourites.html'
+    paginate_by = 2
 
     def get_queryset(self):
         profile = self.request.user.profile

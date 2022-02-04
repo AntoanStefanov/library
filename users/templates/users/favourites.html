@@ -2,15 +2,15 @@
 {% load static %} 
 {% block content %}
 <div class="container">
-  <div>
-    <h1 class="title text-center mb-5 mt-5 border-bottom border-info-outline">
-      Favourites
+  <div>  
+    <h1 class="title text-center mb-4 mt-4 border-bottom border-info-outline">
+      Favourites ({{ page_obj.paginator.count }})
     </h1>
   </div>
   <div class="row">
     {% if books %}
      {% for book in books %}
-      <div class="col-lg-6 text-center mt-4 border-bottom border-info">
+      <div class="col-lg-6 text-center mt-2 border-bottom border-info">
         <img src="{{ book.image.url }}" alt="no photo" class="rounded" />
         <h4 class="mt-3">{{ book.title }}</h4>
         <h5><a href="{% url 'author_books' book.author %}">{{ book.author }}</a></h5>
@@ -28,6 +28,27 @@
         >Library</a
       >
     </div>
+    {% endif %}
+  </div>
+  <div class="text-center">
+    {% if is_paginated %}
+      {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info my-4" href="?page=1">First</a>
+        <a class="btn btn-outline-info my-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+
+      {% for page_num in page_obj.paginator.page_range %}
+        {% if page_obj.number == page_num %}
+        <a class="btn btn-info my-4" href="?page={{ page_num }}">{{ page_num }}</a>
+        {% elif page_num > page_obj.number|add:'-3' and page_num < page_obj.number|add:'3' %}
+          <a class="btn btn-outline-info my-4" href="?page={{ page_num }}">{{ page_num }}</a>
+        {% endif %} 
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-info my-4" href="?page={{ page_obj.next_page_number}}">Next</a>
+        <a class="btn btn-outline-info my-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+      {% endif %}
     {% endif %}
   </div>
 </div>
