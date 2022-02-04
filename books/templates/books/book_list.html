@@ -7,7 +7,7 @@
       {% if request.resolver_match.url_name == 'my_books' %}
         Shared By Me ({{ page_obj.paginator.count }})
       {% elif request.resolver_match.url_name == 'books_library' %}
-        Library 
+        Library ({{ page_obj.paginator.count }})
       {% elif request.resolver_match.url_name == 'author_books' %}
         Books written by: {{ view.kwargs.author }} ({{ page_obj.paginator.count }})
       {% elif request.resolver_match.url_name == 'profile_books' %}
