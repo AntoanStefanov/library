@@ -57,12 +57,10 @@ class RecommendedBookListView(ListView):
         # https://stackoverflow.com/questions/9304908/how-can-i-filter-a-django-query-with-a-list-of-values
         three_most_liked_books = Book.objects.filter(pk__in=list(first_three_most_liked_book_ids))
 
-
         # https://stackoverflow.com/questions/4916851/django-get-a-queryset-from-array-of-ids-in-specific-order
         # DB QUERIES OBJECTS AND SAVE IT WHEN FIRST IS READY ! NO ORDER IN DB QUERY
         three_most_liked_books = dict([(obj.id, obj) for obj in three_most_liked_books])
         three_most_liked_books_sorted = [three_most_liked_books[id] for id in first_three_most_liked_book_ids]
-
 
         return three_most_liked_books_sorted
 
