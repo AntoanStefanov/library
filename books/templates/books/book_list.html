@@ -5,7 +5,7 @@
   <div>
     <h1 class="title text-center mb-4 mt-4 border-bottom border-info-outline">
       {% if request.resolver_match.url_name == 'my_books' %}
-        Shared By Me 
+        Shared By Me ({{ page_obj.paginator.count }})
       {% elif request.resolver_match.url_name == 'books_library' %}
         Library 
       {% elif request.resolver_match.url_name == 'author_books' %}
