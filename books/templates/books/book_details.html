@@ -8,7 +8,7 @@
           {% if object.posted_by != user and user.is_superuser %}
             <a 
             href="{% url 'profile_add_favourite' pk=object.pk %}" 
-            class="btn btn-outline-primary m-4">
+            class="btn btn-outline-primary m-4 bi bi-bookmark-heart-fill">
               {% if has_user_saved_book %}
                 Remove From Favourites
               {% else %}
@@ -29,7 +29,7 @@
         <div>
           <a 
             href="{% url 'profile_add_favourite' pk=object.pk %}" 
-            class="btn btn-outline-primary m-4">
+            class="btn btn-outline-primary m-4 bi bi-bookmark-heart-fill">
               {% if has_user_saved_book %}
                 Remove From Favourites
               {% else %}
