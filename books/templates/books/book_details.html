@@ -53,7 +53,7 @@
             {% if user == object.posted_by%}
               <a href="{% url 'my_books' %}">You</a> on {{ object.date_posted|date:'l d-m-y, P' }}
             {% else %}
-             <a href="{% url 'author_books' object.posted_by %}">{{ object.posted_by }}</a> on {{ object.date_posted|date:'l d-m-y, P' }}
+             <a href="{% url 'profile_books' object.posted_by %}">{{ object.posted_by }}</a> on {{ object.date_posted|date:'l d-m-y, P' }}
             {% endif %}
           </h6>
         </div>
