@@ -19,24 +19,26 @@ class RecommendedBookListView(ListView):
     context_object_name = 'books'
 
     def get_queryset(self):
-        # Book.likes.through.objects - returns Manager for 'users_profile_likes' table in DB
-        # Book.likes.through.objects.all() - returns all likes in this table.
+        """
+            # Book.likes.through.objects - returns Manager for 'users_profile_likes' table in DB
+            # Book.likes.through.objects.all() - returns all likes in this table.
 
-        # https://stackoverflow.com/questions/21662974/django-order-by-most-frequent-value
-        # Book.likes.through.objects -> returns Manager(which has 'all' method also) for 'users_profile_likes' table in DB
+            # https://stackoverflow.com/questions/21662974/django-order-by-most-frequent-value
+            # Book.likes.through.objects -> returns Manager(which has 'all' method also) for 'users_profile_likes' table in DB
 
-        # Book.likes.through.objects.values_list('book_id') ->
-        # QuerySet [(17,), (17,), (23,), (17,), (23,), (16,), (17,), (23,), (16,), (15,)]>
+            # Book.likes.through.objects.values_list('book_id') ->
+            # QuerySet [(17,), (17,), (23,), (17,), (23,), (16,), (17,), (23,), (16,), (15,)]>
 
-        # .annotate(likes_count=Count('book_id')) ->
-        # <QuerySet [(23, 3), (17, 4), (15, 1), (16, 2)]>
+            # .annotate(likes_count=Count('book_id')) ->
+            # <QuerySet [(23, 3), (17, 4), (15, 1), (16, 2)]>
 
-        # .order_by('-likes_count') ->
-        # <QuerySet [(17, 4), (23, 3), (16, 2), (15, 1)]>
+            # .order_by('-likes_count') ->
+            # <QuerySet [(17, 4), (23, 3), (16, 2), (15, 1)]>
 
-        # [:3] ->
-        # <QuerySet [(17, 4), (23, 3), (16, 2)]>
-
+            # [:3] ->
+            # <QuerySet [(17, 4), (23, 3), (16, 2)]>
+        """
+        
         three_most_liked_books_book_id_and_likes_tuple = Book.likes.through.objects.values_list(
             'book_id').annotate(likes_count=Count('book_id')).order_by('-likes_count')[:3]
 
