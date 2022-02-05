@@ -5,4 +5,7 @@ register = template.Library()
 
 @register.inclusion_tag('website/tags/genre_list.html')
 def all_genres():
+    """
+        https://youtu.be/ZYoJjdUHNZA?t=8274
+    """
     return {'genres': [choice[1] for choice in Book.GENRE_CHOICES]}
