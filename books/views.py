@@ -6,7 +6,6 @@ from django.urls import reverse
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 from library_project.utils import is_user_admin_or_book_owner
-from users.models import Profile
 from django.db.models import Count
 
 from .models import Book
