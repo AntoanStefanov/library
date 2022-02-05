@@ -11,7 +11,7 @@ from django.db.models import Count
 from .models import Book
 
 
-class RecommendedBookListView(ListView):
+class RecommendedBookListView(LoginRequiredMixin, ListView):
     model = Book
     template_name = 'books/recommended_book_list.html'
     # change object_list variable for template use
