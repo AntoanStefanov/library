@@ -77,6 +77,13 @@ class BookListView(ListView):
     paginate_by = 2
 
 
+class GenreBookListView(BookListView):
+    def get_queryset(self):
+        genre = self.kwargs.get('genre')
+        genre_books = Book.objects.filter(
+            genre=genre)
+        return genre_books
+
 class AuthorBookListView(BookListView):
     def get_queryset(self):
         author = self.kwargs.get('author')

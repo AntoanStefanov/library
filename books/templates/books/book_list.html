@@ -12,6 +12,8 @@
         Books written by: {{ view.kwargs.author }} ({{ page_obj.paginator.count }})
       {% elif request.resolver_match.url_name == 'profile_books' %}
         Books posted by: {{ view.kwargs.profile }} ({{ page_obj.paginator.count }})
+      {% elif request.resolver_match.url_name == 'genre_books' %}
+        Genre: {{ view.kwargs.genre|title }} ({{ page_obj.paginator.count }})
       {% endif %}
     </h1>
   </div>
@@ -48,6 +50,10 @@
           <h1>No Books added yet !</h1>
           <a href="{% url 'books_library' %}" class="btn btn-outline-info mt-5"
             >Library</a>
+        {% elif request.resolver_match.url_name == 'genre_books'%}
+            <h1>No Books with Genre "{{ view.kwargs.genre|title }}" added yet !</h1>
+            <a href="{% url 'books_library' %}" class="btn btn-outline-info mt-5"
+              >Library</a>
         {% endif %}
       </div>
   {% endif %}
