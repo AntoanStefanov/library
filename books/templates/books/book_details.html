@@ -10,9 +10,9 @@
             href="{% url 'profile_add_favourite' pk=object.pk %}" 
             class="btn btn-outline-primary m-4 bi bi-bookmark-heart-fill">
               {% if has_user_saved_book %}
-                Remove From Favourites
+                Remove From Saved
               {% else %}
-                Add to Favourites
+                Add to Saved
               {% endif %}
             </a>
             {% if has_user_liked_book %}
@@ -44,9 +44,9 @@
             href="{% url 'profile_add_favourite' pk=object.pk %}" 
             class="btn btn-outline-primary m-4 bi bi-bookmark-heart-fill">
               {% if has_user_saved_book %}
-                Remove From Favourites
+                Remove From Saved
               {% else %}
-                Add to Favourites
+                Add to Saved
               {% endif %}
           </a>
           {% if has_user_liked_book %}
