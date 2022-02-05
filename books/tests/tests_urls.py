@@ -44,7 +44,8 @@ class TestBooksUrls(TestCase):
         url = reverse('recommended_books')
         resolver_match = resolve(url)
 
-        self.assertEquals(resolver_match.func.view_class, RecommendedBookListView)
+        self.assertEquals(resolver_match.func.view_class,
+                          RecommendedBookListView)
 
     def test_profile_books_url_is_resolved(self):
         url = reverse('profile_books', kwargs={'profile': 'testuser'})
@@ -57,7 +58,6 @@ class TestBooksUrls(TestCase):
         resolver_match = resolve(url)
 
         self.assertEquals(resolver_match.func.view_class, GenreBookListView)
-
 
     def test_author_books_url_is_resolved(self):
         url = reverse('author_books', kwargs={'author': 'Author'})
@@ -112,6 +112,84 @@ class TestBooksUrls(TestCase):
 
         response = self.client.get(reverse('books_create'))
         self.assertEqual(response.status_code, 302)
+
+    def test_recommended_books_url_response_logged_in(self):
+        """
+            Succesful code - 200. User logged in.
+        """
+
+        self.client.login(username='testuser', password='12345')
+
+        response = self.client.get(reverse('recommended_books'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_recommended_books_url_response_not_logged_in(self):
+        """
+            Redirection code - 302. User not logged in.
+        """
+
+        response = self.client.get(reverse('recommended_books'))
+        self.assertEqual(response.status_code, 302)
+
+    def test_profile_books_url_response_logged_in(self):
+        """
+            Succesful code - 200. User logged in.
+        """
+
+        self.client.login(username='testuser', password='12345')
+
+        response = self.client.get(
+            reverse('profile_books', kwargs={'profile': 'testuser'}))
+        self.assertEqual(response.status_code, 200)
+
+    def test_profile_books_url_response_not_logged_in(self):
+        """
+            Redirection code - 302. User not logged in.
+        """
+
+        response = self.client.get(
+            reverse('profile_books', kwargs={'profile': 'testuser'}))
+        self.assertEqual(response.status_code, 302)
+
+    def test_genre_books_url_response_logged_in(self):
+        """
+            Succesful code - 200. User logged in.
+        """
+
+        self.client.login(username='testuser', password='12345')
+
+        response = self.client.get(
+            reverse('genre_books', kwargs={'genre': 'ART'}))
+        self.assertEqual(response.status_code, 200)
+
+    def test_genre_books_url_response_not_logged_in(self):
+        """
+            Redirection code - 302. User not logged in.
+        """
+
+        response = self.client.get(
+            reverse('genre_books', kwargs={'genre': 'ART'}))
+        self.assertEqual(response.status_code, 302)
+
+    def test_author_books_url_response_logged_in(self):
+        """
+            Succesful code - 200. User logged in.
+        """
+
+        self.client.login(username='testuser', password='12345')
+
+        response = self.client.get(
+            reverse('author_books', kwargs={'author': 'Author'}))
+        self.assertEqual(response.status_code, 200)
+
+    def test_author_books_url_response_not_logged_in(self):
+        """
+            Redirection code - 302. User not logged in.
+        """
+
+        response = self.client.get(
+            reverse('author_books', kwargs={'author': 'Author'}))
+        self.assertEqual(response.status_code, 200)
 
     def test_books_create_url_response_logged_in(self):
         """
