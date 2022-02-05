@@ -1,7 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import get_object_or_404
+from django.http import Http404, HttpResponse
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
@@ -78,6 +79,17 @@ class RecommendedBookListView(LoginRequiredMixin, ListView):
 
 
 class GenreBookListView(LoginRequiredMixin, BookListView):
+
+    def get(self, request, *args, **kwargs):
+        """
+            Check if genre passed in url is a valid argument.
+            If not redirect to library.
+        """
+        genre = kwargs.get('genre')
+        if genre not in [choices[0] for choices in Book.GENRE_CHOICES]:
+            return redirect(reverse('books_library'))
+        return super().get(request, *args, **kwargs)
+
     def get_queryset(self):
         genre = self.kwargs.get('genre')
         genre_books = Book.objects.filter(

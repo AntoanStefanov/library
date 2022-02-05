@@ -1,6 +1,6 @@
 from books.models import Book
-from books.views import (BookCreateView, BookDeleteView, BookDetailsView,
-                         BookListView, BookUpdateView, MyBookListView)
+from books.views import (AuthorBookListView, BookCreateView, BookDeleteView, BookDetailsView,
+                         BookListView, BookUpdateView, GenreBookListView, MyBookListView, ProfileBookListView, RecommendedBookListView)
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import resolve, reverse
@@ -39,6 +39,31 @@ class TestBooksUrls(TestCase):
         )
 
     # URL RESOVLES
+
+    def test_recommended_books_url_is_resolved(self):
+        url = reverse('recommended_books')
+        resolver_match = resolve(url)
+
+        self.assertEquals(resolver_match.func.view_class, RecommendedBookListView)
+
+    def test_profile_books_url_is_resolved(self):
+        url = reverse('profile_books', kwargs={'profile': 'testuser'})
+        resolver_match = resolve(url)
+
+        self.assertEquals(resolver_match.func.view_class, ProfileBookListView)
+
+    def test_genre_books_url_is_resolved(self):
+        url = reverse('genre_books', kwargs={'genre': 'COMEDY'})
+        resolver_match = resolve(url)
+
+        self.assertEquals(resolver_match.func.view_class, GenreBookListView)
+
+
+    def test_author_books_url_is_resolved(self):
+        url = reverse('author_books', kwargs={'author': 'Author'})
+        resolver_match = resolve(url)
+
+        self.assertEquals(resolver_match.func.view_class, AuthorBookListView)
 
     def test_books_create_url_is_resolved(self):
         url = reverse('books_create')
