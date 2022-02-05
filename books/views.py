@@ -11,6 +11,15 @@ from django.db.models import Count
 from .models import Book
 
 
+class BookListView(ListView):
+    model = Book
+    template_name = 'books/book_list.html'
+    # change object_list variable for template use
+    context_object_name = 'books'
+    # pagination
+    paginate_by = 2
+
+
 class RecommendedBookListView(LoginRequiredMixin, ListView):
     model = Book
     template_name = 'books/recommended_book_list.html'
@@ -68,21 +77,13 @@ class RecommendedBookListView(LoginRequiredMixin, ListView):
         return three_most_liked_books_sorted
 
 
-class BookListView(ListView):
-    model = Book
-    template_name = 'books/book_list.html'
-    # change object_list variable for template use
-    context_object_name = 'books'
-    # pagination
-    paginate_by = 2
-
-
-class GenreBookListView(BookListView):
+class GenreBookListView(LoginRequiredMixin, BookListView):
     def get_queryset(self):
         genre = self.kwargs.get('genre')
         genre_books = Book.objects.filter(
             genre=genre)
         return genre_books
+
 
 class AuthorBookListView(BookListView):
     def get_queryset(self):

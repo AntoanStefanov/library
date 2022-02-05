@@ -49,10 +49,6 @@
             <li class="nav-item">
               <a href="{% url 'recommended_books' %}" class="nav-link">Recommended</a>
             </li>
-            {% endif %}
-            <li class="nav-item">
-              <a href="{% url 'website_about' %}" class="nav-link">About</a>
-            </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Genres
@@ -61,6 +57,11 @@
                 {% all_genres %}
               </div>
             </li>
+            {% endif %}
+            <li class="nav-item">
+              <a href="{% url 'website_about' %}" class="nav-link">About</a>
+            </li>
+            
           </ul>
           <ul class="navbar-nav ms-auto">
             {% if user.is_authenticated %}
