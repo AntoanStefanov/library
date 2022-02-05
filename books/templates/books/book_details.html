@@ -3,12 +3,15 @@
   <div class="row align-items-center mt-5">
     <div class="col-lg-6 text-center">
       <img src="{{ object.image.url }}" alt="no img" class="rounded img-fluid" />
+      <div class="mt-3">
+        <p style="margin-right:20px;" class="text-primary"><i class="bi bi-hand-thumbs-up-fill"></i> {{ number_of_likes }}</p>
+      </div>
       {% if object.posted_by == user or user.is_superuser %}
         <div>
           {% if object.posted_by != user and user.is_superuser %}
             <a 
             href="{% url 'profile_add_favourite' pk=object.pk %}" 
-            class="btn btn-outline-primary m-4 bi bi-bookmark-heart-fill">
+            class="btn btn-outline-primary bi bi-bookmark-heart-fill">
               {% if has_user_saved_book %}
                 Saved
               {% else %}
@@ -16,25 +19,25 @@
               {% endif %}
             </a>
             {% if has_user_liked_book %}
-              <a 
+            <a 
               href="{% url 'profile_like_book' pk=object.pk %}" 
-              class="btn btn-outline-primary m-4 bi bi-hand-thumbs-up-fill">  
+              class="btn btn-outline-primary mx-4 bi bi-hand-thumbs-up-fill">  
                 Liked
-              </a>
+            </a>
             {% else %}
-              <a 
+            <a 
                 href="{% url 'profile_like_book' pk=object.pk %}" 
-                class="btn btn-outline-primary m-4 bi bi-hand-thumbs-up">      
+                class="btn btn-outline-primary mx-4 bi bi-hand-thumbs-up">      
                   Like
-                </a>
+            </a>
             {% endif %}       
           {% endif %}
           <a
-            class="btn btn-primary ms-4"
+            class="btn btn-primary me-4"
             href="{% url 'books_update' pk=object.pk slug=object.slug %}"
             >Update</a
             >
-          <a class="btn btn-danger m-4" href="{% url 'books_delete' pk=object.id slug=object.slug %}"
+          <a class="btn btn-danger" href="{% url 'books_delete' pk=object.id slug=object.slug %}"
             >Delete</a
             >
         </div>   
@@ -42,7 +45,7 @@
         <div>
           <a 
             href="{% url 'profile_add_favourite' pk=object.pk %}" 
-            class="btn btn-outline-primary m-4 bi bi-bookmark-heart-fill">
+            class="btn btn-outline-primary bi bi-bookmark-heart-fill">
               {% if has_user_saved_book %}
                 Saved
               {% else %}
@@ -52,21 +55,19 @@
           {% if has_user_liked_book %}
             <a 
             href="{% url 'profile_like_book' pk=object.pk %}" 
-            class="btn btn-outline-primary m-4 bi bi-hand-thumbs-up-fill">
+            class="btn btn-outline-primary mx-4 bi bi-hand-thumbs-up-fill">
                 Liked
             </a>
           {% else %}
             <a 
               href="{% url 'profile_like_book' pk=object.pk %}" 
-              class="btn btn-outline-primary m-4 bi bi-hand-thumbs-up">
+              class="btn btn-outline-primary mx-4 bi bi-hand-thumbs-up">
                 Like
             </a>
           {% endif %}
         </div>
       {% endif %}
-    <div class="mt-4">
-      <p class="text-muted">Likes: {{ number_of_likes }}</p>
-    </div>
+    
     </div>
     <div class="col-lg-6 text-right mt-5 px-3">
       <div style="border-left: 2px solid #0DCAF0" class="px-3">     
