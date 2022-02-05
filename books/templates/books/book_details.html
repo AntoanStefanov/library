@@ -10,16 +10,16 @@
             href="{% url 'profile_add_favourite' pk=object.pk %}" 
             class="btn btn-outline-primary m-4 bi bi-bookmark-heart-fill">
               {% if has_user_saved_book %}
-                Remove From Saved
+                Saved
               {% else %}
-                Add to Saved
+                Save
               {% endif %}
             </a>
             {% if has_user_liked_book %}
               <a 
               href="{% url 'profile_like_book' pk=object.pk %}" 
               class="btn btn-outline-primary m-4 bi bi-hand-thumbs-up-fill">  
-                Unlike
+                Liked
               </a>
             {% else %}
               <a 
@@ -44,16 +44,16 @@
             href="{% url 'profile_add_favourite' pk=object.pk %}" 
             class="btn btn-outline-primary m-4 bi bi-bookmark-heart-fill">
               {% if has_user_saved_book %}
-                Remove From Saved
+                Saved
               {% else %}
-                Add to Saved
+                Save
               {% endif %}
           </a>
           {% if has_user_liked_book %}
             <a 
             href="{% url 'profile_like_book' pk=object.pk %}" 
             class="btn btn-outline-primary m-4 bi bi-hand-thumbs-up-fill">
-                Unlike
+                Liked
             </a>
           {% else %}
             <a 
