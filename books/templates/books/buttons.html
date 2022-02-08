@@ -13,7 +13,6 @@
     </a>
     {% if has_user_liked_book %}
     <a 
-      id="post-like"
       href="{% url 'profile_like_book' pk=object.pk %}" 
       class="btn btn-outline-primary mx-4 bi bi-hand-thumbs-up-fill">  
         Liked
