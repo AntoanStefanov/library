@@ -90,7 +90,14 @@ class Book(models.Model):
         """
             Overriding save method to resize uploaded image if needed,
             no need an image to be more than 400x500 px.
+
+            Using title and author , making slug being less likely to match with another slug.
+            slugify docs -> https://docs.djangoproject.com/en/4.0/ref/utils/#django.utils.text.slugify
+
+            https://stackoverflow.com/questions/65267519/how-to-update-str-and-slug-everytime-after-djangos-model-update
         """
+        
+        self.slug = slugify(f"{self.title} {self.author}")
         super().save(*args, **kwargs)
         is_image_resizable(self.image.path)
 
@@ -104,17 +111,6 @@ class Book(models.Model):
         # - Redirect Method will redirect you to a specific route in General.
         # - Reverse Method will return the complete URL to that route as a String.
         return reverse('books_details', kwargs={'pk': self.pk, 'slug': self.slug})
-
-    def save(self, *args, **kwargs):
-        """
-            Overriding save method, so that a slug is created automatically.
-            Using title and author , making slug being less likely to match with another slug.
-            slugify docs -> https://docs.djangoproject.com/en/4.0/ref/utils/#django.utils.text.slugify
-        """
-        if not self.slug:
-            self.slug = slugify(
-                f"{self.title} {self.author}")
-        return super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
