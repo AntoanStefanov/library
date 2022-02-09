@@ -1,0 +1,22 @@
+<a 
+href="{% url 'profile_add_favourite' pk=object.pk %}" 
+class="btn btn-outline-primary bi bi-bookmark-heart-fill">
+  {% if has_user_saved_book %}
+    Saved
+  {% else %}
+    Save
+  {% endif %}
+</a>
+{% if has_user_liked_book %}
+<a 
+  href="{% url 'profile_like_book' pk=object.pk %}" 
+  class="btn btn-outline-primary mx-4 bi bi-hand-thumbs-up-fill">  
+    Liked
+</a>
+{% else %}
+<a 
+    href="{% url 'profile_like_book' pk=object.pk %}" 
+    class="btn btn-outline-primary mx-4 bi bi-hand-thumbs-up">      
+      Like
+</a>
+{% endif %} 
