@@ -121,8 +121,11 @@ class Book(CommonFields):
 
 
 class Comment(CommonFields):
+    CONTENT_MIN_LENGTH = 5
+
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    content = models.TextField()
+    content = models.TextField(
+        validators=[MinLengthValidator(CONTENT_MIN_LENGTH)])
 
     def __str__(self):
         return self.content

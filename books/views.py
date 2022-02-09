@@ -1,14 +1,15 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import Http404, HttpResponse
-from django.shortcuts import get_object_or_404, redirect
+from django.db.models import Count
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
-from books.forms import BookForm
+from django.views.generic.edit import FormMixin
 from library_project.utils import is_user_admin_or_book_owner
-from django.db.models import Count
+
+from books.forms import BookForm, CommentForm
 
 from .models import Book
 
@@ -139,24 +140,53 @@ class BookCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return super().form_valid(form)
 
 
-class BookDetailsView(DetailView):
+class BookDetailsView(FormMixin, DetailView):
+    """
+        https://stackoverflow.com/questions/45659986/django-implementing-a-form-within-a-generic-detailview
+    """
     model = Book
     template_name = 'books/book_details.html'
+    form_class = CommentForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        book = get_object_or_404(Book, pk=kwargs['object'].id)
+        book = self.object
         if self.request.user.is_authenticated:
             profile = self.request.user.profile
+
             context["has_user_saved_book"] = profile.favourites.filter(
                 id=book.id).exists()
+
             context["has_user_liked_book"] = profile.likes.filter(
                 id=book.id).exists()
+
             context["comments"] = book.comment_set.all()
+            
+            context['form'] = CommentForm()
+
         context["number_of_likes"] = book.likes.count()
 
         return context
 
+    def post(self, request, *args, **kwargs):
+        # in form valid 'self.object' is needed.
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        """
+            Pass who commented, the book to the form and save it.
+            Get back to the current book details page.
+        """
+        form.instance.posted_by = self.request.user
+        form.instance.book = self.object
+        form.save()
+        # get url in string format, then pass it to redirect for HTTP response.
+        return redirect(self.object.get_absolute_url())
 
 class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = Book
