@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
+from books.forms import BookForm
 from library_project.utils import is_user_admin_or_book_owner
 from django.db.models import Count
 
@@ -127,7 +128,7 @@ class BookCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     # LoginRequiredMixin -> IF NOT LOGGED USER TRIES TO CREATE A BOOK - redirect to LOGIN_URL !
     # LOGIN_URL = 'login' (path func - name)
     model = Book
-    fields = ['title', 'author', 'language', 'genre', 'description', 'image']
+    form_class = BookForm
     success_message = 'Book "%(title)s" was created successfully!'
 
     def form_valid(self, form):
@@ -151,6 +152,7 @@ class BookDetailsView(DetailView):
                 id=book.id).exists()
             context["has_user_liked_book"] = profile.likes.filter(
                 id=book.id).exists()
+            context["comments"] = book.comment_set.all()
         context["number_of_likes"] = book.likes.count()
 
         return context
@@ -158,7 +160,7 @@ class BookDetailsView(DetailView):
 
 class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = Book
-    fields = ['title', 'author', 'language', 'genre', 'description', 'image']
+    form_class = BookForm
     success_message = 'Book "%(title)s" was updated successfully!'
 
     def test_func(self):

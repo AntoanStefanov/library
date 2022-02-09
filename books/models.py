@@ -6,16 +6,28 @@ from django.utils import timezone
 from django.utils.text import slugify
 from library_project.utils import is_image_resizable
 
-class Book(models.Model):
+
+class CommonFields(models.Model):
+    # https://docs.djangoproject.com/en/4.0/ref/models/fields/#foreignkey
+    # one-to-many relationship -> cascade -> del all books if user is deleted.
+    posted_by = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    # https://docs.djangoproject.com/en/4.0/ref/models/fields/#django.db.models.DateField.auto_now_add
+    # default=timezonenow - able to override
+    date_posted = models.DateTimeField(default=timezone.now)
+
     class Meta:
         """
-            Give Book model additional meta information/options.
+            Give model additional meta information/options.
             Anything that's not a field.
             https://docs.djangoproject.com/en/4.0/topics/db/models/#meta-options
         """
 
+        abstract = True
         ordering = ['-date_posted']
 
+
+class Book(CommonFields):
     TITLE_MIN_LENGTH = 2
     TITLE_MAX_LENGTH = 150
 
@@ -74,17 +86,9 @@ class Book(models.Model):
         default='default_book.jpg',
         upload_to='books_pics'
     )
-    # https://docs.djangoproject.com/en/4.0/ref/models/fields/#django.db.models.DateField.auto_now_add
-    # default=timezonenow - able to override
-    date_posted = models.DateTimeField(default=timezone.now)
 
     # https://learndjango.com/tutorials/django-slug-tutorial
     slug = models.SlugField(unique=True)
-
-    # https://docs.djangoproject.com/en/4.0/ref/models/fields/#foreignkey
-    # one-to-many relationship -> cascade -> del all books if user is deleted.
-    posted_by = models.ForeignKey(User, on_delete=models.CASCADE)
-
 
     def save(self, *args, **kwargs):
         """
@@ -96,7 +100,7 @@ class Book(models.Model):
 
             https://stackoverflow.com/questions/65267519/how-to-update-str-and-slug-everytime-after-djangos-model-update
         """
-        
+
         self.slug = slugify(f"{self.title} {self.author}")
         super().save(*args, **kwargs)
         is_image_resizable(self.image.path)
@@ -114,3 +118,11 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Comment(CommonFields):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    content = models.TextField()
+
+    def __str__(self):
+        return self.content
