@@ -1,0 +1,19 @@
+{% extends "website/base.html" %} {% block content%}
+<div class="container mt-5">
+  <div class="row d-flex justify-content-center">
+    <div class="col-lg-6 mt-3 text-center border">   
+      <img
+        class="rounded-circle account-img img-fluid mt-3"
+        src="{{ object.image.url }}"
+      />
+      <div class="media-body">
+        <h2 class="account-heading">{{ object.user.username }}</h2>
+        <p class="text-secondary">{{ object.user.email }}</p>
+        <!-- https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#date -->
+        <p class="text-secondary">Member since: {{ object.user.date_joined|date:'d-M-Y' }}</p>
+        <a href="{% url 'profile_books' object.user.username %}">Shared Books</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

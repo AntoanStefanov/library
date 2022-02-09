@@ -5,7 +5,16 @@
     {% if comments %}
     <ul>
       {% for comment in comments %}
-      <li>{{ comment }}</li>
+      <li>
+          Posted by:
+            {% if user == object.posted_by%}
+              <a href="{% url 'profile' %}">me</a>
+            {% else %}
+              <a href="{% url 'profile_user' object.posted_by.id %}">{{ comment.posted_by.username }}</a>
+            {% endif %}
+        Comment: {{ comment.content }}
+        Date: {{ comment.date_posted}}
+      </li>
       {% endfor %}
     </ul>
     {% endif %}

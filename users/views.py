@@ -5,9 +5,10 @@ from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, DeleteView, ListView
+from django.views.generic import CreateView, DeleteView, ListView, DetailView
 from library_project.utils import is_user_admin_or_profile_owner
 from books.models import Book
+from users.models import Profile
 
 from .forms import ProfileUpdateForm, UserRegisterForm, UserUpdateForm
 
@@ -56,6 +57,10 @@ class UserFavouritesView(LoginRequiredMixin, ListView):
         favourites = profile.favourites.all()
         return favourites
 
+class UserProfileView(LoginRequiredMixin, DetailView):
+    model = Profile
+    template_name = 'users/profile_details.html'
+
 
 @login_required
 def user_profile_view(request):
@@ -87,7 +92,7 @@ def user_profile_view(request):
 
 
 @login_required
-def user_add_favourite_view(request, **kwargs):
+def user_save_book_view(request, **kwargs):
     # https://docs.djangoproject.com/en/4.0/topics/http/shortcuts/#get-object-or-404
     # https://www.youtube.com/watch?v=H4QPHLmsZMU
     book = get_object_or_404(Book, pk=kwargs.get('pk'))
@@ -97,7 +102,7 @@ def user_add_favourite_view(request, **kwargs):
     else:
         profile.favourites.add(book)
 
-    return redirect(reverse('books_details', kwargs={'pk': book.id, 'slug': book.slug}))
+    return redirect(book.get_absolute_url())
 
 @login_required
 def user_like_book_view(request, **kwargs):
@@ -108,4 +113,4 @@ def user_like_book_view(request, **kwargs):
     else:
         profile.likes.add(book)
 
-    return redirect(reverse('books_details', kwargs={'pk': book.id, 'slug': book.slug}))
+    return redirect(book.get_absolute_url())

@@ -23,9 +23,9 @@
                 Shared by
                 {% if user == object.posted_by%}
                   <!-- https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#date -->
-                  <a href="{% url 'my_books' %}">me</a> on {{ object.date_posted|date:'l d-m-y, P' }}
+                  <a href="{% url 'profile' %}">me</a> on {{ object.date_posted|date:'l d-m-y, P' }}
                 {% else %}
-                  <a href="{% url 'profile_books' object.posted_by %}">{{ object.posted_by }}</a> on {{ object.date_posted|date:'l d-m-y, P' }}
+                  <a href="{% url 'profile_user' object.posted_by.id %}">{{ object.posted_by }}</a> on {{ object.date_posted|date:'l d-m-y, P' }}
                 {% endif %}
               </footer>
             </div>
