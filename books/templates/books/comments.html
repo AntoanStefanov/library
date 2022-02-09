@@ -7,10 +7,10 @@
       {% for comment in comments %}
       <li>
           Posted by:
-            {% if user == object.posted_by%}
+            {% if user == comment.posted_by %}
               <a href="{% url 'profile' %}">me</a>
             {% else %}
-              <a href="{% url 'profile_user' object.posted_by.id %}">{{ comment.posted_by.username }}</a>
+              <a href="{% url 'profile_user' object.posted_by.id %}">{{ comment.posted_by }}</a>
             {% endif %}
         Comment: {{ comment.content }}
         Date: {{ comment.date_posted}}
