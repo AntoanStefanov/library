@@ -161,7 +161,7 @@ class BookDetailsView(FormMixin, DetailView):
                 id=book.id).exists()
 
             context["comments"] = book.comment_set.all()
-            
+
             context['form'] = CommentForm()
 
         context["number_of_likes"] = book.likes.count()
@@ -175,6 +175,7 @@ class BookDetailsView(FormMixin, DetailView):
         if form.is_valid():
             return self.form_valid(form)
         else:
+            # TODO PRINT MESSAGE IF FORM IS INVALID !!!!
             return self.form_invalid(form)
 
     def form_valid(self, form):
@@ -187,6 +188,7 @@ class BookDetailsView(FormMixin, DetailView):
         form.save()
         # get url in string format, then pass it to redirect for HTTP response.
         return redirect(self.object.get_absolute_url())
+
 
 class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = Book
