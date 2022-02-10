@@ -5,9 +5,7 @@
     <div class="row align-items-center mt-5">
       <div class="col-lg-6 text-center">
         <img src="{{ object.image.url }}" alt="no img" class="rounded img-fluid" />
-        <div class="mt-3">
-          <p style="margin-right:20px;" class="text-primary"><i class="bi bi-hand-thumbs-up-fill"></i> {{ number_of_likes }}</p>
-        </div>
+          <p class="text-primary mt-3"><i class="bi bi-hand-thumbs-up-fill"></i> {{ number_of_likes }}</p>
         {% include 'books/buttons.html'%}
       </div>
       <div class="col-lg-6 text-right mt-5 px-3">
