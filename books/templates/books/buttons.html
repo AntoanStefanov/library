@@ -1,19 +1,17 @@
-{% if object.posted_by == user or user.is_superuser %}
-<div>
-  {% if object.posted_by != user and user.is_superuser %}
-    {% include 'books/save_like_anchors.html'%} 
-  {% endif %}
-  <a
-    class="btn btn-primary me-4"
-    href="{% url 'books_update' pk=object.pk slug=object.slug %}"
-    >Update</a
-    >
-  <a class="btn btn-danger" href="{% url 'books_delete' pk=object.id slug=object.slug %}"
-    >Delete</a
-    >
-</div>   
-{% elif user.is_authenticated %}
-<div>
-  {% include 'books/save_like_anchors.html'%}
-</div>
+{% if user.is_authenticated %}
+  <div>
+    {% include 'books/save_like_anchors.html'%}
+  
+    {% if object.posted_by == user or user.is_superuser %}
+    
+      <a
+        class="btn btn-primary me-4"
+        href="{% url 'books_update' pk=object.pk slug=object.slug %}"
+        >Update</a
+        >   
+        <a class="btn btn-danger" href="{% url 'books_delete' pk=object.id slug=object.slug %}"
+        >Delete</a
+        >
+    {% endif %}
+  </div> 
 {% endif %}
