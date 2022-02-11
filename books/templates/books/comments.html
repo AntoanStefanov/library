@@ -1,37 +1,38 @@
 {% load crispy_forms_tags %}
+{% if user.is_authenticated %}
+  <div class="row">
+    <div>
+      {% if comments %}
+      <ul>
+        {% for comment in comments %}
+        <li>
+            Posted by:
+              {% if user == comment.posted_by %}
+                <a href="{% url 'profile' %}">me</a>
+              {% else %}
+                <a href="{% url 'profile_user' object.posted_by.id %}">{{ comment.posted_by }}</a>
+              {% endif %}
+          Comment: {{ comment.content }}
+          Date: {{ comment.date_posted}}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+        <p>Be the first person to comment !</p>
+      {% endif %}
+    </div>
 
-<div class="row">
-  <div>
-    {% if comments %}
-    <ul>
-      {% for comment in comments %}
-      <li>
-          Posted by:
-            {% if user == comment.posted_by %}
-              <a href="{% url 'profile' %}">me</a>
-            {% else %}
-              <a href="{% url 'profile_user' object.posted_by.id %}">{{ comment.posted_by }}</a>
-            {% endif %}
-        Comment: {{ comment.content }}
-        Date: {{ comment.date_posted}}
-      </li>
-      {% endfor %}
-    </ul>
-    {% else %}
-      <p>Be the first person to comment !</p>
-    {% endif %}
+    <div>
+      <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+          <legend class="border-bottom mb-4">Comment Below</legend>
+          {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+          <button class="btn btn-outline-info mt-3" type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
   </div>
-
-  <div>
-    <form method="POST">
-      {% csrf_token %}
-      <fieldset class="form-group">
-        <legend class="border-bottom mb-4">Comment Below</legend>
-        {{ form|crispy }}
-      </fieldset>
-      <div class="form-group">
-        <button class="btn btn-outline-info mt-3" type="submit">Submit</button>
-      </div>
-    </form>
-  </div>
-</div>
+{% endif %}
