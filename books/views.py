@@ -162,7 +162,15 @@ class BookDetailsView(FormMixin, DetailView):
 
             context["comments"] = book.comment_set.all()
 
-            context['form'] = CommentForm()
+
+            # self.form_invalid(form) *in post method* returns
+            # self.render_to_response(self.get_context_data(form=form))
+            # so if a form was invalid , the form_invalid method
+            # will pass a form with the errors in the context
+            # this check if form is passed from that method, and if IT IS passed, do not create a new form instance.
+            # so that the error messages will be displayed.
+            if 'form' not in context:
+                context['form'] = CommentForm()
 
         context["number_of_likes"] = book.likes.count()
 
@@ -175,7 +183,6 @@ class BookDetailsView(FormMixin, DetailView):
         if form.is_valid():
             return self.form_valid(form)
         else:
-            # TODO PRINT MESSAGE IF FORM IS INVALID !!!!
             return self.form_invalid(form)
 
     def form_valid(self, form):

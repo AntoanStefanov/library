@@ -68,6 +68,11 @@ select {
   height: 40px;
 }
 
+.comment-pic {
+  width: 40px;
+  height: 40px;
+}
+
 #dropdownMenuLink {
   padding: 0px;
   box-shadow: none;
