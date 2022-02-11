@@ -85,7 +85,6 @@ class Book(CommonFields):
     image = models.ImageField(
         default='default_book.jpg',
         upload_to='books_pics',
-        blank=True,
     )
 
     # https://learndjango.com/tutorials/django-slug-tutorial
