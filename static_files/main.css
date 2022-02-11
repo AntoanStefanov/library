@@ -1,7 +1,6 @@
 /* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins');
 
-
 /* https://getbootstrap.com/docs/4.0/content/typography/#responsive-typography */
 html {
   font-size: 1rem;
@@ -83,3 +82,7 @@ a {
   border-left: 1px solid #999;
   background-color: #999;
   } */
+
+fieldset label {
+  margin-top: 4px;
+}
