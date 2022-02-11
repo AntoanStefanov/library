@@ -2,9 +2,9 @@
 {% if user.is_authenticated %}
   <div class="row">
     <div class="col-lg-6 pe-5">
-      <h1 class="mt-4">Comments</h1>
+      <h2 class="mt-4">Comments</h2>
       {% if comments %}
-      <div class="gfg">
+      <div class="scroll">
         {% for comment in comments %}
         <div class="comment mb-4 text-justify border mt-2 p-2"> 
           <img src="{{ comment.posted_by.profile.image.url }}" alt="" class="rounded-circle comment-pic m-2">
