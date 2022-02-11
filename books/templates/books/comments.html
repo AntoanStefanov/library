@@ -5,7 +5,7 @@
       <h1 class="mt-4">Comments</h1>
       {% if comments %}
         {% for comment in comments %}
-        <div class="comment mt-4 text-justify border mt-2"> 
+        <div class="comment mt-4 text-justify border mt-2 p-2"> 
           <img src="{{ comment.posted_by.profile.image.url }}" alt="" class="rounded-circle comment-pic m-2">
           <h4 style="display: inline-block;">
             {% if user == comment.posted_by %}
@@ -24,7 +24,7 @@
         <p>Be the first person to comment !</p>
       {% endif %}
     </div>
-    <div class="col-lg-6 ps-3">
+    <div class="col-lg-6 ps-5 mt-4">
       <form method="POST">
         {% csrf_token %}
         <fieldset class="form-group">
@@ -32,7 +32,7 @@
           {{ form|crispy }}
         </fieldset>
         <div class="form-group">
-          <button class="btn btn-outline-info mt-3" type="submit">Comment</button>
+          <button class="float-end btn btn-outline-info mt-3" type="submit">Comment</button>
         </div>
       </form>
     </div>

@@ -181,8 +181,10 @@ class BookDetailsView(FormMixin, DetailView):
         self.object = self.get_object()
         form = self.get_form()
         if form.is_valid():
+            messages.success(request, 'Commented succesfully!')
             return self.form_valid(form)
         else:
+            messages.error(request, 'Commented unsuccesfully!')
             return self.form_invalid(form)
 
     def form_valid(self, form):
