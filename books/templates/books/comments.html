@@ -1,7 +1,7 @@
 {% load crispy_forms_tags %}
 {% if user.is_authenticated %}
   <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-6 pe-5">
       <h1 class="mt-4">Comments</h1>
       {% if comments %}
       <div class="gfg">
@@ -26,7 +26,7 @@
         <p>Be the first person to comment !</p>
       {% endif %}
     </div>
-    <div class="col-lg-6 ps-5 mt-4">
+    <div class="col-lg-6 pe-5 mt-4">
       <form method="POST">
         {% csrf_token %}
         <fieldset class="form-group">
