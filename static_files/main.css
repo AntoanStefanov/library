@@ -56,6 +56,10 @@ img.account-img {
   border-radius: 5px;
 }
 
+#div_id_image .asteriskField {
+  display: none;
+}
+
 select {
   -webkit-appearance: listbox !important;
 }
