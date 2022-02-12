@@ -179,7 +179,7 @@ class BookDetailsView(FormMixin, DetailView):
     def post(self, request, *args, **kwargs):
         # in form valid 'self.object' is needed.
         self.object = self.get_object()
-        # take input data in form.
+        # put data in form.
         form = self.get_form()
         if form.is_valid():
             messages.success(request, 'Commented succesfully!')
