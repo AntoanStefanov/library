@@ -5,7 +5,8 @@
 <div class="container">
     <form class="input-group d-flex flex-row-reverse bd-highlight">
       <button class="btn btn-outline-info mt-4 ms-2 btn-sm input-group-addon" type="submit">Sort</button>
-      {% csrf_token %}
+      <!-- https://stackoverflow.com/questions/15050571/django-csrf-token-in-search-result-url -->
+      <!-- REMOVING {% csrf_token %} check stackoverflow-->
       {{ form|crispy }}
     </form>
   <div>
