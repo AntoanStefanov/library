@@ -26,6 +26,15 @@ class BookListView(FormMixin, ListView):
     # pagination
     paginate_by = 2
 
+    def get(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = form_class(self.request.GET)
+        self.order_by = None
+        if form.is_valid():
+            self.order_by = form.cleaned_data['order_by']
+
+        return super().get(request, *args, **kwargs)
+
     def get_queryset(self):
         """
             By default, the order is date_posted(newest), 
@@ -33,12 +42,9 @@ class BookListView(FormMixin, ListView):
 
         """
         query = Book.objects.all()
-        order_by = self.request.GET.get('order_by')
-        if order_by:
-            query = query.order_by(order_by)
+        if self.order_by:
+            query = query.order_by(self.order_by)
         return query
-
-
 
 
 class RecommendedBookListView(LoginRequiredMixin, ListView):
@@ -108,12 +114,16 @@ class GenreBookListView(LoginRequiredMixin, BookListView):
         genre = kwargs.get('genre')
         if genre not in [choices[0] for choices in Book.GENRE_CHOICES]:
             return redirect(reverse('books_library'))
+            
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
         genre = self.kwargs.get('genre')
         genre_books = Book.objects.filter(
             genre=genre)
+
+        if self.order_by:
+            genre_books = genre_books.order_by(self.order_by)
         return genre_books
 
 
@@ -122,6 +132,9 @@ class AuthorBookListView(BookListView):
         author = self.kwargs.get('author')
         author_books = Book.objects.filter(
             author=author)
+
+        if self.order_by:
+            author_books = author_books.order_by(self.order_by)
         return author_books
 
 
@@ -130,6 +143,9 @@ class ProfileBookListView(LoginRequiredMixin, BookListView):
         profile_username = self.kwargs.get('profile')
         profile_books = Book.objects.filter(
             posted_by__username=profile_username)
+
+        if self.order_by:
+            profile_books = profile_books.order_by(self.order_by)
         return profile_books
 
 
@@ -140,6 +156,9 @@ class MyBookListView(LoginRequiredMixin, BookListView):
         user_books = self.request.user.book_set.all()
         # user_books = Book.objects.filter(
         # posted_by=self.request.user.pk)
+
+        if self.order_by:
+            user_books = user_books.order_by(self.order_by)
         return user_books
 
 
@@ -179,7 +198,6 @@ class BookDetailsView(FormMixin, DetailView):
                 id=book.id).exists()
 
             context["comments"] = book.comment_set.all()
-
 
             # self.form_invalid(form) *in post method* returns
             # self.render_to_response(self.get_context_data(form=form))
