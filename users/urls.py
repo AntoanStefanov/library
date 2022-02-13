@@ -1,8 +1,9 @@
+from books.views import FavouritesView
 from django.contrib.auth import views as auth_views
 from django.urls import include, path
 
-from .views import (UserDeleteView, UserFavouritesView, UserProfileView,
-                    UserRegisterView, user_like_book_view, user_profile_view,
+from .views import (UserDeleteView, UserProfileView, UserRegisterView,
+                    user_like_book_view, user_profile_view,
                     user_save_book_view)
 
 urlpatterns = [
@@ -17,7 +18,7 @@ urlpatterns = [
     path('register/', UserRegisterView.as_view(), name='register'),
     path('profile/', include([
         path('', user_profile_view, name='profile'),
-        path('favourites/', UserFavouritesView.as_view(),
+        path('favourites/', FavouritesView.as_view(),
              name='profile_favourites'),
         path('<int:pk>/', include([
             path('delete/', UserDeleteView.as_view(), name='profile_delete'),

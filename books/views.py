@@ -39,12 +39,22 @@ class BookListView(FormMixin, ListView):
         """
             By default, the order is date_posted(newest), 
             check CommonFields model Meta class in books/models.py
-
         """
         query = Book.objects.all()
         if self.order_by:
             query = query.order_by(self.order_by)
         return query
+
+
+class FavouritesView(LoginRequiredMixin, BookListView):
+    def get_queryset(self):
+        profile = self.request.user.profile
+        # profile.favourites -> ManyRelatedManager
+        favourites = profile.favourites.all()
+
+        if self.order_by:
+            favourites = favourites.order_by(self.order_by)
+        return favourites
 
 
 class RecommendedBookListView(LoginRequiredMixin, ListView):
@@ -114,7 +124,7 @@ class GenreBookListView(LoginRequiredMixin, BookListView):
         genre = kwargs.get('genre')
         if genre not in [choices[0] for choices in Book.GENRE_CHOICES]:
             return redirect(reverse('books_library'))
-            
+
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):

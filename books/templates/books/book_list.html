@@ -14,6 +14,8 @@
         Shared By Me ({{ page_obj.paginator.count }})
       {% elif request.resolver_match.url_name == 'books_library' %}
         Library ({{ page_obj.paginator.count }})
+      {% elif request.resolver_match.url_name == 'profile_favourites' %}
+        Saved Books ({{ page_obj.paginator.count }})
       {% elif request.resolver_match.url_name == 'author_books' %}
         Books written by: {{ view.kwargs.author }} ({{ page_obj.paginator.count }})
       {% elif request.resolver_match.url_name == 'profile_books' %}
@@ -57,9 +59,13 @@
           <a href="{% url 'books_library' %}" class="btn btn-outline-info mt-5"
             >Library</a>
         {% elif request.resolver_match.url_name == 'genre_books'%}
-            <h1>No Books with Genre "{{ view.kwargs.genre|title }}" added yet !</h1>
-            <a href="{% url 'books_library' %}" class="btn btn-outline-info mt-5"
-              >Library</a>
+          <h1>No Books with Genre "{{ view.kwargs.genre|title }}" added yet !</h1>
+          <a href="{% url 'books_library' %}" class="btn btn-outline-info mt-5"
+            >Library</a>
+        {% elif request.resolver_match.url_name == 'profile_favourites'%}
+          <h1>No Books Saved Yet !</h1>
+          <a href="{% url 'books_library' %}" class="btn btn-outline-info mt-5"
+            >Library</a>
         {% endif %}
       </div>
   {% endif %}

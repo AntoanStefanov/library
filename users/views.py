@@ -45,17 +45,7 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return is_user_admin_or_profile_owner(self)
 
 
-class UserFavouritesView(LoginRequiredMixin, ListView):
-    model = User
-    context_object_name = 'books'
-    template_name = 'users/favourites.html'
-    paginate_by = 2
 
-    def get_queryset(self):
-        profile = self.request.user.profile
-        # profile.favourites -> ManyRelatedManager
-        favourites = profile.favourites.all()
-        return favourites
 
 
 class UserProfileView(LoginRequiredMixin, DetailView):
