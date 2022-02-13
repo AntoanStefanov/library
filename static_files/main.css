@@ -59,6 +59,10 @@ img.account-img {
   display: none;
 }
 
+#div_id_order_by .asteriskField {
+  display: none;
+}
+
 select {
   -webkit-appearance: listbox !important;
 }

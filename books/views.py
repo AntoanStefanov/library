@@ -9,18 +9,33 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
 from django.views.generic.edit import FormMixin
 from library_project.utils import is_user_admin_or_book_owner
 
-from books.forms import BookForm, CommentForm
+from books.forms import BookForm, BookOrderForm, CommentForm
 
 from .models import Book
 
 
-class BookListView(ListView):
+class BookListView(FormMixin, ListView):
     model = Book
+    form_class = BookOrderForm
     template_name = 'books/book_list.html'
     # change object_list variable for template use
     context_object_name = 'books'
     # pagination
     paginate_by = 2
+
+    def get_queryset(self):
+        """
+            By default, the order is date_posted(newest), 
+            check CommonFields model Meta class in books/models.py
+
+        """
+        query = Book.objects.all()
+        order_by = self.request.GET.get('order_by')
+        if order_by:
+            query = query.order_by(order_by)
+        return query
+
+
 
 
 class RecommendedBookListView(LoginRequiredMixin, ListView):
@@ -190,7 +205,7 @@ class BookDetailsView(FormMixin, DetailView):
 
     def form_valid(self, form):
         """
-            Pass who commented, the book to the form and save it.
+            If form is valid. Pass who commented, the book to the form and save it.
             Get back to the current book details page.
         """
         form.instance.posted_by = self.request.user
