@@ -57,6 +57,7 @@ class UserFavouritesView(LoginRequiredMixin, ListView):
         favourites = profile.favourites.all()
         return favourites
 
+
 class UserProfileView(LoginRequiredMixin, DetailView):
     model = Profile
     template_name = 'users/profile_details.html'
@@ -103,6 +104,7 @@ def user_save_book_view(request, **kwargs):
         profile.favourites.add(book)
 
     return redirect(book.get_absolute_url())
+
 
 @login_required
 def user_like_book_view(request, **kwargs):
