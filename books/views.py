@@ -15,6 +15,9 @@ from .models import Book
 
 
 class BookListView(FormMixin, ListView):
+    """
+        https://stackoverflow.com/questions/32513756/validate-django-form-get-request
+    """
     model = Book
     form_class = BookOrderForm
     template_name = 'books/book_list.html'
