@@ -212,6 +212,7 @@ class TestBooksViews(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Book.objects.all()[0].title, 'test title')
 
+    # TODO
     # HOW TO TEST TWO POST REQUESTS(SORT BY AND COMMENT) *no(read below),
     # OH, SORT BY IS A GET METHOD FORM. ONLY COMMENT POST NEEDS TO BE TESTED.
     def test_books_details_view_GET(self):
