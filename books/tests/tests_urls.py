@@ -1,6 +1,8 @@
 from books.models import Book
-from books.views import (AuthorBookListView, BookCreateView, BookDeleteView, BookDetailsView,
-                         BookListView, BookUpdateView, GenreBookListView, MyBookListView, ProfileBookListView, RecommendedBookListView)
+from books.views import (AuthorBookListView, BookCreateView, BookDeleteView,
+                         BookDetailsView, BookListView, BookUpdateView,
+                         FavouritesView, GenreBookListView, MyBookListView,
+                         ProfileBookListView, RecommendedBookListView)
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import resolve, reverse
@@ -52,6 +54,12 @@ class TestBooksUrls(TestCase):
         resolver_match = resolve(url)
 
         self.assertEquals(resolver_match.func.view_class, ProfileBookListView)
+
+    def test_profile_favourites_url_is_resolved(self):
+        url = reverse('profile_favourites')
+        resolver_match = resolve(url)
+
+        self.assertEquals(resolver_match.func.view_class, FavouritesView)
 
     def test_genre_books_url_is_resolved(self):
         url = reverse('genre_books', kwargs={'genre': 'COMEDY'})
@@ -149,6 +157,26 @@ class TestBooksUrls(TestCase):
 
         response = self.client.get(
             reverse('profile_books', kwargs={'profile': 'testuser'}))
+        self.assertEqual(response.status_code, 302)
+
+    def test_profile_favourites_url_response_logged_in(self):
+        """
+            Succesful code - 200. User logged in.
+        """
+
+        self.client.login(username='testuser', password='12345')
+
+        response = self.client.get(
+            reverse('profile_favourites'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_profile_favourites_url_response_not_logged_in(self):
+        """
+            Redirection code - 302. User not logged in.
+        """
+
+        response = self.client.get(
+            reverse('profile_favourites'))
         self.assertEqual(response.status_code, 302)
 
     def test_genre_books_url_response_logged_in(self):
