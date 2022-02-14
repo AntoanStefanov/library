@@ -209,11 +209,11 @@ class TestBooksViews(TestCase):
         response = self.client.post(self.books_create_url, data)
         
         # REDIRECT to absolute url in Book model.
-        print(response.status_code)
         self.assertEqual(response.status_code, 302)
-        print(Book.objects.all())
         self.assertEqual(Book.objects.all()[0].title, 'test title')
 
+    # HOW TO TEST TWO POST REQUESTS(SORT BY AND COMMENT) *no(read below),
+    # OH, SORT BY IS A GET METHOD FORM. ONLY COMMENT POST NEEDS TO BE TESTED.
     def test_books_details_view_GET(self):
         """
             GET method.
