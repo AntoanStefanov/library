@@ -26,6 +26,10 @@ html {
 
 /* ************************* */
 
+html, body {
+  background-color: rgb(243, 245, 245);
+}
+
 /* Modify the background color */
 .navbar {
   border-radius: 5px;
