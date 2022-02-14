@@ -177,7 +177,10 @@ class MyBookListView(LoginRequiredMixin, BookListView):
 class BookCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     # LoginRequiredMixin -> IF NOT LOGGED USER TRIES TO CREATE A BOOK - redirect to LOGIN_URL !
     # LOGIN_URL = 'login' (path func - name)
+    #  redirect to get_absolute_url Model method when created successfully.
+
     model = Book
+    # https://stackoverflow.com/questions/5773724/how-do-i-use-createview-with-a-modelform
     form_class = BookForm
     success_message = 'Book "%(title)s" was created successfully!'
 

@@ -8,6 +8,13 @@ from django.utils import timezone
 class TestBooksViews(TestCase):
     """
         All the tests in this module use the client (belonging to our TestCase's derived class).
+        If test TestCase is runned independently, pk:2 in setUp urls will throw Fails,
+        Because in tests_urls.py is creating a book first.
+        So here a second book is being created. And if this is run with
+        command 'python manage.py test books/tests/tests_views.py' will throw error, because
+        then will become the first book('tests_urls.py' has not been run).
+        That's why run all tests together, not independently
+
     """
 
     @classmethod
@@ -41,6 +48,8 @@ class TestBooksViews(TestCase):
         self.my_books_url = reverse('my_books')
         self.books_create_url = reverse('books_create')
         self.books_update_url = reverse('books_update', kwargs={
+            'pk': 2, 'slug': 'title-author'})
+        self.books_details_url = reverse('books_details', kwargs={
             'pk': 2, 'slug': 'title-author'})
         self.profile_favourites = reverse('profile_favourites')
         self.recommended_books = reverse('recommended_books')
@@ -182,6 +191,29 @@ class TestBooksViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_form.html')
 
+    def test_books_create_view_logged_in_POST(self):
+        """
+            Only logged_in POST, because if you are not logged in,
+            You will get redirected to login(LoginRequiredMixin),
+            already tested(test: test_books_create_view_not_logged_in_GET).
+        """
+        self.client.login(username='testuser', password='12345')
+        data = {
+            'title': 'test title',
+            'author': 'test author',
+            'language': 'test language',
+            'genre': 'ART',
+            'description': 'test description'
+        }
+
+        response = self.client.post(self.books_create_url, data)
+        
+        # REDIRECT to absolute url in Book model.
+        print(response.status_code)
+        self.assertEqual(response.status_code, 302)
+        print(Book.objects.all())
+        self.assertEqual(Book.objects.all()[0].title, 'test title')
+
     def test_books_details_view_GET(self):
         """
             GET method.
@@ -190,8 +222,7 @@ class TestBooksViews(TestCase):
             Using correct template.
         """
 
-        response = self.client.get(reverse('books_details', kwargs={
-            'pk': 2, 'slug': 'title-author'}))
+        response = self.client.get(self.books_details_url)
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_details.html')
