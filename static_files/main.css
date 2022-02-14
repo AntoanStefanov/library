@@ -103,3 +103,16 @@ div.scroll {
   overflow-y: auto;
   text-align:justify;
 }
+
+.book-div {
+  width: 368px;
+  background-color: rgb(232, 235, 234)
+}
+
+.profile-info {
+  background-color: rgb(231, 202, 71)
+}
+
+/* .info-div {
+  background-color: rgb(70, 87, 240)
+} */
