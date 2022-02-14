@@ -42,8 +42,12 @@ class TestBooksViews(TestCase):
         self.books_create_url = reverse('books_create')
         self.books_update_url = reverse('books_update', kwargs={
             'pk': 2, 'slug': 'title-author'})
+        self.profile_favourites = reverse('profile_favourites')
+        self.recommended_books = reverse('recommended_books')
+        self.genre_books = reverse('genre_books', kwargs={'genre': 'ART'})
+        self.profile_books = reverse('profile_books', kwargs={'profile': 'testuser'})
 
-    def test_book_list_view(self):
+    def test_book_list_view_GET(self):
         """
             GET method.
             No login required.
@@ -55,7 +59,53 @@ class TestBooksViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_list.html')
 
-    def test_author_book_list_view(self):
+    def test_favourites_view_not_logged_in_GET(self):
+        response = self.client.get(self.profile_favourites)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertTemplateNotUsed(response, 'books/book_list.html')
+
+    def test_favourites_view_logged_in_GET(self):
+        """
+            GET method.
+            200 response code - User logged in.
+            Using given template.
+        """
+
+        # logged_in =
+        self.client.login(username='testuser', password='12345')
+        response = self.client.get(self.profile_favourites)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'books/book_list.html')
+
+    def test_recommended_book_list_view_not_logged_in_GET(self):
+        response = self.client.get(self.recommended_books)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertTemplateNotUsed(response, 'books/book_list.html')
+
+    def test_recommended_book_list_view_logged_in_GET(self):
+        self.client.login(username='testuser', password='12345')
+        response = self.client.get(self.recommended_books)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'books/recommended_book_list.html')
+
+    def test_genre_book_list_view_not_logged_in_GET(self):
+        response = self.client.get(self.genre_books)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertTemplateNotUsed(response, 'books/book_list.html')
+
+    def test_genre_book_list_view_logged_in_GET(self):
+        self.client.login(username='testuser', password='12345')
+        response = self.client.get(self.genre_books)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'books/book_list.html')
+
+    def test_author_book_list_view_GET(self):
         """
             GET method.
             No login required.
@@ -68,7 +118,20 @@ class TestBooksViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_list.html')
 
-    def test_my_book_list_view_not_logged_in(self):
+    def test_profile_book_list_view_not_logged_in_GET(self):
+        response = self.client.get(self.profile_books)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertTemplateNotUsed(response, 'books/book_list.html')
+
+    def test_profile_book_list_view_logged_in_GET(self):
+        self.client.login(username='testuser', password='12345')
+        response = self.client.get(self.profile_books)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'books/book_list.html')
+
+    def test_my_book_list_view_not_logged_in_GET(self):
         """
             GET method.
             302 response code - User not logged in, redirect to login page.
@@ -80,7 +143,7 @@ class TestBooksViews(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertTemplateNotUsed(response, 'books/book_list.html')
 
-    def test_my_book_list_view_logged_in(self):
+    def test_my_book_list_view_logged_in_GET(self):
         """
             GET method.
             200 response code - User logged in.
@@ -94,7 +157,7 @@ class TestBooksViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_list.html')
 
-    def test_books_create_view_not_logged_in(self):
+    def test_books_create_view_not_logged_in_GET(self):
         """
             GET method.
             302 response code - User not logged in, redirect to login page.
@@ -106,7 +169,7 @@ class TestBooksViews(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertTemplateNotUsed(response, 'books/book_form.html')
 
-    def test_books_create_view_logged_in(self):
+    def test_books_create_view_logged_in_GET(self):
         """
             GET method.
             200 response code - User logged in.
@@ -119,7 +182,7 @@ class TestBooksViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_form.html')
 
-    def test_books_details_view(self):
+    def test_books_details_view_GET(self):
         """
             GET method.
             No login required.
@@ -133,7 +196,7 @@ class TestBooksViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_details.html')
 
-    def test_books_update_view_not_logged_in(self):
+    def test_books_update_view_not_logged_in_GET(self):
         """
             GET method.
             302 response code - User not logged in, redirect to login page.
@@ -145,7 +208,7 @@ class TestBooksViews(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertTemplateNotUsed(response, 'books/book_form.html')
 
-    def test_books_update_view_logged_in(self):
+    def test_books_update_view_logged_in_GET(self):
         """
             GET method.
             200 response code - User logged in.

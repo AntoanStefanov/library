@@ -2,13 +2,14 @@ from django.urls import include, path
 
 from .views import (AuthorBookListView, BookCreateView, BookDeleteView,
                     BookDetailsView, BookListView, BookUpdateView,
-                    GenreBookListView, MyBookListView, ProfileBookListView,
-                    RecommendedBookListView)
+                    FavouritesView, GenreBookListView, MyBookListView,
+                    ProfileBookListView, RecommendedBookListView)
 
 urlpatterns = [
     path('library/', BookListView.as_view(), name='books_library'),
     path('my-books/', MyBookListView.as_view(), name='my_books'),
     path('recommended/', RecommendedBookListView.as_view(), name='recommended_books'),
+    path('favourites/', FavouritesView.as_view(), name='profile_favourites'),
     path('<str:profile>-books/', ProfileBookListView.as_view(), name='profile_books'),
     path('<str:author>/books/', AuthorBookListView.as_view(), name='author_books'),
     path('<str:genre>/', GenreBookListView.as_view(), name='genre_books'),
