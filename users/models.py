@@ -18,8 +18,10 @@ class Profile(models.Model):
         User, on_delete=models.CASCADE,
         primary_key=True)
 
+    # Could be done with another Model "FavouriteBook" if needed.
     favourites = models.ManyToManyField(Book)
 
+    # Could be done with another Model "Like" if needed.
     # https://stackoverflow.com/questions/2606194/django-error-message-add-a-related-name-argument-to-the-definition - related_name
     likes = models.ManyToManyField(Book, related_name="likes")
 
