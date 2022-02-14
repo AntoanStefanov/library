@@ -38,7 +38,9 @@ class BookListView(FormMixin, ListView):
     def get_queryset(self):
         """
             By default, the order is date_posted(newest), 
-            check CommonFields model Meta class in books/models.py
+            check CommonFields model Meta class in books/models.py.
+            If view has order_by property (in get method *checks if passed form is valid),
+            order query. Else return query by default.
         """
         query = Book.objects.all()
         if self.order_by:
