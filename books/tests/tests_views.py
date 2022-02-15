@@ -210,7 +210,8 @@ class TestBooksViews(TestCase):
         
         # REDIRECT to absolute url in Book model.
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(Book.objects.all()[0].title, 'test title')
+        # assert that user object is added correctly within the form.
+        self.assertEqual(Book.objects.all()[0].posted_by, self.user)
 
     # TODO
     # HOW TO TEST TWO POST REQUESTS(SORT BY AND COMMENT) *no(read below),
