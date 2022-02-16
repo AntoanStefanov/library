@@ -1,13 +1,16 @@
+import os
+
+from books.models import Book
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, DeleteView, ListView, DetailView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView
 from library_project.utils import is_user_admin_or_profile_owner
-from books.models import Book
+
 from users.models import Profile
 
 from .forms import ProfileUpdateForm, UserRegisterForm, UserUpdateForm
@@ -33,6 +36,8 @@ class UserRegisterView(SuccessMessageMixin, CreateView):
 
 
 class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    # TODO DEL PHOTO WHEN USER IS DELETED IN OVERRIDE form_valid METHOD,
+    # JUST LIKE IN BookDetailsView IN books/views.py.
     model = User
     template_name = 'users/confirm_delete.html'
 
@@ -41,11 +46,23 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             self.request, 'Account has been deleted successfully!')
         return reverse("website_home")
 
+    def form_valid(self, form):
+        """
+            Override BaseDeleteView -> form_valid, to delete image if not default.
+        """
+        profile_image = self.object.profile.image
+
+        if profile_image.name != 'default_user.jpg':
+            image_path = profile_image.path
+            os.remove(image_path)
+
+        return super().form_valid(form)
+
     def test_func(self):
+        """
+            UserPassesTestMixin (check mixin), needs to be overrided.
+        """
         return is_user_admin_or_profile_owner(self)
-
-
-
 
 
 class UserProfileView(LoginRequiredMixin, DetailView):
