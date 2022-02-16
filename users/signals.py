@@ -2,11 +2,12 @@
 
 # post_save -> signal that gets fired AFTER an object is saved
 # we need post_save signal when a user is registered
-import os
 from django.contrib.auth.models import User
 from django.db.models.signals import post_delete, post_save
 # User here is the sender, User sends the signal
 from django.dispatch import receiver
+
+from users.utils import delete_profile_image
 
 # a reciever is a function that gets this signal and the perfoms some task
 from .models import Profile
@@ -35,12 +36,11 @@ def create_profile(sender, instance, created, **kwargs):
 # del user if profile has been deleted
 @receiver(post_delete, sender=Profile)
 def delete_user(sender, instance, **kwargs):
+    # This signal is called when delete account from the website,
+    # because we delete Profile, when User is deleted, CASCADE IN MODELS.PY
 
     # Del uploaded picture if it is not default
-    profile_image = instance.image
-    if profile_image.name != 'default_user.jpg':
-        image_path = profile_image.path
-        os.remove(image_path)
+    delete_profile_image(instance)
     # in case user is not specified
     if instance.user:
         instance.user.delete()

@@ -19,10 +19,12 @@ class Profile(models.Model):
         primary_key=True)
 
     # Could be done with another Model "FavouriteBook" if needed.
+    # Blank for admin not to be required.
     favourites = models.ManyToManyField(Book, blank=True)
 
     # Could be done with another Model "Like" if needed.
     # https://stackoverflow.com/questions/2606194/django-error-message-add-a-related-name-argument-to-the-definition - related_name
+    # Blank for admin not to be required.
     likes = models.ManyToManyField(Book, blank=True, related_name="likes")
 
     # when I make a change in a model , also it will make a change in the DB

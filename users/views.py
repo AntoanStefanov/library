@@ -1,5 +1,3 @@
-import os
-
 from books.models import Book
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -12,6 +10,7 @@ from django.views.generic import CreateView, DeleteView, DetailView, ListView
 from library_project.utils import is_user_admin_or_profile_owner
 
 from users.models import Profile
+from users.utils import delete_profile_image
 
 from .forms import ProfileUpdateForm, UserRegisterForm, UserUpdateForm
 
@@ -36,8 +35,6 @@ class UserRegisterView(SuccessMessageMixin, CreateView):
 
 
 class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    # TODO DEL PHOTO WHEN USER IS DELETED IN OVERRIDE form_valid METHOD,
-    # JUST LIKE IN BookDetailsView IN books/views.py.
     model = User
     template_name = 'users/confirm_delete.html'
 
@@ -45,18 +42,6 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         messages.success(
             self.request, 'Account has been deleted successfully!')
         return reverse("website_home")
-
-    def form_valid(self, form):
-        """
-            Override BaseDeleteView -> form_valid, to delete image if not default.
-        """
-        profile_image = self.object.profile.image
-
-        if profile_image.name != 'default_user.jpg':
-            image_path = profile_image.path
-            os.remove(image_path)
-
-        return super().form_valid(form)
 
     def test_func(self):
         """
