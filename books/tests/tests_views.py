@@ -1,4 +1,4 @@
-from books.models import Book
+from books.models import Book, Comment
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
@@ -225,6 +225,21 @@ class TestBooksViews(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_details.html')
+
+    def test_books_details_view_POST(self):
+        """
+            Test posting comment in view.
+        """
+        self.client.login(username='testuser', password='12345')
+        data = {
+            'content': 'test comment',
+        }
+
+        response = self.client.post(self.books_details_url, data)
+
+        # REDIRECT to absolute url in Book model, check form_valid method in view.
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Comment.objects.all()[0].content, 'test comment')
 
     def test_books_update_view_not_logged_in_GET(self):
         """

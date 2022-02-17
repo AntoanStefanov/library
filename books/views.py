@@ -32,7 +32,7 @@ class BookListView(FormMixin, ListView):
         self.order_by = None
         if form.is_valid():
             self.order_by = form.cleaned_data['order_by']
-        
+
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
