@@ -10,7 +10,6 @@ from django.views.generic import CreateView, DeleteView, DetailView, ListView
 from library_project.utils import is_user_admin_or_profile_owner
 
 from users.models import Profile
-from users.utils import delete_profile_image
 
 from .forms import ProfileUpdateForm, UserRegisterForm, UserUpdateForm
 

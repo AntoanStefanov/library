@@ -6,18 +6,32 @@ from .models import Profile
 
 
 class UserRegisterForm(UserCreationForm):
-  email = forms.EmailField()
+    # email here because in AbstractUser, email is not required
+    email = forms.EmailField()
 
-  class Meta:
-      model = User
-      fields = ['username', 'email', 'password1', 'password2']
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
+
+    # def clean_field
+    def clean_email(self):
+        # https://youtu.be/wVnQkKf-gHo?t=287
+        email = self.cleaned_data.get('email')
+
+        # flat=True, to return a list, not a list with tuples.
+        if email in User.objects.values_list('email', flat=True):
+            raise forms.ValidationError('Email already exists.')
+        return email
 
 class UserUpdateForm(forms.ModelForm):
+    # email here because in AbstractUser, email is not required
+
     email = forms.EmailField()
 
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name']
+
 
 class ProfileUpdateForm(forms.ModelForm):
 
