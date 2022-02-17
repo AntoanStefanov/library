@@ -7,8 +7,7 @@ from .models import Profile
 
 class UserRegisterForm(UserCreationForm):
     # email here because in AbstractUser, email is not required
-    email = forms.EmailField(
-        help_text="Email must be unique. Include '@' in email address.")
+    email = forms.EmailField(help_text="Email must be unique. Include '@' in email address.")
 
     class Meta:
         model = User
@@ -24,6 +23,17 @@ class UserRegisterForm(UserCreationForm):
             raise forms.ValidationError('Email already exists.')
         return email
 
+    # Example code, if needed.
+    # def clean(self):
+    #     """
+    #         Puts validations error above all fields.
+    #     """
+    #     cleaned_data = super().clean()
+    #     first_name = cleaned_data.get('username')
+    #     last_name  = cleaned_data.get('password1')
+
+    #     if first_name == last_name:
+    #         raise forms.ValidationError( "username and password1 cannot be the same." )
 
 class UserUpdateForm(forms.ModelForm):
     # email here because in AbstractUser, email is not required
