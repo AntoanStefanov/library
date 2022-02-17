@@ -266,4 +266,6 @@ class TestBooksViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_form.html')
 
+    # TODO update view logged in , POST - edit a book
+
     # BookDeleteView NEXT
