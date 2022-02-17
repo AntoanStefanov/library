@@ -7,7 +7,7 @@ from .models import Profile
 
 class UserRegisterForm(UserCreationForm):
     # email here because in AbstractUser, email is not required
-    email = forms.EmailField()
+    email = forms.EmailField(help_text="Email must be unique. Include '@' in email address.")
 
     class Meta:
         model = User
