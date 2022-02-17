@@ -213,9 +213,6 @@ class TestBooksViews(TestCase):
         # assert that user object is added correctly within the form.
         self.assertEqual(Book.objects.all()[1].posted_by, self.user)
 
-    # TODO
-    # HOW TO TEST TWO POST REQUESTS(SORT BY AND COMMENT) *no(read below),
-    # OH, SORT BY IS A GET METHOD FORM. ONLY COMMENT POST NEEDS TO BE TESTED.
     def test_books_details_view_GET(self):
         """
             GET method.
