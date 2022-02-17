@@ -7,7 +7,8 @@ from .models import Profile
 
 class UserRegisterForm(UserCreationForm):
     # email here because in AbstractUser, email is not required
-    email = forms.EmailField(help_text="Email must be unique. Include '@' in email address.")
+    email = forms.EmailField(
+        help_text="Email must be unique. Include '@' in email address.")
 
     class Meta:
         model = User
@@ -22,6 +23,7 @@ class UserRegisterForm(UserCreationForm):
         if email in User.objects.values_list('email', flat=True):
             raise forms.ValidationError('Email already exists.')
         return email
+
 
 class UserUpdateForm(forms.ModelForm):
     # email here because in AbstractUser, email is not required
