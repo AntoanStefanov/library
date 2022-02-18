@@ -33,7 +33,7 @@ class TestBooksViews(TestCase):
             title="Title",
             author="Author",
             language="Bulgarian",
-            genre="Comedy",
+            genre="COMEDY",
             description="Description",
             date_posted=timezone.now(),
             posted_by=cls.user
