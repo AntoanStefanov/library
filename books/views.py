@@ -257,7 +257,7 @@ class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     success_message = 'Book "%(title)s" was updated successfully!'
 
     def form_valid(self, form):
-        delete_profile_or_book_image(self.object, form)
+        delete_profile_or_book_image(form=form)
         return super().form_valid(form)
 
     def test_func(self):
@@ -276,5 +276,5 @@ class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return is_user_admin_or_book_owner(self)
 
     def form_valid(self, form):
-        delete_profile_or_book_image(self.object)
+        delete_profile_or_book_image(instance=self.object)
         return super().form_valid(form)

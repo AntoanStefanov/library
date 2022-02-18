@@ -32,15 +32,15 @@ def is_user_admin_or_profile_owner(view):
     return current_user == user or current_user.is_superuser
 
 
-def delete_profile_or_book_image(object, form=None):
+def delete_profile_or_book_image(instance=None, form=None):
     """
-        When updating , object doesn't have the previous image,
+        When updating , instance doesn't have the previous image,
         so that's why we use form if needed.
     """
     if form:
         image = form.initial.get('image')
     else:
-        image = object.image
+        image = instance.image
 
     if image.name != 'default_user.jpg' and image.name != 'default_book.jpg':
         image_path = image.path

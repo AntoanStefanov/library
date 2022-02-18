@@ -7,7 +7,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView
-from library_project.utils import is_user_admin_or_profile_owner
+from library_project.utils import delete_profile_or_book_image, is_user_admin_or_profile_owner
 
 from users.models import Profile
 
@@ -65,6 +65,7 @@ def user_profile_view(request):
             instance=request.user.profile)
 
         if user_update_form.is_valid() and profile_update_form.is_valid():
+            delete_profile_or_book_image(form=profile_update_form)
             user_update_form.save()
             profile_update_form.save()
             messages.success(
