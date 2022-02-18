@@ -35,7 +35,6 @@ class TestBooksViews(TestCase):
             language="Bulgarian",
             genre="Comedy",
             description="Description",
-            image='default_book.jpg',
             date_posted=timezone.now(),
             posted_by=cls.user
         )
@@ -43,6 +42,8 @@ class TestBooksViews(TestCase):
     def setUp(self):
         """
             This function runs before every single test method.
+            PK:2 , because in test_views, the first book was created,
+            setUpTestData class method(above), deletes books from other TestCases(modules).
         """
 
         self.my_books_url = reverse('my_books')
@@ -54,7 +55,8 @@ class TestBooksViews(TestCase):
         self.profile_favourites = reverse('profile_favourites')
         self.recommended_books = reverse('recommended_books')
         self.genre_books = reverse('genre_books', kwargs={'genre': 'ART'})
-        self.profile_books = reverse('profile_books', kwargs={'profile': 'testuser'})
+        self.profile_books = reverse('profile_books', kwargs={
+                                     'profile': 'testuser'})
 
     def test_book_list_view_GET(self):
         """
@@ -191,7 +193,7 @@ class TestBooksViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_form.html')
 
-    def test_books_create_view_logged_in_POST(self):
+    def test_books_create_view_logged_in_POST_book(self):
         """
             Only logged_in POST, because if you are not logged in,
             You will get redirected to login(LoginRequiredMixin),
@@ -207,11 +209,12 @@ class TestBooksViews(TestCase):
         }
 
         response = self.client.post(self.books_create_url, data)
-        
+
         # REDIRECT to absolute url in Book model.
         self.assertEqual(response.status_code, 302)
         # assert that user object is added correctly within the form.
-        self.assertEqual(Book.objects.all()[1].posted_by, self.user)
+        self.assertEqual(Book.objects.all()[0].posted_by, self.user)
+        self.assertEqual(Book.objects.all()[0].title, 'test title')
 
     def test_books_details_view_GET(self):
         """
@@ -226,7 +229,7 @@ class TestBooksViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_details.html')
 
-    def test_books_details_view_POST(self):
+    def test_books_details_view_logged_in_POST_comment(self):
         """
             Test posting comment in view.
         """
@@ -259,13 +262,28 @@ class TestBooksViews(TestCase):
             200 response code - User logged in.
             Using given template.
         """
-
         self.client.login(username='testuser', password='12345')
         response = self.client.get(self.books_update_url)
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_form.html')
 
-    # TODO update view logged in , POST - edit a book
+    def test_books_update_view_logged_in_POST_edit_book(self):
+
+        self.client.login(username='testuser', password='12345')
+        data = {
+            'title': 'Title Updated',
+            'author': 'Author Updated',
+            'language': 'Bulgarian Updated',
+            'genre': 'COMEDY',
+            'description': 'Description Updated'
+        }
+
+        response = self.client.post(self.books_update_url, data)
+
+        # Redirect to book absolute url.
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Book.objects.all()[0].posted_by, self.user)
+        self.assertEqual(Book.objects.all()[0].title, 'Title Updated')
 
     # BookDeleteView NEXT
