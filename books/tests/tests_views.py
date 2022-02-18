@@ -45,18 +45,32 @@ class TestBooksViews(TestCase):
             PK:2 , because in test_views, the first book was created,
             setUpTestData class method(above), deletes books from other TestCases(modules).
         """
+        BOOK_KWARGS = {'pk': 2, 'slug': 'title-author'}
 
         self.my_books_url = reverse('my_books')
         self.books_create_url = reverse('books_create')
-        self.books_update_url = reverse('books_update', kwargs={
-            'pk': 2, 'slug': 'title-author'})
-        self.books_details_url = reverse('books_details', kwargs={
-            'pk': 2, 'slug': 'title-author'})
-        self.profile_favourites = reverse('profile_favourites')
         self.recommended_books = reverse('recommended_books')
-        self.genre_books = reverse('genre_books', kwargs={'genre': 'ART'})
-        self.profile_books = reverse('profile_books', kwargs={
-                                     'profile': 'testuser'})
+        self.profile_favourites = reverse('profile_favourites')
+        self.genre_books = reverse(
+            'genre_books',
+            kwargs={'genre': 'ART'}
+        )
+        self.profile_books = reverse(
+            'profile_books',
+            kwargs={'profile': 'testuser'}
+        )
+        self.books_update_url = reverse(
+            'books_update',
+            kwargs=BOOK_KWARGS
+        )
+        self.books_details_url = reverse(
+            'books_details',
+            kwargs=BOOK_KWARGS
+        )
+        self.books_delete_url = reverse(
+            'books_delete',
+            kwargs=BOOK_KWARGS
+        )
 
     def test_book_list_view_GET(self):
         """
@@ -286,4 +300,39 @@ class TestBooksViews(TestCase):
         self.assertEqual(Book.objects.all()[0].posted_by, self.user)
         self.assertEqual(Book.objects.all()[0].title, 'Title Updated')
 
-    # BookDeleteView NEXT
+    def test_books_delete_view_not_logged_in_GET(self):
+        """
+            GET method.
+            302 response code - User not logged in, redirect to login page.
+            Not using given template.
+        """
+
+        response = self.client.get(self.books_delete_url)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertTemplateNotUsed(response, 'books/book_confirm_delete.html')
+
+    def test_books_delete_view_logged_in_GET(self):
+        """
+            GET method.
+            200 response code - User logged in.
+            Using given template.
+        """
+
+        self.client.login(username='testuser', password='12345')
+        response = self.client.get(self.books_delete_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'books/book_confirm_delete.html')
+
+    def test_books_delete_view_logged_in_POST(self):
+        """
+            Delete book from db, POST method.
+            Redirect to url named 'my books'.
+        """
+
+        self.client.login(username='testuser', password='12345')
+        response = self.client.post(self.books_delete_url)
+
+        self.assertEqual(response.status_code, 302)
+
