@@ -207,6 +207,19 @@ class TestBooksViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_form.html')
 
+    def test_books_create_view_logged_in_POST_book_NO_data(self):
+        """
+           There is already one book in DB, books count should be 1.
+           Book should not be added without data.
+           REDIRECT to same form(url).
+        """
+        self.client.login(username='testuser', password='12345')
+
+        response = self.client.post(self.books_create_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Book.objects.count(), 1)
+
     def test_books_create_view_logged_in_POST_book(self):
         """
             Only logged_in POST, because if you are not logged in,
@@ -242,6 +255,18 @@ class TestBooksViews(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_details.html')
+
+    def test_books_details_view_logged_in_POST_comment_NO_data(self):
+        """
+            Comment with no data, should not be posted,
+            redirect to same url.
+        """
+        self.client.login(username='testuser', password='12345')
+
+        response = self.client.post(self.books_details_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Comment.objects.count(), 0)
 
     def test_books_details_view_logged_in_POST_comment(self):
         """
@@ -281,6 +306,18 @@ class TestBooksViews(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_form.html')
+
+    def test_books_update_view_logged_in_POST_edit_book_NO_data(self):
+        """
+            Redirect to same url, book with no data is not edited.
+        """
+
+        self.client.login(username='testuser', password='12345')
+
+        response = self.client.post(self.books_update_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Book.objects.all()[0].title, 'Title')
 
     def test_books_update_view_logged_in_POST_edit_book(self):
 
@@ -329,6 +366,7 @@ class TestBooksViews(TestCase):
         """
             Delete book from db, POST method.
             Redirect to url named 'my books'.
+            Book is deleted with no data.
         """
 
         self.client.login(username='testuser', password='12345')
@@ -336,4 +374,3 @@ class TestBooksViews(TestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Book.objects.count(), 0)
-
