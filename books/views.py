@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 from django.views.generic.edit import FormMixin
-from library_project.utils import is_user_admin_or_book_owner
+from library_project.utils import delete_profile_or_book_image, is_user_admin_or_book_owner
 
 from books.forms import BookForm, BookOrderForm, CommentForm
 
@@ -256,6 +256,10 @@ class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     form_class = BookForm
     success_message = 'Book "%(title)s" was updated successfully!'
 
+    def form_valid(self, form):
+        delete_profile_or_book_image(self.object)
+        return super().form_valid(form)
+
     def test_func(self):
         return is_user_admin_or_book_owner(self)
 
@@ -270,3 +274,7 @@ class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return is_user_admin_or_book_owner(self)
+
+    def form_valid(self, form):
+        delete_profile_or_book_image(self.object)
+        return super().form_valid(form)

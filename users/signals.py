@@ -6,8 +6,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_delete, post_save
 # User here is the sender, User sends the signal
 from django.dispatch import receiver
-
-from users.utils import delete_profile_image
+from library_project.utils import delete_profile_or_book_image
 
 # a reciever is a function that gets this signal and the perfoms some task
 from .models import Profile
@@ -40,7 +39,7 @@ def delete_user(sender, instance, **kwargs):
     # because we delete Profile, when User is deleted, CASCADE IN MODELS.PY
 
     # Del uploaded picture if it is not default
-    delete_profile_image(instance)
+    delete_profile_or_book_image(instance)
     # in case user is not specified
     if instance.user:
         instance.user.delete()

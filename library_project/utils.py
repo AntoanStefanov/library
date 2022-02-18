@@ -1,3 +1,4 @@
+import os
 from PIL import Image
 
 
@@ -21,6 +22,7 @@ def is_user_admin_or_book_owner(view):
 
     return current_user == book.posted_by or current_user.is_superuser
 
+
 def is_user_admin_or_profile_owner(view):
     """ Check if user is admin or owner of profile. """
 
@@ -28,3 +30,11 @@ def is_user_admin_or_profile_owner(view):
     current_user = view.request.user
 
     return current_user == user or current_user.is_superuser
+
+
+def delete_profile_or_book_image(object):
+    image = object.image
+
+    if image.name != 'default_user.jpg' and image.name != 'default_book.jpg':
+        image_path = image.path
+        os.remove(image_path)
