@@ -10,19 +10,20 @@ class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(
         help_text="Email must be unique. Include '@' in email address.")
 
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'password1', 'password2']
-
     # def clean_field
     def clean_email(self):
         # https://youtu.be/wVnQkKf-gHo?t=287
         email = self.cleaned_data.get('email')
-
         # flat=True, to return a list, not a list with tuples.
-        if email in User.objects.values_list('email', flat=True):
+        database_emails = User.objects.values_list('email', flat=True)
+
+        if email in database_emails:
             raise forms.ValidationError('Email already exists.')
         return email
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
 
     # Example code, if needed.
     # def clean(self):
@@ -40,7 +41,18 @@ class UserRegisterForm(UserCreationForm):
 class UserUpdateForm(forms.ModelForm):
     # email here because in AbstractUser, email is not required
 
-    email = forms.EmailField()
+    email = forms.EmailField(help_text="Email must be unique. Include '@' in email address.")
+
+    def clean_email(self):
+        # https://youtu.be/wVnQkKf-gHo?t=287
+        email = self.cleaned_data.get('email')
+        user_current_email = self.instance.email
+        # flat=True, to return a list, not a list with tuples.
+        database_emails = User.objects.values_list('email', flat=True)
+        
+        if email != user_current_email and email in database_emails:
+            raise forms.ValidationError('Email already exists.')
+        return email
 
     class Meta:
         model = User
