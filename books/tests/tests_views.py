@@ -335,4 +335,5 @@ class TestBooksViews(TestCase):
         response = self.client.post(self.books_delete_url)
 
         self.assertEqual(response.status_code, 302)
+        self.assertEqual(Book.objects.count(), 0)
 
