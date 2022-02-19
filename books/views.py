@@ -7,7 +7,8 @@ from django.urls import reverse
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 from django.views.generic.edit import FormMixin
-from library_project.utils import delete_profile_or_book_image, is_user_admin_or_book_owner
+from library_project.utils import (delete_profile_or_book_image,
+                                   is_user_admin_or_book_owner)
 
 from books.forms import BookForm, BookOrderForm, CommentForm
 

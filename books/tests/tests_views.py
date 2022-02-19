@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 
-class TestBooksViews(TestCase):
+class TestBookViews(TestCase):
     """
         All the tests in this module use the client (belonging to our TestCase's derived class).
         If test TestCase is runned independently, pk:2 in setUp urls will throw Fails,
@@ -45,7 +45,7 @@ class TestBooksViews(TestCase):
             PK:2 , because in test_views, the first book was created,
             setUpTestData class method(above), deletes books from other TestCases(modules).
         """
-        BOOK_KWARGS = {'pk': 2, 'slug': 'title-author'}
+        BOOK_KWARGS = {'pk': 3, 'slug': 'title-author'}
 
         self.my_books_url = reverse('my_books')
         self.books_create_url = reverse('books_create')

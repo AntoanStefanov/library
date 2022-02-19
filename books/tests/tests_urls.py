@@ -9,14 +9,24 @@ from django.urls import resolve, reverse
 from django.utils import timezone
 
 
-class TestBooksUrls(TestCase):
+class TestBookUrls(TestCase):
     """ 
         Reverse an URL and resolve that URL to see which view Django calls.
         Check status code returned from responses.
         When a user is logged in and not logged in.
 
         All the tests in this module use the client (belonging to our TestCase's derived class).
+
+        tests_models.py creates first book in setUpTestData.
+        So, in this module setUpTestData. 
+
+        setUpTestData deletes everything created in the module form which is used,
+        so here the book is with pk=2.
     """
+
+   
+
+    BOOK_KWARGS = {'pk': 2, 'slug': 'title-author'}
 
     @classmethod
     def setUpTestData(cls):
@@ -80,15 +90,13 @@ class TestBooksUrls(TestCase):
         self.assertEquals(resolver_match.func.view_class, BookCreateView)
 
     def test_books_delete_url_is_resolved(self):
-        url = reverse('books_delete',  kwargs={
-                      'pk': 1, 'slug': 'title-author'})
+        url = reverse('books_delete',  kwargs=self.BOOK_KWARGS)
         resolver_match = resolve(url)
 
         self.assertEquals(resolver_match.func.view_class, BookDeleteView)
 
     def test_books_details_url_is_resolved(self):
-        url = reverse('books_details',  kwargs={
-                      'pk': 1, 'slug': 'title-author'})
+        url = reverse('books_details',  kwargs=self.BOOK_KWARGS)
         resolver_match = resolve(url)
 
         self.assertEquals(resolver_match.func.view_class, BookDetailsView)
@@ -100,7 +108,7 @@ class TestBooksUrls(TestCase):
         self.assertEquals(resolver_match.func.view_class, BookListView)
 
     def test_books_update_url_is_resolved(self):
-        url = reverse('books_update', kwargs={'pk': 1, 'slug': 'title-author'})
+        url = reverse('books_update', kwargs=self.BOOK_KWARGS)
         resolver_match = resolve(url)
 
         self.assertEquals(resolver_match.func.view_class, BookUpdateView)
@@ -234,8 +242,8 @@ class TestBooksUrls(TestCase):
             Redirection code - 302. User not logged in.
         """
 
-        response = self.client.get(reverse('books_delete', kwargs={
-                                   'pk': 1, 'slug': 'title-author'}))
+        response = self.client.get(
+            reverse('books_delete', kwargs=self.BOOK_KWARGS))
         self.assertEqual(response.status_code, 302)
 
     def test_books_delete_url_response_logged_in(self):
@@ -245,8 +253,8 @@ class TestBooksUrls(TestCase):
 
         self.client.login(username='testuser', password='12345')
 
-        response = self.client.get(reverse('books_delete', kwargs={
-                                   'pk': 1, 'slug': 'title-author'}))
+        response = self.client.get(
+            reverse('books_delete', kwargs=self.BOOK_KWARGS))
         self.assertEqual(response.status_code, 200)
 
     def test_books_details_url_response(self):
@@ -254,8 +262,8 @@ class TestBooksUrls(TestCase):
             Successful code - 200.
         """
 
-        response = self.client.get(reverse('books_details', kwargs={
-                                   'pk': 1, 'slug': 'title-author'}))
+        response = self.client.get(
+            reverse('books_details', kwargs=self.BOOK_KWARGS))
         self.assertEqual(response.status_code, 200)
 
     def test_books_library_url_response(self):
@@ -272,8 +280,8 @@ class TestBooksUrls(TestCase):
             Cannot reach update page.
         """
 
-        response = self.client.get(reverse('books_update', kwargs={
-                                   'pk': 1, 'slug': 'title-author'}))
+        response = self.client.get(
+            reverse('books_update', kwargs=self.BOOK_KWARGS))
         self.assertEqual(response.status_code, 302)
 
     def test_books_update_url_response_logged_in(self):
@@ -283,8 +291,8 @@ class TestBooksUrls(TestCase):
 
         self.client.login(username='testuser', password='12345')
 
-        response = self.client.get(reverse('books_update', kwargs={
-                                   'pk': 1, 'slug': 'title-author'}))
+        response = self.client.get(
+            reverse('books_update', kwargs=self.BOOK_KWARGS))
         self.assertEqual(response.status_code, 200)
 
     def test_my_books_url_response_not_logged_in(self):
