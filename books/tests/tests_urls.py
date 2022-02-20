@@ -24,8 +24,6 @@ class TestBookUrls(TestCase):
         so here the book is with pk=2.
     """
 
-   
-
     BOOK_KWARGS = {'pk': 2, 'slug': 'title-author'}
 
     @classmethod
