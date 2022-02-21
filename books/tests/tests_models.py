@@ -28,3 +28,9 @@ class TestBookModels(TestCase):
 
     def test_book_is_assigned_slug_on_creation(self):
         self.assertEqual(self.book.slug, 'title-test-author-test')
+
+    def test_get_absolute_url(self):
+        self.assertEqual(
+            self.book.get_absolute_url(),
+            '/books/book/1/title-test-author-test/'
+        )
