@@ -8,7 +8,7 @@ class TestWebsiteUrls(TestCase):
         Check status code returned from responses.
     """
 
-    # VIEWS
+    # URL RESOVLES
 
     def test_website_home_url_is_resolved(self):
         url = reverse('website_home')
