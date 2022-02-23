@@ -21,7 +21,8 @@ urlpatterns = [
     path('book/<int:pk>/<slug:slug>/', include([
         path('', BookDetailsView.as_view(), name='books_details'),
         path('update/', BookUpdateView.as_view(), name='books_update'),
-        path('delete/', BookDeleteView.as_view(), name='books_delete')
+        path('delete/', BookDeleteView.as_view(), name='books_delete'),
+        path('comment/<int:id>/update/', BookDetailsView.as_view(), name='books_comment_update'),
     ]))
 ]
 

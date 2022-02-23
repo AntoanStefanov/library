@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Count
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
@@ -12,7 +12,7 @@ from library_project.utils import (delete_profile_or_book_image,
 
 from books.forms import BookForm, BookOrderForm, CommentForm
 
-from .models import Book
+from .models import Book, Comment
 
 
 class BookListView(FormMixin, ListView):
@@ -224,6 +224,13 @@ class BookDetailsView(FormMixin, DetailView):
             if 'form' not in context:
                 context['form'] = CommentForm()
 
+            # Check if 'update' in comment article is clicked,
+            # if clicked to update, comment id should be in kwargs,
+            # so we fill the form with given comment.
+            if self.request.method == 'GET' and 'id' in self.kwargs:
+                comment = get_object_or_404(Comment, pk=self.kwargs.get('id'))
+                context['form'] = CommentForm(instance=comment)
+
         context["number_of_likes"] = book.likes.count()
 
         return context
@@ -231,13 +238,29 @@ class BookDetailsView(FormMixin, DetailView):
     def post(self, request, *args, **kwargs):
         # in form valid 'self.object' is needed.
         self.object = self.get_object()
-        # put data in form.
-        form = self.get_form()
+        comment_id = self.kwargs.get('id')
+        if comment_id:
+            # WHEM COMMENT button is clicked and comment already exists(update).
+            # https://stackoverflow.com/questions/55729316/create-form-and-update-using-same-view-in-django
+            comment = get_object_or_404(Comment, pk=comment_id)
+            form = CommentForm(request.POST, instance=comment)
+        else:
+            # if comment does not exist , we create it,
+            # put data in form.
+            form = self.get_form()
         if form.is_valid():
-            messages.success(request, 'Commented succesfully!')
+            if self.kwargs.get('id'):
+                # If update has been done.
+                messages.success(request, 'Comment updated succesfully!')
+            else:
+                messages.success(request, 'Commented succesfully!')
             return self.form_valid(form)
         else:
-            messages.error(request, 'Commented unsuccesfully!')
+            if self.kwargs.get('id'):
+                # If update has been done.
+                messages.error(request, 'Comment updated unsuccesfully!')
+            else:
+                messages.error(request, 'Commented unsuccesfully!')
             return self.form_invalid(form)
 
     def form_valid(self, form):

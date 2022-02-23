@@ -9,7 +9,7 @@
         <div class="comment mb-4 text-justify border border-3 mt-2 p-2"> 
           <img src="{{ comment.posted_by.profile.image.url }}" alt="" class="rounded-circle comment-pic m-2">
           <h4 style="display: inline-block;">
-            {% if user == comment.posted_by %}
+            {% if user == comment.posted_by or user.is_superuser %}
               <a href="{% url 'profile' %}">me</a>
             {% else %}
               <a href="{% url 'profile_user' object.posted_by.id %}">{{ comment.posted_by }}</a>
@@ -17,6 +17,9 @@
           </h4>
           <!-- https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#date -->
           <span class="text-secondary">- {{ comment.date_posted|date:'d F, Y' }}</span>
+          {% if user == comment.posted_by %}
+            <a class='btn-sm btn-primary' href="{% url 'books_comment_update' pk=object.id slug=object.slug id=comment.id %}">Update</a>
+          {% endif %}
           <br>
           <p class="m-3">{{ comment.content }}</p>
         </div>
