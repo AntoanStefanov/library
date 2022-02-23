@@ -268,8 +268,9 @@ class BookDetailsView(FormMixin, DetailView):
             If form is valid. Pass who commented, the book to the form and save it.
             Get back to the current book details page.
         """
-        form.instance.posted_by = self.request.user
-        form.instance.book = self.object
+        if not self.kwargs.get('id'):
+            form.instance.posted_by = self.request.user
+            form.instance.book = self.object
         form.save()
         # get url in string format, then pass it to redirect for HTTP response.
         return redirect(self.object.get_absolute_url())
