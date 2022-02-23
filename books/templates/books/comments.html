@@ -18,7 +18,8 @@
           <!-- https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#date -->
           <span class="text-secondary">- {{ comment.date_posted|date:'d F, Y' }}</span>
           {% if user == comment.posted_by %}
-            <a class='btn-sm btn-primary' href="{% url 'books_comment_update' pk=object.id slug=object.slug id=comment.id %}">Update</a>
+            <a class='btn-sm btn-primary me-2' href="{% url 'books_comment_update' pk=object.id slug=object.slug id=comment.id %}">Update</a>
+            <a class='btn-sm btn-danger' href="{% url 'books_comment_delete' pk=object.id slug=object.slug id=comment.id %}">Delete</a>
           {% endif %}
           <br>
           <p class="m-3">{{ comment.content }}</p>

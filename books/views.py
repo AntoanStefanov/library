@@ -302,3 +302,22 @@ class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def form_valid(self, form):
         delete_profile_or_book_image(instance=self.object)
         return super().form_valid(form)
+
+
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Comment
+    # https://stackoverflow.com/questions/50502552/django-deleteview-not-finding-db-object
+    pk_url_kwarg = 'id'
+
+    def get_success_url(self):
+        messages.success(self.request, 'Comment was deleted successfully!')
+        # https://stackoverflow.com/questions/48669514/difference-between-reverse-and-reverse-lazy-in-django
+        return reverse('books_details', kwargs={'pk': self.kwargs.get('pk'), 'slug': self.kwargs.get('slug')})
+
+    def test_func(self):
+        return is_user_admin_or_book_owner(self)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['book'] = get_object_or_404(Book, pk=self.kwargs.get('pk'))
+        return context

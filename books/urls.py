@@ -2,13 +2,15 @@ from django.urls import include, path
 
 from .views import (AuthorBookListView, BookCreateView, BookDeleteView,
                     BookDetailsView, BookListView, BookUpdateView,
-                    FavouritesView, GenreBookListView, MyBookListView,
-                    ProfileBookListView, RecommendedBookListView)
+                    CommentDeleteView, FavouritesView, GenreBookListView,
+                    MyBookListView, ProfileBookListView,
+                    RecommendedBookListView)
 
 urlpatterns = [
     path('library/', BookListView.as_view(), name='books_library'),
     path('my-books/', MyBookListView.as_view(), name='my_books'),
-    path('recommended/', RecommendedBookListView.as_view(), name='recommended_books'),
+    path('recommended/', RecommendedBookListView.as_view(),
+         name='recommended_books'),
     path('favourites/', FavouritesView.as_view(), name='profile_favourites'),
     path('<str:profile>-books/', ProfileBookListView.as_view(), name='profile_books'),
     path('<str:author>/books/', AuthorBookListView.as_view(), name='author_books'),
@@ -22,7 +24,10 @@ urlpatterns = [
         path('', BookDetailsView.as_view(), name='books_details'),
         path('update/', BookUpdateView.as_view(), name='books_update'),
         path('delete/', BookDeleteView.as_view(), name='books_delete'),
-        path('comment/<int:id>/update/', BookDetailsView.as_view(), name='books_comment_update'),
+        path('comment/<int:id>/update/', BookDetailsView.as_view(),
+             name='books_comment_update'),
+        path('comment/<int:id>/delete/', CommentDeleteView.as_view(),
+             name='books_comment_delete'),
     ]))
 ]
 
