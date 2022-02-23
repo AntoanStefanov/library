@@ -271,6 +271,8 @@ class BookDetailsView(FormMixin, DetailView):
         if not self.kwargs.get('id'):
             # if id not in kwargs, that means the comment is creating, which means it needs creator and book,
             # if id is in kwargs, there is already posted_by and book, no need to change them,
+
+            # IF YOU WANT WHEN SUPERUSER UPDATES COMMENT, TO BE SEEN AS SUPERSUSER's COMMENT - remove if.
             form.instance.posted_by = self.request.user
             form.instance.book = self.object
         form.save()
