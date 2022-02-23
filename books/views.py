@@ -269,6 +269,8 @@ class BookDetailsView(FormMixin, DetailView):
             Get back to the current book details page.
         """
         if not self.kwargs.get('id'):
+            # if id not in kwargs, that means the comment is creating, which means it needs creator and book,
+            # if id is in kwargs, there is already posted_by and book, no need to change them,
             form.instance.posted_by = self.request.user
             form.instance.book = self.object
         form.save()
