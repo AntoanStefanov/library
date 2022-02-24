@@ -13,6 +13,7 @@ class BookForm(forms.ModelForm):
         model = Book
         exclude = ('date_posted', 'slug', 'posted_by')
 
+    # Create form validation if a book with same name OR SLUG already exists.
 
 class CommentForm(forms.ModelForm):
 
@@ -20,6 +21,7 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ('content',)
 
+    # Create form validation if a comment contains bad words ?.
 
 class BookOrderForm(forms.Form):
     def __init__(self, *args, **kwargs):

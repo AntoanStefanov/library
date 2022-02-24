@@ -1,6 +1,10 @@
 {% load crispy_forms_tags %}
+
 {% if user.is_authenticated %}
   <div class="row">
+{% else %}
+  <div class="row justify-content-center">
+{% endif %}
     <div class="col-lg-6 pe-5">
       <h2 class="mt-4">Comments</h2>
       {% if comments %}
@@ -30,17 +34,18 @@
         <p>Be the first person to comment !</p>
       {% endif %}
     </div>
-    <div class="col-lg-6 pe-5 mt-4">
-      <form method="POST">
-        {% csrf_token %}
-        <fieldset class="form-group">
-          <legend class="border-bottom mb-4">Leave a comment</legend>
-          {{ form|crispy }}
-        </fieldset>
-        <div class="form-group">
-          <button class="float-end btn btn-primary my-3 " type="submit">Comment</button>
-        </div>
-      </form>
-    </div>
+    {% if user.is_authenticated %}
+      <div class="col-lg-6 pe-5 mt-4">
+        <form method="POST">
+          {% csrf_token %}
+          <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Leave a comment</legend>
+            {{ form|crispy }}
+          </fieldset>
+          <div class="form-group">
+            <button class="float-end btn btn-primary my-3 " type="submit">Comment</button>
+          </div>
+        </form>
+      </div>
+    {% endif %}
   </div>
-{% endif %}

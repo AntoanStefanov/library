@@ -204,6 +204,8 @@ class BookDetailsView(FormMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         book = self.object
+        context["comments"] = book.comment_set.all()
+
         if self.request.user.is_authenticated:
             profile = self.request.user.profile
 
@@ -213,7 +215,6 @@ class BookDetailsView(FormMixin, DetailView):
             context["has_user_liked_book"] = profile.likes.filter(
                 id=book.id).exists()
 
-            context["comments"] = book.comment_set.all()
 
             # self.form_invalid(form) *in post method* returns
             # self.render_to_response(self.get_context_data(form=form))
