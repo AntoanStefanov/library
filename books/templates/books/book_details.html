@@ -19,9 +19,11 @@
             <div class="mt-5">
               <footer class="blockquote-footer">
                 Shared by
-                {% if user == object.posted_by%}
+                {% if user == object.posted_by %}
                   <!-- https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#date -->
                   <a href="{% url 'profile' pk=user.pk %}">me</a> on {{ object.date_posted|date:'d F, Y' }}
+                {% elif user.is_superuser %}
+                  <a href="{% url 'profile' pk=object.posted_by.id %}">{{ object.posted_by }}</a> on {{ object.date_posted|date:'d F, Y' }}
                 {% else %}
                   <a href="{% url 'profile_user' object.posted_by.id %}">{{ object.posted_by }}</a> on {{ object.date_posted|date:'d F, Y' }}
                 {% endif %}
