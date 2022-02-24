@@ -16,8 +16,8 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'),  name='logout'),
     path('register/', UserRegisterView.as_view(), name='register'),
     path('profile/', include([
-        path('', user_profile_view, name='profile'),
         path('<int:pk>/', include([
+            path('', user_profile_view, name='profile'),
             path('delete/', UserDeleteView.as_view(), name='profile_delete'),
             path('save_book/', user_save_book_view, name='profile_save_book'),
             path('like_book/', user_like_book_view, name='profile_like_book'),

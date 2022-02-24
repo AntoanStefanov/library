@@ -6,7 +6,7 @@
     <button class="btn btn-danger m-3" type="submit">Delete</button>
     <a
       class="btn btn-secondary m-3"
-      href="{% url 'profile' %}"
+      href="{% url 'profile' pk=user.pk %}"
       >Cancel</a
     >
   </form>

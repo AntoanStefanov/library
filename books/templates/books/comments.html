@@ -10,7 +10,7 @@
           <img src="{{ comment.posted_by.profile.image.url }}" alt="" class="rounded-circle comment-pic m-2">
           <h4 style="display: inline-block;">
             {% if user == comment.posted_by %}
-              <a href="{% url 'profile' %}">me</a>
+              <a href="{% url 'profile' pk=user.pk %}">me</a>
             {% else %}
               <a href="{% url 'profile_user' comment.posted_by.id %}">{{ comment.posted_by }}</a>
             {% endif %}

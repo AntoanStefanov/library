@@ -55,30 +55,31 @@ class UserProfileView(LoginRequiredMixin, DetailView):
 
 
 @login_required
-def user_profile_view(request):
+def user_profile_view(request, pk):
+    user = get_object_or_404(User, pk=pk)
     if request.method == 'POST':
-        user_update_form = UserUpdateForm(request.POST, instance=request.user)
+        user_update_form = UserUpdateForm(request.POST, instance=user)
 
         profile_update_form = ProfileUpdateForm(
             request.POST,
             request.FILES,
-            instance=request.user.profile)
+            instance=user.profile)
 
         if user_update_form.is_valid() and profile_update_form.is_valid():
-            delete_profile_or_book_image(instance=request.user.profile, form=profile_update_form)
+            delete_profile_or_book_image(instance=user.profile, form=profile_update_form)
             user_update_form.save()
             profile_update_form.save()
             messages.success(
                 request, f'Your account has been updated!')
             return redirect('profile')
     else:
-        user_update_form = UserUpdateForm(instance=request.user)
-        profile_update_form = ProfileUpdateForm(instance=request.user.profile)
+        user_update_form = UserUpdateForm(instance=user)
+        profile_update_form = ProfileUpdateForm(instance=user.profile)
 
     context = {
         'user_update_form': user_update_form,
         'profile_update_form': profile_update_form,
-        'user': request.user
+        'user': user
     }
 
     return render(request, 'users/profile.html', context)

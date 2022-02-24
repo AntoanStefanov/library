@@ -90,7 +90,7 @@
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                   <li><a class="dropdown-item" href="{% url 'my_books' %}">Shared Books</a></li>
                   <li><a class="dropdown-item" href="{% url 'profile_favourites' %}">Saved Books</a></li>
-                  <li><a class="dropdown-item" href="{% url 'profile' %}">Edit Profile</a></li>
+                  <li><a class="dropdown-item" href="{% url 'profile' pk=user.pk %}">Edit Profile</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li>
                     <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
