@@ -73,8 +73,12 @@ def user_profile_view(request, pk):
                 request, f'Your account has been updated!')
             return redirect('profile')
     else:
-        user_update_form = UserUpdateForm(instance=user)
-        profile_update_form = ProfileUpdateForm(instance=user.profile)
+        # Current user should be profile owner or superuser
+        if request.user.is_superuser or request.user.id == pk:
+            user_update_form = UserUpdateForm(instance=user)
+            profile_update_form = ProfileUpdateForm(instance=user.profile)
+        else:
+            return redirect('books_library')
 
     context = {
         'user_update_form': user_update_form,
