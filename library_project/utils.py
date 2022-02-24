@@ -6,12 +6,10 @@ def is_image_resizable(path):
     """ Check if image has large resolution, if so, resize it. """
 
     img = Image.open(path)
-
-    if img.width > 400 or img.height > 500:
-        output_size = (400, 500)
-        # save width-height ratio.
-        img.thumbnail(output_size)
-        img.save(path)
+    output_size = (368, 500)
+    # save width-height ratio.
+    img = img.resize(output_size)
+    img.save(path)
 
 
 def is_user_admin_or_book_owner(view):
@@ -39,6 +37,10 @@ def delete_profile_or_book_image(instance=None, form=None):
     """
     if form:
         image = form.initial.get('image')
+        current_image = instance.image
+        # check if image hasn't been changed, if not do not delete.
+        if image == current_image:
+            return
     else:
         image = instance.image
 

@@ -65,7 +65,7 @@ def user_profile_view(request):
             instance=request.user.profile)
 
         if user_update_form.is_valid() and profile_update_form.is_valid():
-            delete_profile_or_book_image(form=profile_update_form)
+            delete_profile_or_book_image(instance=request.user.profile, form=profile_update_form)
             user_update_form.save()
             profile_update_form.save()
             messages.success(
