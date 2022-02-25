@@ -38,7 +38,7 @@ class BookOrderForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.fields['order_by'].label = "Sort By"
 
-    choices = (
+    CHOICES = (
         ('-date_posted', 'Date added(newest)'),
         ('date_posted', 'Date added(oldest)'),
         ('title', 'Title'),
@@ -47,14 +47,14 @@ class BookOrderForm(forms.Form):
     )
 
     order_by = forms.ChoiceField(
-        choices=choices
+        choices=CHOICES
     )
 
     def clean_order_by(self):
         # https://youtu.be/wVnQkKf-gHo?t=287
         order_by = self.cleaned_data.get('order_by')
 
-        params = [choice[0] for choice in self.choices]
+        params = [choice[0] for choice in self.CHOICES]
 
         if order_by not in params:
             raise forms.ValidationError('Invalid Order Paramater.')
