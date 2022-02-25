@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.text import slugify
 
 from books.models import Book, Comment
 
@@ -13,7 +14,15 @@ class BookForm(forms.ModelForm):
         model = Book
         exclude = ('date_posted', 'slug', 'posted_by')
 
-    # Create form validation if a book with same name OR SLUG already exists.
+    def clean(self):
+        # https://georgexyz.com/django-model-form-validation.html - clean for multiple fields
+        title = self.cleaned_data.get('title')
+        author = self.cleaned_data.get('author')
+        possible_slug = slugify(f"{title} {author}")
+        if possible_slug in Book.objects.values_list('slug', flat=True):
+            raise forms.ValidationError(
+                'Book with given title and author already exists!')
+
 
 class CommentForm(forms.ModelForm):
 
@@ -21,7 +30,8 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ('content',)
 
-    # Create form validation if a comment contains bad words ?.
+    # Create form validation if a comment contains bad words ?
+
 
 class BookOrderForm(forms.Form):
     def __init__(self, *args, **kwargs):
