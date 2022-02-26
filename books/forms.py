@@ -16,6 +16,7 @@ class BookForm(forms.ModelForm):
 
     def clean(self):
         # https://docs.djangoproject.com/en/4.0/ref/forms/validation/#cleaning-and-validating-fields-that-depend-on-each-other
+        # https://stackoverflow.com/questions/39488816/django-form-clean-run-before-field-validators
         # https://georgexyz.com/django-model-form-validation.html - clean for multiple fields
         cleaned_data = super().clean()
         title = cleaned_data.get('title')
