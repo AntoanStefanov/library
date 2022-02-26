@@ -121,7 +121,13 @@ div.scroll {
   background-color: rgb(70, 87, 240)
 } */
 
-.admin-books img {
+.admin-books-users img {
   width: 30px;
   height: 45px;
+  margin-top: 3px;
+  margin-left: 5px;
+}
+
+.admin-books-users p {
+  margin-top: 12px;
 }

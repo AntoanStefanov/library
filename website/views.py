@@ -16,7 +16,7 @@ def admin_view(request):
     if request.user.is_superuser:
         context = {
             'books': Book.objects.all().order_by('title', 'author'),
-            'users': User.objects.all(),
+            'users': User.objects.all().order_by('username', 'email'),
         }
         return render(request, 'website/admin_part.html', context)
     return redirect('website_home')

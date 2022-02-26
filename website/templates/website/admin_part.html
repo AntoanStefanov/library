@@ -1,8 +1,8 @@
 {% extends "website/base.html" %} {% block content %}
-<div class="container text-center mt-5">
+<div class="container text-center mt-5 admin-books-users">
   <div class="row">
-    <div class="col-lg-6 pe-5 admin-books">
-      {% for book in books%}
+    <div class="col-lg-6 pe-5 ">
+      {% for book in books %}
       <div class="border-top border">
         <div class="d-flex flex-row">
           <img
@@ -10,8 +10,8 @@
             alt="no photo"
             class="rounded img-fluid me-2"
           />
-          <p class="me-2 border mt-2 px-1">{{ book.title }}</p>
-          <p class="me-2 border mt-2 px-1">{{ book.author }}</p>
+          <p class="me-2 border px-1">{{ book.title }}</p>
+          <p class="me-2 border px-1">{{ book.author }}</p>
             <div class="col">
                 <a
                     href="{% url 'books_details' pk=book.pk slug=book.slug %}"
@@ -19,13 +19,32 @@
                     >Details
                 </a>
             </div>
-        </div>
-        
-       
+        </div> 
       </div>
       {% endfor %}
     </div>
-    <div class="col-lg-6 pe-5"></div>
+    <div class="col-lg-6 pe-5 ">
+        {% for user in users %}
+            <div class="border-top border">
+                <div class="d-flex flex-row">
+                <img
+                    src="{{ user.profile.image.url }}"
+                    alt="no photo"
+                    class="rounded-circle img-fluid me-2"
+                />
+                <p class="me-2 border px-1">{{ user.username }}</p>
+                <p class="me-2 border px-1">{{ user.email }}</p>
+                    <div class="col">
+                        <a
+                            href="{% url 'profile' user.id %}"
+                            class="btn float-end btn-primary m-2 btn-sm"
+                            >Profile
+                        </a>
+                    </div>
+                </div> 
+            </div>
+        {% endfor %}
+    </div>
   </div>
 </div>
 {% endblock content %}
