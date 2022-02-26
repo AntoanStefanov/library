@@ -15,9 +15,11 @@ class BookForm(forms.ModelForm):
         exclude = ('date_posted', 'slug', 'posted_by')
 
     def clean(self):
+        # https://docs.djangoproject.com/en/4.0/ref/forms/validation/#cleaning-and-validating-fields-that-depend-on-each-other
         # https://georgexyz.com/django-model-form-validation.html - clean for multiple fields
-        title = self.cleaned_data.get('title')
-        author = self.cleaned_data.get('author')
+        cleaned_data = super().clean()
+        title = cleaned_data.get('title')
+        author = cleaned_data.get('author')
         possible_slug = slugify(f"{title} {author}")
         if possible_slug in Book.objects.values_list('slug', flat=True):
             raise forms.ValidationError(
@@ -30,7 +32,17 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ('content',)
 
-    # Create form validation if a comment contains bad words ?
+    BAD_WORDS = ['idiot', 'fool', 'stupid']
+
+    def clean_content(self):
+        content = self.cleaned_data.get('content')
+        words = content.split(' ')
+
+        for word in words:
+            if word.lower() in self.BAD_WORDS:
+                raise forms.ValidationError(
+                    'Offensive words are not allowed !')
+        return content
 
 
 class BookOrderForm(forms.Form):
@@ -50,6 +62,7 @@ class BookOrderForm(forms.Form):
         choices=CHOICES
     )
 
+    # order_by is checked in BookListView - get method.
     def clean_order_by(self):
         # https://youtu.be/wVnQkKf-gHo?t=287
         order_by = self.cleaned_data.get('order_by')

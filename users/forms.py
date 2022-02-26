@@ -1,8 +1,16 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from library_project.utils import megabytes_to_bytes
 
 from .models import Profile
+
+
+def validate_max_size_in_MB(max_size, value):
+    filesize = value.size
+    if filesize > megabytes_to_bytes(max_size):
+        raise ValidationError(f'Max file size is {max_size:.2f} MB')
 
 
 class UserRegisterForm(UserCreationForm):
@@ -41,7 +49,8 @@ class UserRegisterForm(UserCreationForm):
 class UserUpdateForm(forms.ModelForm):
     # email here because in AbstractUser, email is not required
 
-    email = forms.EmailField(help_text="Email must be unique. Include '@' in email address.")
+    email = forms.EmailField(
+        help_text="Email must be unique. Include '@' in email address.")
 
     def clean_email(self):
         # https://youtu.be/wVnQkKf-gHo?t=287
@@ -49,7 +58,7 @@ class UserUpdateForm(forms.ModelForm):
         user_current_email = self.instance.email
         # flat=True, to return a list, not a list with tuples.
         database_emails = User.objects.values_list('email', flat=True)
-        
+
         if email != user_current_email and email in database_emails:
             raise forms.ValidationError('Email already exists.')
         return email
@@ -64,3 +73,11 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['image']
+
+    IMAGE_MAX_SIZE = 5
+
+    def clean_image(self):
+        image = self.cleaned_data.get('image')
+        # func raises exception
+        validate_max_size_in_MB(self.IMAGE_MAX_SIZE, image)
+        return image

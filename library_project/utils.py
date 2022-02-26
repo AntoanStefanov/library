@@ -47,3 +47,7 @@ def delete_profile_or_book_image(instance=None, form=None):
     if image.name != 'default_user.jpg' and image.name != 'default_book.jpg':
         image_path = image.path
         os.remove(image_path)
+
+
+def megabytes_to_bytes(value):
+    return value * 1024 * 1024
