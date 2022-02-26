@@ -64,6 +64,11 @@
             <li class="nav-item">
               <a href="{% url 'website_about' %}" class="nav-link">About</a>
             </li>
+            {% if user.is_superuser %}
+            <li class="nav-item">
+              <a href="{% url 'website_admin_part' %}" class="nav-link">Admin</a>
+            </li>
+            {% endif %}
             
           </ul>
           <ul class="navbar-nav ms-auto">

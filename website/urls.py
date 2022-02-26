@@ -9,6 +9,6 @@ urlpatterns = [
     path('about/', AboutView.as_view(), name='website_about'),
     path('books/', include('books.urls')),
     path('users/', include('users.urls')),
-    path('admin_part/', admin_view, name='admin_part'),
+    path('admin_part/', admin_view, name='website_admin_part'),
 
 ]
