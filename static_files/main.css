@@ -120,3 +120,8 @@ div.scroll {
 /* .info-div {
   background-color: rgb(70, 87, 240)
 } */
+
+.admin-books img {
+  width: 30px;
+  height: 45px;
+}

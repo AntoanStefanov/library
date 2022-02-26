@@ -1,3 +1,6 @@
+from books.models import Book
+from django.contrib.auth.models import User
+from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 
 
@@ -7,3 +10,13 @@ class HomeView(TemplateView):
 
 class AboutView(TemplateView):
     template_name = 'website/about.html'
+
+
+def admin_view(request):
+    if request.user.is_superuser:
+        context = {
+            'books': Book.objects.all().order_by('title', 'author'),
+            'users': User.objects.all(),
+        }
+        return render(request, 'website/admin_part.html', context)
+    return redirect('website_home')
