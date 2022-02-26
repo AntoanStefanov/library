@@ -36,6 +36,7 @@ class CommentForm(forms.ModelForm):
     BAD_WORDS = ['idiot', 'fool', 'stupid']
 
     def clean_content(self):
+        # https://docs.djangoproject.com/en/4.0/ref/forms/validation/#cleaning-a-specific-field-attribute
         content = self.cleaned_data.get('content')
         words = content.split(' ')
 
