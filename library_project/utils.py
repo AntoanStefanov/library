@@ -34,6 +34,8 @@ def delete_profile_or_book_image(instance=None, form=None):
     """
         When updating , instance doesn't have the previous image,
         so that's why we use form if needed.
+        Check if image is default, so that we dont delete it,
+        Error Handling with if's instead of try/except blocks.
     """
     if form:
         image = form.initial.get('image')
