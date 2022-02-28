@@ -26,7 +26,8 @@ html {
 
 /* ************************* */
 
-html, body {
+html,
+body {
   background-color: rgb(243, 245, 245);
 }
 
@@ -105,16 +106,16 @@ div.scroll {
   height: 500px;
   overflow-x: hidden;
   overflow-y: auto;
-  text-align:justify;
+  text-align: justify;
 }
 
 .book-div {
   width: 368px;
-  background-color: rgb(232, 235, 234)
+  background-color: rgb(232, 235, 234);
 }
 
 .profile-info {
-  background-color: rgb(231, 202, 71)
+  background-color: rgb(231, 202, 71);
 }
 
 /* .info-div {
@@ -130,4 +131,10 @@ div.scroll {
 
 .admin-books-users p {
   margin-top: 12px;
+}
+
+.book-info {
+  display: flex;
+  width: 300px;
+  /* justify-content: space-between; */
 }

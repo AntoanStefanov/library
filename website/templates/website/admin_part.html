@@ -10,15 +10,27 @@
             alt="no photo"
             class="rounded img-fluid me-2"
           />
-          <p class="me-2 border px-1">{{ book.title }}</p>
-          <p class="me-2 border px-1">{{ book.author }}</p>
-            <div class="col">
-                <a
-                    href="{% url 'books_details' pk=book.pk slug=book.slug %}"
-                    class="btn float-end btn-primary m-2 btn-sm"
-                    >Details
-                </a>
-            </div>
+          <div class="book-info">
+            <p class="me-2 border px-1 small">{{ book.title }}</p>
+            <p class="me-2 border px-1 small">{{ book.author }}</p>
+          </div>
+          <div class="col">
+              <a
+                  href="{% url 'books_delete' pk=book.pk slug=book.slug %}"
+                  class="btn float-end btn-danger m-2 btn-sm"
+                  >Delete
+              </a>
+              <a
+                  href="{% url 'books_update' pk=book.pk slug=book.slug %}"
+                  class="btn float-end btn-warning m-2 btn-sm"
+                  >Update
+              </a>
+              <a
+              href="{% url 'books_details' pk=book.pk slug=book.slug %}"
+              class="btn float-end btn-primary m-2 btn-sm"
+              >Details
+              </a>
+          </div>
         </div> 
       </div>
       {% endfor %}
@@ -36,10 +48,16 @@
                 <p class="me-2 border px-1">{{ user.email }}</p>
                     <div class="col">
                         <a
+                            href="{% url 'profile_delete' user.id %}"
+                            class="btn float-end btn-danger m-2 btn-sm"
+                            >Delete
+                        </a>
+                        <a
                             href="{% url 'profile' user.id %}"
                             class="btn float-end btn-primary m-2 btn-sm"
                             >Profile
                         </a>
+
                     </div>
                 </div> 
             </div>
