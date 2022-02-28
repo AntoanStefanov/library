@@ -9,7 +9,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView
 from library_project.utils import delete_profile_or_book_image, is_user_admin_or_profile_owner
 
-from users.models import Profile
+from users.models import Profile, ProfileFavouriteBooks
 
 from .forms import ProfileUpdateForm, UserRegisterForm, UserUpdateForm
 
@@ -66,7 +66,8 @@ def user_profile_view(request, pk):
             instance=user.profile)
 
         if user_update_form.is_valid() and profile_update_form.is_valid():
-            delete_profile_or_book_image(instance=user.profile, form=profile_update_form)
+            delete_profile_or_book_image(
+                instance=user.profile, form=profile_update_form)
             user_update_form.save()
             profile_update_form.save()
             messages.success(
@@ -95,10 +96,18 @@ def user_save_book_view(request, **kwargs):
     # https://www.youtube.com/watch?v=H4QPHLmsZMU
     book = get_object_or_404(Book, pk=kwargs.get('pk'))
     profile = request.user.profile
-    if profile.favourites.filter(id=book.id).exists():
-        profile.favourites.remove(book)
+    saved_book = ProfileFavouriteBooks.objects.filter(
+        user_id=profile.user_id,
+        book_id=book.id
+    )
+
+    if saved_book.exists():
+        saved_book.delete()
     else:
-        profile.favourites.add(book)
+        ProfileFavouriteBooks.objects.create(
+            user_id=profile.user_id,
+            book_id=book.id
+        )
 
     return redirect(book.get_absolute_url())
 

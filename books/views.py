@@ -9,6 +9,7 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
 from django.views.generic.edit import FormMixin
 from library_project.utils import (delete_profile_or_book_image,
                                    is_user_admin_or_book_owner)
+from users.models import ProfileFavouriteBooks
 
 from books.forms import BookForm, BookOrderForm, CommentForm
 
@@ -53,11 +54,14 @@ class FavouritesView(LoginRequiredMixin, BookListView):
     def get_queryset(self):
         profile = self.request.user.profile
         # profile.favourites -> ManyRelatedManager
-        favourites = profile.favourites.all()
+        saved_books = ProfileFavouriteBooks.objects.filter(
+            user_id=profile.user_id)
+        books_ids = saved_books.values_list('book_id', flat=True)
+        saved_books = Book.objects.filter(pk__in=books_ids)
 
         if self.order_by:
-            favourites = favourites.order_by(self.order_by)
-        return favourites
+            saved_books = saved_books.order_by(self.order_by)
+        return saved_books
 
 
 class RecommendedBookListView(LoginRequiredMixin, ListView):
@@ -209,12 +213,13 @@ class BookDetailsView(FormMixin, DetailView):
         if self.request.user.is_authenticated:
             profile = self.request.user.profile
 
-            context["has_user_saved_book"] = profile.favourites.filter(
-                id=book.id).exists()
+            context["has_user_saved_book"] = ProfileFavouriteBooks.objects.filter(
+                user_id=profile.user_id,
+                book_id=book.id
+            ).exists()
 
             context["has_user_liked_book"] = profile.likes.filter(
                 id=book.id).exists()
-
 
             # self.form_invalid(form) *in post method* returns
             # self.render_to_response(self.get_context_data(form=form))

@@ -36,3 +36,12 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'{self.user.username} Profile'
+
+
+class ProfileFavouriteBooks(models.Model):
+    
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.user.username} Profile | {self.book.name} Book'
