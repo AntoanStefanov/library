@@ -44,7 +44,9 @@ class BookListView(FormMixin, ListView):
             If view has order_by property (in get method *checks if passed form is valid),
             order query. Else return query by default.
         """
-        query = Book.objects.all()
+        # If bug happens, remove super() call and UNcomment the query.
+        query = super().get_queryset()
+        # query = Book.objects.all()
         if self.order_by:
             query = query.order_by(self.order_by)
         return query
