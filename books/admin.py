@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Book
+from .models import Book, Comment
 
 
 # The ModelAdmin class is the representation of a model in the admin interface.
@@ -11,4 +11,9 @@ class BookAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title", "author")}
 
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('content', 'posted_by', 'book')
+
+
 admin.site.register(Book, BookAdmin)
+admin.site.register(Comment, CommentAdmin)
