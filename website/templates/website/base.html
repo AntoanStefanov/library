@@ -65,7 +65,7 @@
             <li class="nav-item">
               <a href="{% url 'website_about' %}" class="nav-link">About</a>
             </li>
-            {% if user.is_superuser or user|has_group:"full-CRUD" %}
+            {% if user.is_superuser or user|has_group:"full-CRUD, limited-CRUD" %}
             <li class="nav-item">
               <a href="{% url 'website_admin_part' %}" class="nav-link">Admin</a>
             </li>

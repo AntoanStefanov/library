@@ -109,6 +109,14 @@ div.scroll {
   text-align: justify;
 }
 
+.scroll-admin-books {
+  padding-right: 20px;
+  height: 700px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: justify;
+}
+
 .book-div {
   width: 368px;
   background-color: rgb(232, 235, 234);
