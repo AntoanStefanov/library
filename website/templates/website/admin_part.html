@@ -1,8 +1,8 @@
 {% extends "website/base.html" %} {% block content %}
-<div class="container text-center mt-5 admin-books-users">
-  <div class="row">
-    <div class="col-lg-6 pe-5 ">
-      <h1> Books </h1>
+<div class="container-fluid h-100 text-center mt-5 admin-books-users">
+  <div class="row h-100">
+    <div class="col-lg-6 pe-5 scroll">
+      <h1 class="books-heading"> Books </h1>
       {% for book in books %}
       <div class="border-top border">
         <div class="d-flex flex-row">
@@ -33,6 +33,33 @@
               </a>
           </div>
         </div> 
+        <!-- <ul class="list-group">
+          <li class="list-group-item border-bottom">
+            <small class="small-text">{{ comment.content }}</small>
+          </li>
+        </ul> -->
+        <div class="dropdown mb-2 comment-droplist">
+          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Comments
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            {% if book.comment_set.all %}
+            <ul>
+              {% for comment in book.comment_set.all %}
+              <li>
+                <a class="dropdown-item" href="#">{{ comment.content }}</a>
+                <!-- <div class="row">
+                  <a class='delete-comment-admin-btn btn-sm btn-danger float-end mt-2' href="{% url 'books_comment_delete' pk=book.id slug=book.slug id=comment.id %}">Delete</a>
+                </div> -->
+              </li>
+              {% endfor %}
+            {% else %}
+              <li><a class="dropdown-item" href="#">No comments yet for this book!</a></li>
+            {% endif %}
+            </ul>
+          </ul>
+        </div>
+
       </div>
       {% endfor %}
     </div>

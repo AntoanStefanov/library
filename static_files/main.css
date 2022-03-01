@@ -138,3 +138,16 @@ div.scroll {
   width: 300px;
   /* justify-content: space-between; */
 }
+
+.books-heading {
+  margin-left: 240px;
+}
+
+.comment-droplist {
+  margin-left: 240px;
+}
+
+.delete-comment-admin-btn {
+  display: flex;
+  justify-content: space-between;
+}
