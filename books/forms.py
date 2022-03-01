@@ -13,6 +13,9 @@ class BookForm(forms.ModelForm):
     class Meta:
         model = Book
         exclude = ('date_posted', 'slug', 'posted_by')
+        help_texts = {
+            'author': 'If your author does not exist, contact site.',
+        }
 
     def clean(self):
         # https://docs.djangoproject.com/en/4.0/ref/forms/validation/#cleaning-and-validating-fields-that-depend-on-each-other

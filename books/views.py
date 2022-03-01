@@ -14,7 +14,7 @@ from users.models import ProfileFavouriteBooks
 
 from books.forms import BookForm, BookOrderForm, CommentForm, UpdateBookForm
 
-from .models import Book, Comment
+from .models import Author, Book, Comment
 
 
 class BookListView(FormMixin, ListView):
@@ -149,9 +149,10 @@ class GenreBookListView(LoginRequiredMixin, BookListView):
 
 class AuthorBookListView(BookListView):
     def get_queryset(self):
-        author = self.kwargs.get('author')
+        first_name, last_name = self.kwargs.get('author').split(' ')
+        author = Author.objects.filter(first_name=first_name, last_name=last_name).first()
         author_books = Book.objects.filter(
-            author=author)
+            author_id=author.id)
 
         if self.order_by:
             author_books = author_books.order_by(self.order_by)

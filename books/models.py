@@ -27,6 +27,36 @@ class CommonFields(models.Model):
         ordering = ['-date_posted']
 
 
+class Author(models.Model):
+    FIRST_NAME_MAX_LENGTH = 50
+    LAST_NAME_MAX_LENGTH = 50
+
+    FIRST_NAME_MIN_LENGTH = 1
+    LAST_NAME_MIN_LENGTH = 1
+
+    first_name = models.CharField(
+        max_length=FIRST_NAME_MAX_LENGTH,
+        validators=[MinLengthValidator(FIRST_NAME_MIN_LENGTH)]
+    )
+
+    last_name = models.CharField(
+        max_length=LAST_NAME_MAX_LENGTH,
+        validators=[MinLengthValidator(LAST_NAME_MIN_LENGTH)]
+    )
+
+    image = models.URLField()
+
+    birth_date = models.DateField()
+
+    biography = models.TextField()
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+
+    @property
+    def full_name(self):
+        return self.first_name + ' ' + self.last_name
+
 class Book(CommonFields):
     TITLE_MIN_LENGTH = 2
     TITLE_MAX_LENGTH = 150
@@ -64,10 +94,7 @@ class Book(CommonFields):
         validators=[MinLengthValidator(TITLE_MIN_LENGTH)]
     )
 
-    author = models.CharField(
-        max_length=AUTHOR_MAX_LENGTH,
-        validators=[MinLengthValidator(AUTHOR_MIN_LENGTH)]
-    )
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
 
     language = models.CharField(
         max_length=LANGUAGE_MAX_LENGTH,
@@ -77,7 +104,6 @@ class Book(CommonFields):
     genre = models.CharField(
         max_length=max(len(choices[0]) for choices in GENRE_CHOICES),
         choices=GENRE_CHOICES,
-        default=GENRE_ART
     )
 
     description = models.TextField()

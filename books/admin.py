@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Book, Comment
+from .models import Author, Book, Comment
 
 
 # The ModelAdmin class is the representation of a model in the admin interface.
@@ -15,5 +15,11 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('content', 'posted_by', 'book')
 
 
+class AuthorAdmin(admin.ModelAdmin):
+    list_display = ('full_name', 'id')
+    ordering = ('id',)
+
+
 admin.site.register(Book, BookAdmin)
 admin.site.register(Comment, CommentAdmin)
+admin.site.register(Author, AuthorAdmin)
