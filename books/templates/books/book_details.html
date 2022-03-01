@@ -13,8 +13,10 @@
         <div style="border-left: 2px solid #0DCAF0" class="px-3">     
           <h1>{{object.title}}</h1>
           <h2><a href="{% url 'author_books' object.author %}">{{ object.author }}</a></h2>
-          <h4>Language - {{ object.language }}</h4>
-          <h4>Genre - {{ object.get_genre_display }}</h4>
+          <div class="language-genre-div ml-auto">
+            <div class="border me-3 p-2">Language - {{ object.language }}</div>
+            <div class="border p-2">Genre - {{ object.get_genre_display }}</div>
+          </div>
           <blockquote class="blockquote">
             <p class="mb-0">{{object.description}}</p>
             <div class="mt-5">
