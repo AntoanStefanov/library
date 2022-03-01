@@ -17,7 +17,11 @@
             {% if user == comment.posted_by %}
               <a href="{% url 'profile' pk=user.pk %}">me</a>
             {% else %}
-              <a href="{% url 'profile_user' comment.posted_by.id %}">{{ comment.posted_by }}</a>
+              {% if user.is_superuser or user|has_group:"full-CRUD" %}
+                <a href="{% url 'profile' pk=comment.posted_by.id %}">{{ comment.posted_by }}</a>
+              {% else%}
+                <a href="{% url 'profile_user' comment.posted_by.id %}">{{ comment.posted_by }}</a>
+              {% endif %}
             {% endif %}
           </h4>
           <!-- https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#date -->
