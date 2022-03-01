@@ -5,12 +5,12 @@ from PIL import Image
 def is_image_resizable(path):
     """ Check if image has large resolution, if so, resize it. """
 
-    img = Image.open(path)
-    if img.width != 368 and img.height != 500:
-        output_size = (368, 500)
-        # save width-height ratio.
-        img = img.resize(output_size)
-        img.save(path)
+    with Image.open(path) as img:
+        if img.width != 368 and img.height != 500:
+            output_size = (368, 500)
+            # save width-height ratio.
+            img = img.resize(output_size)
+            img.save(path)
 
 
 def is_user_admin_or_book_owner(view):
