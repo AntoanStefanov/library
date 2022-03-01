@@ -236,12 +236,13 @@ class TestBookViews(TestCase):
         }
 
         response = self.client.post(self.books_create_url, data)
-
+        books = Book.objects.all()
+        
         # REDIRECT to absolute url in Book model.
         self.assertEqual(response.status_code, 302)
         # assert that user object is added correctly within the form.
-        self.assertEqual(Book.objects.all()[0].posted_by, self.user)
-        self.assertEqual(Book.objects.all()[0].title, 'test title')
+        self.assertEqual(books[0].posted_by, self.user)
+        self.assertEqual(books[0].title, 'test title')
 
     def test_books_details_view_GET(self):
         """
