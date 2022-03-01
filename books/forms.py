@@ -70,7 +70,7 @@ class BookOrderForm(forms.Form):
         ('-date_posted', 'Date added(newest)'),
         ('date_posted', 'Date added(oldest)'),
         ('title', 'Title'),
-        ('author', 'Author'),
+        ('author__first_name', 'Author'),
         ('language', 'Language'),
     )
 

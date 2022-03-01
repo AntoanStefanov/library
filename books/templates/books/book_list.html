@@ -38,7 +38,7 @@
             {% if request.resolver_match.url_name == 'author_books' %}
               <h5>{{ book.author }}</h5>
             {% else %}
-              <h5><a href="{% url 'author_books' book.author %}">{{ book.author }}</a></h5>
+              <h5><a href="{% url 'author_books' pk=book.author.id author=book.author %}">{{ book.author }}</a></h5>
             {% endif%}
            </div>
             <div><a

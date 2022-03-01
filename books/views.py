@@ -52,7 +52,6 @@ class BookListView(FormMixin, ListView):
             query = query.order_by(self.order_by)
         return query
 
-
 class FavouritesView(LoginRequiredMixin, BookListView):
     def get_queryset(self):
         profile = self.request.user.profile
@@ -149,10 +148,11 @@ class GenreBookListView(LoginRequiredMixin, BookListView):
 
 class AuthorBookListView(BookListView):
     def get_queryset(self):
-        first_name, last_name = self.kwargs.get('author').split(' ')
-        author = Author.objects.filter(first_name=first_name, last_name=last_name).first()
+        # first_name, last_name = self.kwargs.get('author').split(' ')
+        author_id = self.kwargs.get('pk')
+        # author = Author.objects.filter(first_name=first_name, last_name=last_name).first()
         author_books = Book.objects.filter(
-            author_id=author.id)
+            author_id=author_id)
 
         if self.order_by:
             author_books = author_books.order_by(self.order_by)
