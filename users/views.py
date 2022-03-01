@@ -76,7 +76,7 @@ def user_profile_view(request, pk):
             profile_update_form.save()
             messages.success(
                 request, f'Your account has been updated!')
-            return redirect('profile')
+            return redirect('profile', user.id)
     else:
         # Current user should be profile owner or admin, superuser
 
