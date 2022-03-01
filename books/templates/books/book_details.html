@@ -12,7 +12,7 @@
       <div class="col-lg-6 text-right mt-5 px-3">
         <div style="border-left: 2px solid #0DCAF0" class="px-3">     
           <h1>{{object.title}}</h1>
-          <h2><a href="{% url 'author_books' object.author %}">{{ object.author }}</a></h2>
+          <h2><a href="{% url 'author_books' pk=object.author.id author=object.author %}">{{ object.author }}</a></h2>
           <div class="language-genre-div ml-auto">
             <div class="border me-3 p-2">Language - {{ object.language }}</div>
             <div class="border p-2">Genre - {{ object.get_genre_display }}</div>

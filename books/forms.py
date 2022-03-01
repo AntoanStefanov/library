@@ -66,11 +66,13 @@ class BookOrderForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.fields['order_by'].label = "Sort By"
 
+    author_choice = ['author__first_name', 'author__last_name']
+
     CHOICES = (
         ('-date_posted', 'Date added(newest)'),
         ('date_posted', 'Date added(oldest)'),
         ('title', 'Title'),
-        ('author__first_name', 'Author'),
+        (f'{author_choice}', 'Author'),
         ('language', 'Language'),
     )
 
@@ -83,6 +85,8 @@ class BookOrderForm(forms.Form):
         # https://youtu.be/wVnQkKf-gHo?t=287
         order_by = self.cleaned_data.get('order_by')
 
+        # https://stackoverflow.com/questions/952914/how-to-make-a-flat-list-out-of-a-list-of-lists
+        # flat list, because of author_choice
         params = [choice[0] for choice in self.CHOICES]
 
         if order_by not in params:

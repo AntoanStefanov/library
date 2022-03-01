@@ -1,3 +1,4 @@
+import ast
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -14,7 +15,17 @@ from users.models import ProfileFavouriteBooks
 
 from books.forms import BookForm, BookOrderForm, CommentForm, UpdateBookForm
 
-from .models import Author, Book, Comment
+from .models import Book, Comment
+
+
+def return_query_and_order_if_needed(order_by, query):
+    if order_by:
+        try:
+            # if order_by is a list within a string, make it list and unpack.
+            query = query.order_by(*ast.literal_eval(order_by))
+        except:
+            query = query.order_by(order_by)
+    return query
 
 
 class BookListView(FormMixin, ListView):
@@ -48,9 +59,9 @@ class BookListView(FormMixin, ListView):
         # If bug happens, remove super() call and UNcomment the query.
         query = super().get_queryset()
         # query = Book.objects.all()
-        if self.order_by:
-            query = query.order_by(self.order_by)
-        return query
+
+        return return_query_and_order_if_needed(self.order_by, query)
+
 
 class FavouritesView(LoginRequiredMixin, BookListView):
     def get_queryset(self):
@@ -61,9 +72,7 @@ class FavouritesView(LoginRequiredMixin, BookListView):
         books_ids = saved_books.values_list('book_id', flat=True)
         saved_books = Book.objects.filter(pk__in=books_ids)
 
-        if self.order_by:
-            saved_books = saved_books.order_by(self.order_by)
-        return saved_books
+        return return_query_and_order_if_needed(self.order_by, saved_books)
 
 
 class RecommendedBookListView(LoginRequiredMixin, ListView):
@@ -141,9 +150,7 @@ class GenreBookListView(LoginRequiredMixin, BookListView):
         genre_books = Book.objects.filter(
             genre=genre)
 
-        if self.order_by:
-            genre_books = genre_books.order_by(self.order_by)
-        return genre_books
+        return return_query_and_order_if_needed(self.order_by, genre_books)
 
 
 class AuthorBookListView(BookListView):
@@ -154,9 +161,7 @@ class AuthorBookListView(BookListView):
         author_books = Book.objects.filter(
             author_id=author_id)
 
-        if self.order_by:
-            author_books = author_books.order_by(self.order_by)
-        return author_books
+        return return_query_and_order_if_needed(self.order_by, author_books)
 
 
 class ProfileBookListView(LoginRequiredMixin, BookListView):
@@ -165,9 +170,7 @@ class ProfileBookListView(LoginRequiredMixin, BookListView):
         profile_books = Book.objects.filter(
             posted_by__username=profile_username)
 
-        if self.order_by:
-            profile_books = profile_books.order_by(self.order_by)
-        return profile_books
+        return return_query_and_order_if_needed(self.order_by, profile_books)
 
 
 class MyBookListView(LoginRequiredMixin, BookListView):
@@ -178,9 +181,8 @@ class MyBookListView(LoginRequiredMixin, BookListView):
         # user_books = Book.objects.filter(
         # posted_by=self.request.user.pk)
 
-        if self.order_by:
-            user_books = user_books.order_by(self.order_by)
-        return user_books
+        return return_query_and_order_if_needed(self.order_by, user_books)
+
 
 
 class BookCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
