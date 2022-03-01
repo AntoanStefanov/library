@@ -8,10 +8,11 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 from django.views.generic.edit import FormMixin
 from library_project.utils import (delete_profile_or_book_image,
-                                   is_user_admin_or_book_owner)
+                                   is_user_admin_or_book_owner,
+                                   is_user_admin_or_comment_owner)
 from users.models import ProfileFavouriteBooks
 
-from books.forms import BookForm, BookOrderForm, CommentForm
+from books.forms import BookForm, BookOrderForm, CommentForm, UpdateBookForm
 
 from .models import Book, Comment
 
@@ -290,7 +291,7 @@ class BookDetailsView(FormMixin, DetailView):
 
 class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = Book
-    form_class = BookForm
+    form_class = UpdateBookForm
     success_message = 'Book "%(title)s" was updated successfully!'
 
     def form_valid(self, form):
@@ -328,7 +329,7 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return reverse('books_details', kwargs={'pk': self.kwargs.get('pk'), 'slug': self.kwargs.get('slug')})
 
     def test_func(self):
-        return is_user_admin_or_book_owner(self)
+        return is_user_admin_or_comment_owner(self)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

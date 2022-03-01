@@ -8,12 +8,12 @@
           <div class="media col-lg-6 mt-3 text-center">
             <img
               class="rounded-circle account-img"
-              src="{{ user.profile.image.url }}"
+              src="{{ user_profile.profile.image.url }}"
             />
             <div class="media-body">
-              <h2 class="account-heading">{{ user.username }}</h2>
-              <p class="text-secondary">{{ user.email }}</p>
-              <p class="text-secondary">Member since: {{ user.date_joined|date:'d-M-Y' }}</p>
+              <h2 class="account-heading">{{ user_profile.username }}</h2>
+              <p class="text-secondary">{{ user_profile.email }}</p>
+              <p class="text-secondary">Member since: {{ user_profile.date_joined|date:'d-M-Y' }}</p>
             </div>
           </div>
           <div class="content-section col-lg-6">
@@ -27,7 +27,7 @@
                 <button class="btn btn-primary m-3" type="submit">Update Profile</button>
                 <a 
                 class="btn btn-danger m-3"
-                href="{% url 'profile_delete' pk=user.id %}"
+                href="{% url 'profile_delete' pk=user_profile.id %}"
                 >Delete</a>
               </div>
             </form>

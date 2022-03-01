@@ -27,6 +27,17 @@ class BookForm(forms.ModelForm):
                 'Book with given title and author already exists!')
 
 
+class UpdateBookForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['image'].widget.attrs['class'] = 'form-control'
+        self.fields['image'].label += ":"
+
+    class Meta:
+        model = Book
+        exclude = ('date_posted', 'slug', 'posted_by')
+
+
 class CommentForm(forms.ModelForm):
 
     class Meta:

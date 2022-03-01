@@ -2,6 +2,7 @@
 <div class="container text-center mt-5 admin-books-users">
   <div class="row">
     <div class="col-lg-6 pe-5 ">
+      <h1> Books </h1>
       {% for book in books %}
       <div class="border-top border">
         <div class="d-flex flex-row">
@@ -36,24 +37,25 @@
       {% endfor %}
     </div>
     <div class="col-lg-6 pe-5 ">
-        {% for user in users %}
+      <h1> Users </h1>
+        {% for user_profile in users %}
             <div class="border-top border">
                 <div class="d-flex flex-row">
                 <img
-                    src="{{ user.profile.image.url }}"
+                    src="{{ user_profile.profile.image.url }}"
                     alt="no photo"
                     class="rounded-circle img-fluid me-2"
                 />
-                <p class="me-2 border px-1">{{ user.username }}</p>
-                <p class="me-2 border px-1">{{ user.email }}</p>
+                <p class="me-2 border px-1">{{ user_profile.username }}</p>
+                <p class="me-2 border px-1">{{ user_profile.email }}</p>
                     <div class="col">
                         <a
-                            href="{% url 'profile_delete' user.id %}"
+                            href="{% url 'profile_delete' user_profile.id %}"
                             class="btn float-end btn-danger m-2 btn-sm"
                             >Delete
                         </a>
                         <a
-                            href="{% url 'profile' user.id %}"
+                            href="{% url 'profile' user_profile.id %}"
                             class="btn float-end btn-primary m-2 btn-sm"
                             >Profile
                         </a>

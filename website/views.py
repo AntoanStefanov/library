@@ -13,7 +13,7 @@ class AboutView(TemplateView):
 
 
 def admin_view(request):
-    if request.user.is_superuser:
+    if request.user.is_superuser or request.user.groups.filter(name='full-CRUD').exists():
         context = {
             'books': Book.objects.all().order_by('title', 'author'),
             'users': User.objects.all().order_by('username', 'email'),

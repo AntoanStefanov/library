@@ -1,8 +1,10 @@
+{% load group_filters %}
+
 {% if user.is_authenticated %}
   <div>
     {% include 'books/save_like_anchors.html'%}
   
-    {% if object.posted_by == user or user.is_superuser %}
+    {% if object.posted_by == user or user.is_superuser or user|has_group:"full-CRUD" %}
     
       <a
         class="btn btn-primary mx-4"

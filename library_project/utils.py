@@ -18,7 +18,7 @@ def is_user_admin_or_book_owner(view):
     book = view.get_object()
     current_user = view.request.user
 
-    return current_user == book.posted_by or current_user.is_superuser
+    return current_user == book.posted_by or current_user.is_superuser or current_user.groups.filter(name='full-CRUD').exists()
 
 
 def is_user_admin_or_profile_owner(view):
@@ -27,7 +27,19 @@ def is_user_admin_or_profile_owner(view):
     user = view.get_object()
     current_user = view.request.user
 
-    return current_user == user or current_user.is_superuser
+    if user.is_superuser and user != current_user:
+        # ONLY superuser can delete and modify his acc
+        return False
+
+    return current_user == user or current_user.is_superuser or current_user.groups.filter(name='full-CRUD').exists()
+
+
+def is_user_admin_or_comment_owner(view):
+
+    user = view.get_object()
+    current_user = view.request.user
+
+    return current_user == user or current_user.is_superuser or current_user.groups.filter(name__in=['limited-CRUD', 'full-CRUD']).exists()
 
 
 def delete_profile_or_book_image(instance=None, form=None):

@@ -36,6 +36,7 @@ class UserRegisterView(SuccessMessageMixin, CreateView):
 class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = User
     template_name = 'users/confirm_delete.html'
+    context_object_name = 'user_profile'
 
     def get_success_url(self):
         messages.success(
@@ -48,6 +49,9 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         """
         return is_user_admin_or_profile_owner(self)
 
+    # def get_context_object_name(self, obj):
+    #     # OVERRIDE, SO THAT this method doesn't override user variable in templates!
+    #     pass
 
 class UserProfileView(LoginRequiredMixin, DetailView):
     model = Profile
@@ -74,8 +78,13 @@ def user_profile_view(request, pk):
                 request, f'Your account has been updated!')
             return redirect('profile')
     else:
-        # Current user should be profile owner or superuser
-        if request.user.is_superuser or request.user.id == pk:
+        # Current user should be profile owner or admin, superuser
+
+        if user.is_superuser:
+            # If admin tries to edit superuser profile, redirect
+            return redirect('books_library')
+
+        if request.user.is_superuser or request.user.id == pk or request.user.groups.filter(name='full-CRUD').exists():
             user_update_form = UserUpdateForm(instance=user)
             profile_update_form = ProfileUpdateForm(instance=user.profile)
         else:
@@ -84,7 +93,7 @@ def user_profile_view(request, pk):
     context = {
         'user_update_form': user_update_form,
         'profile_update_form': profile_update_form,
-        'user': user
+        'user_profile': user
     }
 
     return render(request, 'users/profile.html', context)
