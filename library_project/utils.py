@@ -28,9 +28,9 @@ def is_user_admin_or_profile_owner(view):
     user = view.get_object()
     current_user = view.request.user
 
-    if user.is_superuser and user != current_user:
-        # ONLY superuser can delete and modify his acc
-        return False
+    # if user.is_superuser and user != current_user:
+    #     # ONLY superuser can delete and modify his acc
+    #     return False
 
     return current_user == user or current_user.is_superuser or current_user.groups.filter(name='full-CRUD').exists()
 

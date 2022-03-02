@@ -80,10 +80,10 @@ def user_profile_view(request, pk):
     else:
         # Current user should be profile owner or admin, superuser
 
-        if user.is_superuser and user != request.user:
-            # If admin tries to edit superuser profile, redirect.
-            # Only superuser can edit his own profile.
-            return redirect('books_library')
+        # if user.is_superuser and user != request.user:
+        #     # If admin tries to edit superuser profile, redirect.
+        #     # Only superuser can edit his own profile.
+        #     return redirect('books_library')
 
         if request.user.is_superuser or request.user.id == pk or request.user.groups.filter(name='full-CRUD').exists():
             user_update_form = UserUpdateForm(instance=user)
