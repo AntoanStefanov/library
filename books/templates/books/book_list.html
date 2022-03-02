@@ -18,7 +18,7 @@
       {% elif request.resolver_match.url_name == 'profile_favourites' %}
         Saved Books ({{ page_obj.paginator.count }})
       {% elif request.resolver_match.url_name == 'author_books' %}
-        Books written by: {{ view.kwargs.author }} ({{ page_obj.paginator.count }})
+        Books written by: <a href="{% url 'author' pk=view.kwargs.pk author=view.kwargs.author %}">{{ view.kwargs.author }}</a> ({{ page_obj.paginator.count }})
       {% elif request.resolver_match.url_name == 'profile_books' %}
         Books posted by: {{ view.kwargs.profile }} ({{ page_obj.paginator.count }})
       {% elif request.resolver_match.url_name == 'genre_books' %}

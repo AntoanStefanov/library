@@ -1,4 +1,5 @@
 import ast
+
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -15,7 +16,7 @@ from users.models import ProfileFavouriteBooks
 
 from books.forms import BookForm, BookOrderForm, CommentForm, UpdateBookForm
 
-from .models import Book, Comment
+from .models import Author, Book, Comment
 
 
 def return_query_and_order_if_needed(order_by, query):
@@ -184,7 +185,6 @@ class MyBookListView(LoginRequiredMixin, BookListView):
         return return_query_and_order_if_needed(self.order_by, user_books)
 
 
-
 class BookCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     # LoginRequiredMixin -> IF NOT LOGGED USER TRIES TO CREATE A BOOK - redirect to LOGIN_URL !
     # LOGIN_URL = 'login' (path func - name)
@@ -338,3 +338,9 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         context = super().get_context_data(**kwargs)
         context['book'] = get_object_or_404(Book, pk=self.kwargs.get('pk'))
         return context
+
+
+class AuthorView(DetailView):
+    model = Author
+    template_name = 'books/author.html'
+

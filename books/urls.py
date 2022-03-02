@@ -1,6 +1,6 @@
 from django.urls import include, path
 
-from .views import (AuthorBookListView, BookCreateView, BookDeleteView,
+from .views import (AuthorBookListView, AuthorView, BookCreateView, BookDeleteView,
                     BookDetailsView, BookListView, BookUpdateView,
                     CommentDeleteView, FavouritesView, GenreBookListView,
                     MyBookListView, ProfileBookListView,
@@ -14,6 +14,7 @@ urlpatterns = [
     path('favourites/', FavouritesView.as_view(), name='profile_favourites'),
     path('<str:profile>-books/', ProfileBookListView.as_view(), name='profile_books'),
     path('<int:pk>/<str:author>/books/', AuthorBookListView.as_view(), name='author_books'),
+    path('<int:pk>/<str:author>/author/', AuthorView.as_view(), name='author'),
     path('<str:genre>/', GenreBookListView.as_view(), name='genre_books'),
     path('book/new/', BookCreateView.as_view(), name='books_create'),
     # https://docs.djangoproject.com/en/4.0/topics/http/urls/#including-other-urlconfs -> ctrl + F -> slug.
