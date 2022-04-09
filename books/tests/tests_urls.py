@@ -1,4 +1,4 @@
-from books.models import Book
+from books.models import Author, Book
 from books.views import (AuthorBookListView, BookCreateView, BookDeleteView,
                          BookDetailsView, BookListView, BookUpdateView,
                          FavouritesView, GenreBookListView, MyBookListView,
@@ -37,9 +37,17 @@ class TestBookUrls(TestCase):
         cls.user = User.objects.create_user(
             username='testuser', password='12345')
 
+        cls.author = Author.objects.create(
+            first_name='Gordon',
+            last_name='Ramsay',
+            image='https://upload.wikimedia.org/wikipedia/commons/5/5c/JSJoseSaramago.jpg',
+            birth_date='2022-03-09',
+            biography='Biography'
+        )
+
         cls.book = Book.objects.create(
             title="Title",
-            author="Author",
+            author=cls.author,
             language="Bulgarian",
             genre="Comedy",
             description="Description",
@@ -76,7 +84,7 @@ class TestBookUrls(TestCase):
         self.assertEquals(resolver_match.func.view_class, GenreBookListView)
 
     def test_author_books_url_is_resolved(self):
-        url = reverse('author_books', kwargs={'author': 'Author'})
+        url = reverse('author_books', kwargs={'pk': 1, 'author': 'Gordon Ramsay'})
         resolver_match = resolve(url)
 
         self.assertEquals(resolver_match.func.view_class, AuthorBookListView)
@@ -213,7 +221,7 @@ class TestBookUrls(TestCase):
         self.client.login(username='testuser', password='12345')
 
         response = self.client.get(
-            reverse('author_books', kwargs={'author': 'Author'}))
+            reverse('author_books', kwargs={'pk': 1, 'author': 'Gordon Ramsay'}))
         self.assertEqual(response.status_code, 200)
 
     def test_author_books_url_response_not_logged_in(self):
@@ -222,7 +230,7 @@ class TestBookUrls(TestCase):
         """
 
         response = self.client.get(
-            reverse('author_books', kwargs={'author': 'Author'}))
+            reverse('author_books', kwargs={'pk': 1, 'author': 'Gordon Ramsay'}))
         self.assertEqual(response.status_code, 200)
 
     def test_books_create_url_response_logged_in(self):

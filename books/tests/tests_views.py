@@ -1,4 +1,4 @@
-from books.models import Book, Comment
+from books.models import Author, Book, Comment
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
@@ -29,9 +29,25 @@ class TestBookViews(TestCase):
         cls.user = User.objects.create_user(
             username='testuser', password='12345')
 
+        cls.author = Author.objects.create(
+            first_name='Gordon',
+            last_name='Ramsay',
+            image='https://upload.wikimedia.org/wikipedia/commons/5/5c/JSJoseSaramago.jpg',
+            birth_date='2022-03-09',
+            biography='Biography'
+        )
+
+        cls.author_two = Author.objects.create(
+            first_name='Acho',
+            last_name='Achev',
+            image='https://upload.wikimedia.org/wikipedia/commons/5/5c/JSJoseSaramago.jpg',
+            birth_date='2022-03-09',
+            biography='Biography'
+        )
+
         cls.book = Book.objects.create(
             title="Title",
-            author="Author",
+            author=cls.author,
             language="Bulgarian",
             genre="COMEDY",
             description="Description",
@@ -138,7 +154,7 @@ class TestBookViews(TestCase):
             Using correct template.
         """
         response = self.client.get(reverse(
-            'author_books', kwargs={'author': self.book.author}))
+            'author_books', kwargs={'pk':self.book.author.id, 'author': self.book.author}))
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'books/book_list.html')
@@ -227,9 +243,10 @@ class TestBookViews(TestCase):
             already tested(test: test_books_create_view_not_logged_in_GET).
         """
         self.client.login(username='testuser', password='12345')
+        author_pk = self.author.pk
         data = {
             'title': 'test title',
-            'author': 'test author',
+            'author': author_pk,
             'language': 'test language',
             'genre': 'ART',
             'description': 'test description'
@@ -237,7 +254,7 @@ class TestBookViews(TestCase):
 
         response = self.client.post(self.books_create_url, data)
         books = Book.objects.all()
-        
+
         # REDIRECT to absolute url in Book model.
         self.assertEqual(response.status_code, 302)
         # assert that user object is added correctly within the form.
@@ -323,9 +340,11 @@ class TestBookViews(TestCase):
     def test_books_update_view_logged_in_POST_edit_book(self):
 
         self.client.login(username='testuser', password='12345')
+        author_pk = self.author.pk
+
         data = {
             'title': 'Title Updated',
-            'author': 'Author Updated',
+            'author': author_pk,
             'language': 'Bulgarian Updated',
             'genre': 'COMEDY',
             'description': 'Description Updated'
